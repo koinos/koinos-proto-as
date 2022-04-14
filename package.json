@@ -1,0 +1,19 @@
+{
+  "name": "koinos-proto-as",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "https://github.com/roaminroe/koinos-proto-as",
+  "author": "roaminroe <roamin@tuta.io>",
+  "license": "MIT",
+  "scripts": {
+    "generateKoinosProtoFiles": "yarn protoc -I ./koinos-proto --plugin=protoc-gen-as=./node_modules/.bin/as-proto-gen --as_out=. ./koinos-proto/koinos/*.proto ./koinos-proto/koinos/**/*.proto ./koinos-proto/koinos/**/**/*.proto",
+    "generateGoogleProtoFiles": "yarn protoc --plugin=protoc-gen-as=./node_modules/.bin/as-proto-gen --as_out=. ./google/protobuf/any.proto"
+  },
+  "devDependencies": {
+    "@roaminroe/as-proto-gen": "^0.3.3",
+    "@roaminroe/protoc": "^2.4.0"
+  },
+  "dependencies": {
+    "as-proto": "^0.2.2"
+  }
+}
