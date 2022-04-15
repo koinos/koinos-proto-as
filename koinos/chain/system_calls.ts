@@ -1,3440 +1,3588 @@
 import { Writer, Reader } from "as-proto";
-import {
-  head_info,
-  resource_limit_data,
-  object_space,
-  dsa,
-  caller_data,
-} from "./chain";
-import {
-  block,
-  transaction,
-  upload_contract_operation,
-  call_contract_operation,
-  set_system_call_operation,
-  set_system_contract_operation,
-  block_header,
-} from "../protocol/protocol";
-import { value_type } from "./value";
-import { authorization_type } from "./authority";
-
-@unmanaged
-export class get_head_info_arguments {
-  static encode(message: get_head_info_arguments, writer: Writer): void {}
-
-  static decode(reader: Reader, length: i32): get_head_info_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_head_info_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
-
-  constructor() {}
-}
-
-export class get_head_info_result {
-  static encode(message: get_head_info_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      head_info.encode(field_value, writer);
-      writer.ldelim();
-    }
-  }
+import { koinos } from "./koinos/chain/chain";
+import { koinos } from "./koinos/protocol/protocol";
+import { koinos } from "./koinos/chain/value";
+import { koinos as koinos_2 } from "./koinos/chain/authority";
+
+export namespace koinos {
+  export namespace chain {
+    @unmanaged
+    export class get_head_info_arguments {
+      static encode(message: get_head_info_arguments, writer: Writer): void {}
 
-  static decode(reader: Reader, length: i32): get_head_info_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_head_info_result();
+      static decode(reader: Reader, length: i32): get_head_info_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_head_info_arguments();
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = head_info.decode(reader, reader.uint32());
-          break;
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    export class get_head_info_result {
+      static encode(message: get_head_info_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.head_info.encode(value, writer);
+          writer.ldelim();
+        }
+      }
 
-  value: head_info | null;
+      static decode(reader: Reader, length: i32): get_head_info_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_head_info_result();
 
-  constructor(value: head_info | null = null) {
-    this.value = value;
-  }
-}
-
-export class apply_block_arguments {
-  static encode(message: apply_block_arguments, writer: Writer): void {
-    const field_block = message.block;
-    if (field_block !== null) {
-      writer.uint32(10);
-      writer.fork();
-      block.encode(field_block, writer);
-      writer.ldelim();
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.chain.head_info.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): apply_block_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_block_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.block = block.decode(reader, reader.uint32());
-          break;
+        return message;
+      }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      value: koinos.chain.head_info | null;
+
+      constructor(value: koinos.chain.head_info | null = null) {
+        this.value = value;
+      }
+    }
+
+    export class apply_block_arguments {
+      static encode(message: apply_block_arguments, writer: Writer): void {
+        const block = message.block;
+        if (block !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.protocol.block.encode(block, writer);
+          writer.ldelim();
+        }
       }
-    }
 
-    return message;
-  }
+      static decode(reader: Reader, length: i32): apply_block_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_block_arguments();
 
-  block: block | null;
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.block = koinos.protocol.block.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  constructor(block: block | null = null) {
-    this.block = block;
-  }
-}
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-@unmanaged
-export class apply_block_result {
-  static encode(message: apply_block_result, writer: Writer): void {}
+        return message;
+      }
 
-  static decode(reader: Reader, length: i32): apply_block_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_block_result();
+      block: koinos.protocol.block | null;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(block: koinos.protocol.block | null = null) {
+        this.block = block;
       }
     }
-
-    return message;
-  }
 
-  constructor() {}
-}
-
-export class apply_transaction_arguments {
-  static encode(message: apply_transaction_arguments, writer: Writer): void {
-    const field_transaction = message.transaction;
-    if (field_transaction !== null) {
-      writer.uint32(10);
-      writer.fork();
-      transaction.encode(field_transaction, writer);
-      writer.ldelim();
-    }
-  }
+    @unmanaged
+    export class apply_block_result {
+      static encode(message: apply_block_result, writer: Writer): void {}
 
-  static decode(reader: Reader, length: i32): apply_transaction_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_transaction_arguments();
+      static decode(reader: Reader, length: i32): apply_block_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_block_result();
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.transaction = transaction.decode(reader, reader.uint32());
-          break;
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    export class apply_transaction_arguments {
+      static encode(
+        message: apply_transaction_arguments,
+        writer: Writer
+      ): void {
+        const transaction = message.transaction;
+        if (transaction !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.protocol.transaction.encode(transaction, writer);
+          writer.ldelim();
+        }
+      }
 
-  transaction: transaction | null;
+      static decode(reader: Reader, length: i32): apply_transaction_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_transaction_arguments();
 
-  constructor(transaction: transaction | null = null) {
-    this.transaction = transaction;
-  }
-}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.transaction = koinos.protocol.transaction.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-@unmanaged
-export class apply_transaction_result {
-  static encode(message: apply_transaction_result, writer: Writer): void {}
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-  static decode(reader: Reader, length: i32): apply_transaction_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_transaction_result();
+      transaction: koinos.protocol.transaction | null;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(transaction: koinos.protocol.transaction | null = null) {
+        this.transaction = transaction;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class apply_transaction_result {
+      static encode(message: apply_transaction_result, writer: Writer): void {}
+
+      static decode(reader: Reader, length: i32): apply_transaction_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_transaction_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-  constructor() {}
-}
-
-export class apply_upload_contract_operation_arguments {
-  static encode(
-    message: apply_upload_contract_operation_arguments,
-    writer: Writer
-  ): void {
-    const field_op = message.op;
-    if (field_op !== null) {
-      writer.uint32(10);
-      writer.fork();
-      upload_contract_operation.encode(field_op, writer);
-      writer.ldelim();
+      constructor() {}
     }
-  }
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): apply_upload_contract_operation_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_upload_contract_operation_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.op = upload_contract_operation.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
+    export class apply_upload_contract_operation_arguments {
+      static encode(
+        message: apply_upload_contract_operation_arguments,
+        writer: Writer
+      ): void {
+        const op = message.op;
+        if (op !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.protocol.upload_contract_operation.encode(op, writer);
+          writer.ldelim();
+        }
+      }
 
-  op: upload_contract_operation | null;
+      static decode(
+        reader: Reader,
+        length: i32
+      ): apply_upload_contract_operation_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_upload_contract_operation_arguments();
 
-  constructor(op: upload_contract_operation | null = null) {
-    this.op = op;
-  }
-}
-
-@unmanaged
-export class apply_upload_contract_operation_result {
-  static encode(
-    message: apply_upload_contract_operation_result,
-    writer: Writer
-  ): void {}
-
-  static decode(
-    reader: Reader,
-    length: i32
-  ): apply_upload_contract_operation_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_upload_contract_operation_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.op = koinos.protocol.upload_contract_operation.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  constructor() {}
-}
-
-export class apply_call_contract_operation_arguments {
-  static encode(
-    message: apply_call_contract_operation_arguments,
-    writer: Writer
-  ): void {
-    const field_op = message.op;
-    if (field_op !== null) {
-      writer.uint32(10);
-      writer.fork();
-      call_contract_operation.encode(field_op, writer);
-      writer.ldelim();
-    }
-  }
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): apply_call_contract_operation_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_call_contract_operation_arguments();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.op = call_contract_operation.decode(reader, reader.uint32());
-          break;
+      op: koinos.protocol.upload_contract_operation | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(op: koinos.protocol.upload_contract_operation | null = null) {
+        this.op = op;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class apply_upload_contract_operation_result {
+      static encode(
+        message: apply_upload_contract_operation_result,
+        writer: Writer
+      ): void {}
 
-  op: call_contract_operation | null;
+      static decode(
+        reader: Reader,
+        length: i32
+      ): apply_upload_contract_operation_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_upload_contract_operation_result();
 
-  constructor(op: call_contract_operation | null = null) {
-    this.op = op;
-  }
-}
-
-@unmanaged
-export class apply_call_contract_operation_result {
-  static encode(
-    message: apply_call_contract_operation_result,
-    writer: Writer
-  ): void {}
-
-  static decode(
-    reader: Reader,
-    length: i32
-  ): apply_call_contract_operation_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_call_contract_operation_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  constructor() {}
-}
-
-export class apply_set_system_call_operation_arguments {
-  static encode(
-    message: apply_set_system_call_operation_arguments,
-    writer: Writer
-  ): void {
-    const field_op = message.op;
-    if (field_op !== null) {
-      writer.uint32(10);
-      writer.fork();
-      set_system_call_operation.encode(field_op, writer);
-      writer.ldelim();
+        return message;
+      }
+
+      constructor() {}
     }
-  }
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): apply_set_system_call_operation_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_set_system_call_operation_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.op = set_system_call_operation.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
+    export class apply_call_contract_operation_arguments {
+      static encode(
+        message: apply_call_contract_operation_arguments,
+        writer: Writer
+      ): void {
+        const op = message.op;
+        if (op !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.protocol.call_contract_operation.encode(op, writer);
+          writer.ldelim();
+        }
+      }
 
-  op: set_system_call_operation | null;
+      static decode(
+        reader: Reader,
+        length: i32
+      ): apply_call_contract_operation_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_call_contract_operation_arguments();
 
-  constructor(op: set_system_call_operation | null = null) {
-    this.op = op;
-  }
-}
-
-@unmanaged
-export class apply_set_system_call_operation_result {
-  static encode(
-    message: apply_set_system_call_operation_result,
-    writer: Writer
-  ): void {}
-
-  static decode(
-    reader: Reader,
-    length: i32
-  ): apply_set_system_call_operation_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_set_system_call_operation_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.op = koinos.protocol.call_contract_operation.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  constructor() {}
-}
-
-export class apply_set_system_contract_operation_arguments {
-  static encode(
-    message: apply_set_system_contract_operation_arguments,
-    writer: Writer
-  ): void {
-    const field_op = message.op;
-    if (field_op !== null) {
-      writer.uint32(10);
-      writer.fork();
-      set_system_contract_operation.encode(field_op, writer);
-      writer.ldelim();
-    }
-  }
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): apply_set_system_contract_operation_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_set_system_contract_operation_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.op = set_system_contract_operation.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
+        return message;
+      }
 
-  op: set_system_contract_operation | null;
+      op: koinos.protocol.call_contract_operation | null;
 
-  constructor(op: set_system_contract_operation | null = null) {
-    this.op = op;
-  }
-}
-
-@unmanaged
-export class apply_set_system_contract_operation_result {
-  static encode(
-    message: apply_set_system_contract_operation_result,
-    writer: Writer
-  ): void {}
-
-  static decode(
-    reader: Reader,
-    length: i32
-  ): apply_set_system_contract_operation_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new apply_set_system_contract_operation_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
+      constructor(op: koinos.protocol.call_contract_operation | null = null) {
+        this.op = op;
+      }
+    }
 
-  constructor() {}
-}
+    @unmanaged
+    export class apply_call_contract_operation_result {
+      static encode(
+        message: apply_call_contract_operation_result,
+        writer: Writer
+      ): void {}
 
-@unmanaged
-export class pre_block_callback_arguments {
-  static encode(message: pre_block_callback_arguments, writer: Writer): void {}
+      static decode(
+        reader: Reader,
+        length: i32
+      ): apply_call_contract_operation_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_call_contract_operation_result();
 
-  static decode(reader: Reader, length: i32): pre_block_callback_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new pre_block_callback_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      constructor() {}
+    }
 
-  constructor() {}
-}
+    export class apply_set_system_call_operation_arguments {
+      static encode(
+        message: apply_set_system_call_operation_arguments,
+        writer: Writer
+      ): void {
+        const op = message.op;
+        if (op !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.protocol.set_system_call_operation.encode(op, writer);
+          writer.ldelim();
+        }
+      }
+
+      static decode(
+        reader: Reader,
+        length: i32
+      ): apply_set_system_call_operation_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_set_system_call_operation_arguments();
 
-@unmanaged
-export class pre_block_callback_result {
-  static encode(message: pre_block_callback_result, writer: Writer): void {}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.op = koinos.protocol.set_system_call_operation.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): pre_block_callback_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new pre_block_callback_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      op: koinos.protocol.set_system_call_operation | null;
 
-  constructor() {}
-}
+      constructor(op: koinos.protocol.set_system_call_operation | null = null) {
+        this.op = op;
+      }
+    }
+
+    @unmanaged
+    export class apply_set_system_call_operation_result {
+      static encode(
+        message: apply_set_system_call_operation_result,
+        writer: Writer
+      ): void {}
 
-@unmanaged
-export class post_block_callback_arguments {
-  static encode(message: post_block_callback_arguments, writer: Writer): void {}
+      static decode(
+        reader: Reader,
+        length: i32
+      ): apply_set_system_call_operation_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_set_system_call_operation_result();
 
-  static decode(reader: Reader, length: i32): post_block_callback_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new post_block_callback_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
+        return message;
+      }
+
+      constructor() {}
     }
+
+    export class apply_set_system_contract_operation_arguments {
+      static encode(
+        message: apply_set_system_contract_operation_arguments,
+        writer: Writer
+      ): void {
+        const op = message.op;
+        if (op !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.protocol.set_system_contract_operation.encode(op, writer);
+          writer.ldelim();
+        }
+      }
 
-    return message;
-  }
+      static decode(
+        reader: Reader,
+        length: i32
+      ): apply_set_system_contract_operation_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_set_system_contract_operation_arguments();
 
-  constructor() {}
-}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.op = koinos.protocol.set_system_contract_operation.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-@unmanaged
-export class post_block_callback_result {
-  static encode(message: post_block_callback_result, writer: Writer): void {}
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-  static decode(reader: Reader, length: i32): post_block_callback_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new post_block_callback_result();
+      op: koinos.protocol.set_system_contract_operation | null;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        op: koinos.protocol.set_system_contract_operation | null = null
+      ) {
+        this.op = op;
       }
     }
 
-    return message;
-  }
-
-  constructor() {}
-}
+    @unmanaged
+    export class apply_set_system_contract_operation_result {
+      static encode(
+        message: apply_set_system_contract_operation_result,
+        writer: Writer
+      ): void {}
 
-@unmanaged
-export class pre_transaction_callback_arguments {
-  static encode(
-    message: pre_transaction_callback_arguments,
-    writer: Writer
-  ): void {}
+      static decode(
+        reader: Reader,
+        length: i32
+      ): apply_set_system_contract_operation_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new apply_set_system_contract_operation_result();
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): pre_transaction_callback_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new pre_transaction_callback_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      constructor() {}
+    }
 
-  constructor() {}
-}
+    @unmanaged
+    export class pre_block_callback_arguments {
+      static encode(
+        message: pre_block_callback_arguments,
+        writer: Writer
+      ): void {}
 
-@unmanaged
-export class pre_transaction_callback_result {
-  static encode(
-    message: pre_transaction_callback_result,
-    writer: Writer
-  ): void {}
+      static decode(reader: Reader, length: i32): pre_block_callback_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new pre_block_callback_arguments();
 
-  static decode(reader: Reader, length: i32): pre_transaction_callback_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new pre_transaction_callback_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      constructor() {}
+    }
 
-  constructor() {}
-}
+    @unmanaged
+    export class pre_block_callback_result {
+      static encode(message: pre_block_callback_result, writer: Writer): void {}
 
-@unmanaged
-export class post_transaction_callback_arguments {
-  static encode(
-    message: post_transaction_callback_arguments,
-    writer: Writer
-  ): void {}
+      static decode(reader: Reader, length: i32): pre_block_callback_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new pre_block_callback_result();
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): post_transaction_callback_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new post_transaction_callback_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      constructor() {}
+    }
 
-  constructor() {}
-}
+    @unmanaged
+    export class post_block_callback_arguments {
+      static encode(
+        message: post_block_callback_arguments,
+        writer: Writer
+      ): void {}
 
-@unmanaged
-export class post_transaction_callback_result {
-  static encode(
-    message: post_transaction_callback_result,
-    writer: Writer
-  ): void {}
+      static decode(
+        reader: Reader,
+        length: i32
+      ): post_block_callback_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new post_block_callback_arguments();
 
-  static decode(reader: Reader, length: i32): post_transaction_callback_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new post_transaction_callback_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    @unmanaged
+    export class post_block_callback_result {
+      static encode(
+        message: post_block_callback_result,
+        writer: Writer
+      ): void {}
 
-  constructor() {}
-}
+      static decode(reader: Reader, length: i32): post_block_callback_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new post_block_callback_result();
 
-export class process_block_signature_arguments {
-  static encode(
-    message: process_block_signature_arguments,
-    writer: Writer
-  ): void {
-    const field_digest = message.digest;
-    if (field_digest !== null) {
-      writer.uint32(10);
-      writer.bytes(field_digest);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    const field_header = message.header;
-    if (field_header !== null) {
-      writer.uint32(18);
-      writer.fork();
-      block_header.encode(field_header, writer);
-      writer.ldelim();
-    }
+        return message;
+      }
 
-    const field_signature = message.signature;
-    if (field_signature !== null) {
-      writer.uint32(26);
-      writer.bytes(field_signature);
+      constructor() {}
     }
-  }
-
-  static decode(
-    reader: Reader,
-    length: i32
-  ): process_block_signature_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new process_block_signature_arguments();
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.digest = reader.bytes();
-          break;
+    @unmanaged
+    export class pre_transaction_callback_arguments {
+      static encode(
+        message: pre_transaction_callback_arguments,
+        writer: Writer
+      ): void {}
 
-        case 2:
-          message.header = block_header.decode(reader, reader.uint32());
-          break;
+      static decode(
+        reader: Reader,
+        length: i32
+      ): pre_transaction_callback_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new pre_transaction_callback_arguments();
 
-        case 3:
-          message.signature = reader.bytes();
-          break;
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    @unmanaged
+    export class pre_transaction_callback_result {
+      static encode(
+        message: pre_transaction_callback_result,
+        writer: Writer
+      ): void {}
 
-  digest: Uint8Array | null;
-  header: block_header | null;
-  signature: Uint8Array | null;
-
-  constructor(
-    digest: Uint8Array | null = null,
-    header: block_header | null = null,
-    signature: Uint8Array | null = null
-  ) {
-    this.digest = digest;
-    this.header = header;
-    this.signature = signature;
-  }
-}
-
-@unmanaged
-export class process_block_signature_result {
-  static encode(message: process_block_signature_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.value);
-  }
+      static decode(
+        reader: Reader,
+        length: i32
+      ): pre_transaction_callback_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new pre_transaction_callback_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
+
+      constructor() {}
+    }
+
+    @unmanaged
+    export class post_transaction_callback_arguments {
+      static encode(
+        message: post_transaction_callback_arguments,
+        writer: Writer
+      ): void {}
+
+      static decode(
+        reader: Reader,
+        length: i32
+      ): post_transaction_callback_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new post_transaction_callback_arguments();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
+
+      constructor() {}
+    }
+
+    @unmanaged
+    export class post_transaction_callback_result {
+      static encode(
+        message: post_transaction_callback_result,
+        writer: Writer
+      ): void {}
+
+      static decode(
+        reader: Reader,
+        length: i32
+      ): post_transaction_callback_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new post_transaction_callback_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
+
+      constructor() {}
+    }
+
+    export class process_block_signature_arguments {
+      static encode(
+        message: process_block_signature_arguments,
+        writer: Writer
+      ): void {
+        const digest = message.digest;
+        if (digest !== null) {
+          writer.uint32(10);
+          writer.bytes(digest);
+        }
+
+        const header = message.header;
+        if (header !== null) {
+          writer.uint32(18);
+          writer.fork();
+          koinos.protocol.block_header.encode(header, writer);
+          writer.ldelim();
+        }
+
+        const signature = message.signature;
+        if (signature !== null) {
+          writer.uint32(26);
+          writer.bytes(signature);
+        }
+      }
+
+      static decode(
+        reader: Reader,
+        length: i32
+      ): process_block_signature_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new process_block_signature_arguments();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.digest = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): process_block_signature_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new process_block_signature_result();
+            case 2:
+              message.header = koinos.protocol.block_header.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
+
+            case 3:
+              message.signature = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bool();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
+      }
+
+      digest: Uint8Array | null;
+      header: koinos.protocol.block_header | null;
+      signature: Uint8Array | null;
+
+      constructor(
+        digest: Uint8Array | null = null,
+        header: koinos.protocol.block_header | null = null,
+        signature: Uint8Array | null = null
+      ) {
+        this.digest = digest;
+        this.header = header;
+        this.signature = signature;
       }
-    }
+    }
 
-    return message;
-  }
+    @unmanaged
+    export class process_block_signature_result {
+      static encode(
+        message: process_block_signature_result,
+        writer: Writer
+      ): void {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
 
-  value: bool;
+      static decode(
+        reader: Reader,
+        length: i32
+      ): process_block_signature_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new process_block_signature_result();
 
-  constructor(value: bool = false) {
-    this.value = value;
-  }
-}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bool();
+              break;
 
-@unmanaged
-export class get_transaction_arguments {
-  static encode(message: get_transaction_arguments, writer: Writer): void {}
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
+
+      value: bool;
+
+      constructor(value: bool = false) {
+        this.value = value;
+      }
+    }
 
-  static decode(reader: Reader, length: i32): get_transaction_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_transaction_arguments();
+    @unmanaged
+    export class get_transaction_arguments {
+      static encode(message: get_transaction_arguments, writer: Writer): void {}
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
+      static decode(reader: Reader, length: i32): get_transaction_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_transaction_arguments();
 
-    return message;
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-  constructor() {}
-}
-
-export class get_transaction_result {
-  static encode(message: get_transaction_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      transaction.encode(field_value, writer);
-      writer.ldelim();
+      constructor() {}
     }
-  }
+
+    export class get_transaction_result {
+      static encode(message: get_transaction_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.protocol.transaction.encode(value, writer);
+          writer.ldelim();
+        }
+      }
+
+      static decode(reader: Reader, length: i32): get_transaction_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_transaction_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.protocol.transaction.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): get_transaction_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_transaction_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = transaction.decode(reader, reader.uint32());
-          break;
+      value: koinos.protocol.transaction | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: koinos.protocol.transaction | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class get_transaction_field_arguments {
+      static encode(
+        message: get_transaction_field_arguments,
+        writer: Writer
+      ): void {
+        const field = message.field;
+        if (field !== null) {
+          writer.uint32(10);
+          writer.string(field);
+        }
+      }
 
-  value: transaction | null;
+      static decode(
+        reader: Reader,
+        length: i32
+      ): get_transaction_field_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_transaction_field_arguments();
 
-  constructor(value: transaction | null = null) {
-    this.value = value;
-  }
-}
-
-export class get_transaction_field_arguments {
-  static encode(
-    message: get_transaction_field_arguments,
-    writer: Writer
-  ): void {
-    const field_field = message.field;
-    if (field_field !== null) {
-      writer.uint32(10);
-      writer.string(field_field);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.field = reader.string();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): get_transaction_field_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_transaction_field_arguments();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.field = reader.string();
-          break;
+      field: string | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(field: string | null = null) {
+        this.field = field;
       }
     }
 
-    return message;
-  }
+    export class get_transaction_field_result {
+      static encode(
+        message: get_transaction_field_result,
+        writer: Writer
+      ): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.value_type.encode(value, writer);
+          writer.ldelim();
+        }
+      }
 
-  field: string | null;
+      static decode(reader: Reader, length: i32): get_transaction_field_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_transaction_field_result();
 
-  constructor(field: string | null = null) {
-    this.field = field;
-  }
-}
-
-export class get_transaction_field_result {
-  static encode(message: get_transaction_field_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      value_type.encode(field_value, writer);
-      writer.ldelim();
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.chain.value_type.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): get_transaction_field_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_transaction_field_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = value_type.decode(reader, reader.uint32());
-          break;
+        return message;
+      }
+
+      value: koinos.chain.value_type | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: koinos.chain.value_type | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class get_block_arguments {
+      static encode(message: get_block_arguments, writer: Writer): void {}
 
-  value: value_type | null;
+      static decode(reader: Reader, length: i32): get_block_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_block_arguments();
 
-  constructor(value: value_type | null = null) {
-    this.value = value;
-  }
-}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-@unmanaged
-export class get_block_arguments {
-  static encode(message: get_block_arguments, writer: Writer): void {}
+        return message;
+      }
 
-  static decode(reader: Reader, length: i32): get_block_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_block_arguments();
+      constructor() {}
+    }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+    export class get_block_result {
+      static encode(message: get_block_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.protocol.block.encode(value, writer);
+          writer.ldelim();
+        }
       }
-    }
 
-    return message;
-  }
+      static decode(reader: Reader, length: i32): get_block_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_block_result();
 
-  constructor() {}
-}
-
-export class get_block_result {
-  static encode(message: get_block_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      block.encode(field_value, writer);
-      writer.ldelim();
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.protocol.block.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): get_block_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_block_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = block.decode(reader, reader.uint32());
-          break;
+      value: koinos.protocol.block | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: koinos.protocol.block | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class get_block_field_arguments {
+      static encode(message: get_block_field_arguments, writer: Writer): void {
+        const field = message.field;
+        if (field !== null) {
+          writer.uint32(10);
+          writer.string(field);
+        }
+      }
 
-  value: block | null;
+      static decode(reader: Reader, length: i32): get_block_field_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_block_field_arguments();
 
-  constructor(value: block | null = null) {
-    this.value = value;
-  }
-}
-
-export class get_block_field_arguments {
-  static encode(message: get_block_field_arguments, writer: Writer): void {
-    const field_field = message.field;
-    if (field_field !== null) {
-      writer.uint32(10);
-      writer.string(field_field);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.field = reader.string();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): get_block_field_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_block_field_arguments();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.field = reader.string();
-          break;
+      field: string | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(field: string | null = null) {
+        this.field = field;
       }
     }
 
-    return message;
-  }
+    export class get_block_field_result {
+      static encode(message: get_block_field_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.value_type.encode(value, writer);
+          writer.ldelim();
+        }
+      }
 
-  field: string | null;
+      static decode(reader: Reader, length: i32): get_block_field_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_block_field_result();
 
-  constructor(field: string | null = null) {
-    this.field = field;
-  }
-}
-
-export class get_block_field_result {
-  static encode(message: get_block_field_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      value_type.encode(field_value, writer);
-      writer.ldelim();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.chain.value_type.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
+
+      value: koinos.chain.value_type | null;
+
+      constructor(value: koinos.chain.value_type | null = null) {
+        this.value = value;
+      }
     }
-  }
+
+    @unmanaged
+    export class get_last_irreversible_block_arguments {
+      static encode(
+        message: get_last_irreversible_block_arguments,
+        writer: Writer
+      ): void {}
 
-  static decode(reader: Reader, length: i32): get_block_field_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_block_field_result();
+      static decode(
+        reader: Reader,
+        length: i32
+      ): get_last_irreversible_block_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_last_irreversible_block_arguments();
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = value_type.decode(reader, reader.uint32());
-          break;
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    @unmanaged
+    export class get_last_irreversible_block_result {
+      static encode(
+        message: get_last_irreversible_block_result,
+        writer: Writer
+      ): void {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
 
-  value: value_type | null;
+      static decode(
+        reader: Reader,
+        length: i32
+      ): get_last_irreversible_block_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_last_irreversible_block_result();
 
-  constructor(value: value_type | null = null) {
-    this.value = value;
-  }
-}
-
-@unmanaged
-export class get_last_irreversible_block_arguments {
-  static encode(
-    message: get_last_irreversible_block_arguments,
-    writer: Writer
-  ): void {}
-
-  static decode(
-    reader: Reader,
-    length: i32
-  ): get_last_irreversible_block_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_last_irreversible_block_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.uint64();
+              break;
 
-  constructor() {}
-}
-
-@unmanaged
-export class get_last_irreversible_block_result {
-  static encode(
-    message: get_last_irreversible_block_result,
-    writer: Writer
-  ): void {
-    writer.uint32(8);
-    writer.uint64(message.value);
-  }
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): get_last_irreversible_block_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_last_irreversible_block_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.uint64();
-          break;
+      value: u64;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: u64 = 0) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class get_account_nonce_arguments {
+      static encode(
+        message: get_account_nonce_arguments,
+        writer: Writer
+      ): void {
+        const account = message.account;
+        if (account !== null) {
+          writer.uint32(10);
+          writer.bytes(account);
+        }
+      }
 
-  value: u64;
+      static decode(reader: Reader, length: i32): get_account_nonce_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_account_nonce_arguments();
 
-  constructor(value: u64 = 0) {
-    this.value = value;
-  }
-}
-
-export class get_account_nonce_arguments {
-  static encode(message: get_account_nonce_arguments, writer: Writer): void {
-    const field_account = message.account;
-    if (field_account !== null) {
-      writer.uint32(10);
-      writer.bytes(field_account);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.account = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): get_account_nonce_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_account_nonce_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.account = reader.bytes();
-          break;
+      account: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(account: Uint8Array | null = null) {
+        this.account = account;
       }
     }
 
-    return message;
-  }
+    export class get_account_nonce_result {
+      static encode(message: get_account_nonce_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.bytes(value);
+        }
+      }
 
-  account: Uint8Array | null;
+      static decode(reader: Reader, length: i32): get_account_nonce_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_account_nonce_result();
 
-  constructor(account: Uint8Array | null = null) {
-    this.account = account;
-  }
-}
-
-export class get_account_nonce_result {
-  static encode(message: get_account_nonce_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.bytes(field_value);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bytes();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): get_account_nonce_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_account_nonce_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bytes();
-          break;
+      value: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: Uint8Array | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class verify_account_nonce_arguments {
+      static encode(
+        message: verify_account_nonce_arguments,
+        writer: Writer
+      ): void {
+        const account = message.account;
+        if (account !== null) {
+          writer.uint32(10);
+          writer.bytes(account);
+        }
 
-  value: Uint8Array | null;
+        const nonce = message.nonce;
+        if (nonce !== null) {
+          writer.uint32(18);
+          writer.bytes(nonce);
+        }
+      }
 
-  constructor(value: Uint8Array | null = null) {
-    this.value = value;
-  }
-}
+      static decode(
+        reader: Reader,
+        length: i32
+      ): verify_account_nonce_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new verify_account_nonce_arguments();
 
-export class verify_account_nonce_arguments {
-  static encode(message: verify_account_nonce_arguments, writer: Writer): void {
-    const field_account = message.account;
-    if (field_account !== null) {
-      writer.uint32(10);
-      writer.bytes(field_account);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.account = reader.bytes();
+              break;
 
-    const field_nonce = message.nonce;
-    if (field_nonce !== null) {
-      writer.uint32(18);
-      writer.bytes(field_nonce);
-    }
-  }
+            case 2:
+              message.nonce = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): verify_account_nonce_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new verify_account_nonce_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.account = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 2:
-          message.nonce = reader.bytes();
-          break;
+      account: Uint8Array | null;
+      nonce: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        account: Uint8Array | null = null,
+        nonce: Uint8Array | null = null
+      ) {
+        this.account = account;
+        this.nonce = nonce;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class verify_account_nonce_result {
+      static encode(
+        message: verify_account_nonce_result,
+        writer: Writer
+      ): void {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
 
-  account: Uint8Array | null;
-  nonce: Uint8Array | null;
-
-  constructor(
-    account: Uint8Array | null = null,
-    nonce: Uint8Array | null = null
-  ) {
-    this.account = account;
-    this.nonce = nonce;
-  }
-}
-
-@unmanaged
-export class verify_account_nonce_result {
-  static encode(message: verify_account_nonce_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.value);
-  }
+      static decode(reader: Reader, length: i32): verify_account_nonce_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new verify_account_nonce_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bool();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): verify_account_nonce_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new verify_account_nonce_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bool();
-          break;
+      value: bool;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: bool = false) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class set_account_nonce_arguments {
+      static encode(
+        message: set_account_nonce_arguments,
+        writer: Writer
+      ): void {
+        const account = message.account;
+        if (account !== null) {
+          writer.uint32(10);
+          writer.bytes(account);
+        }
 
-  value: bool;
+        const nonce = message.nonce;
+        if (nonce !== null) {
+          writer.uint32(18);
+          writer.bytes(nonce);
+        }
+      }
 
-  constructor(value: bool = false) {
-    this.value = value;
-  }
-}
+      static decode(reader: Reader, length: i32): set_account_nonce_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new set_account_nonce_arguments();
 
-export class set_account_nonce_arguments {
-  static encode(message: set_account_nonce_arguments, writer: Writer): void {
-    const field_account = message.account;
-    if (field_account !== null) {
-      writer.uint32(10);
-      writer.bytes(field_account);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.account = reader.bytes();
+              break;
 
-    const field_nonce = message.nonce;
-    if (field_nonce !== null) {
-      writer.uint32(18);
-      writer.bytes(field_nonce);
-    }
-  }
+            case 2:
+              message.nonce = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): set_account_nonce_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new set_account_nonce_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.account = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 2:
-          message.nonce = reader.bytes();
-          break;
+      account: Uint8Array | null;
+      nonce: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        account: Uint8Array | null = null,
+        nonce: Uint8Array | null = null
+      ) {
+        this.account = account;
+        this.nonce = nonce;
       }
     }
 
-    return message;
-  }
-
-  account: Uint8Array | null;
-  nonce: Uint8Array | null;
-
-  constructor(
-    account: Uint8Array | null = null,
-    nonce: Uint8Array | null = null
-  ) {
-    this.account = account;
-    this.nonce = nonce;
-  }
-}
+    @unmanaged
+    export class set_account_nonce_result {
+      static encode(message: set_account_nonce_result, writer: Writer): void {}
 
-@unmanaged
-export class set_account_nonce_result {
-  static encode(message: set_account_nonce_result, writer: Writer): void {}
+      static decode(reader: Reader, length: i32): set_account_nonce_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new set_account_nonce_result();
 
-  static decode(reader: Reader, length: i32): set_account_nonce_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new set_account_nonce_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    @unmanaged
+    export class require_system_authority_arguments {
+      static encode(
+        message: require_system_authority_arguments,
+        writer: Writer
+      ): void {
+        writer.uint32(8);
+        writer.int32(message.type);
+      }
 
-  constructor() {}
-}
-
-@unmanaged
-export class require_system_authority_arguments {
-  static encode(
-    message: require_system_authority_arguments,
-    writer: Writer
-  ): void {
-    writer.uint32(8);
-    writer.int32(message.type);
-  }
+      static decode(
+        reader: Reader,
+        length: i32
+      ): require_system_authority_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new require_system_authority_arguments();
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): require_system_authority_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new require_system_authority_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.type = reader.int32();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.type = reader.int32();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      type: koinos.chain.system_authorization_type;
 
-  type: system_authorization_type;
+      constructor(type: koinos.chain.system_authorization_type = 0) {
+        this.type = type;
+      }
+    }
 
-  constructor(type: system_authorization_type = 0) {
-    this.type = type;
-  }
-}
+    @unmanaged
+    export class require_system_authority_result {
+      static encode(
+        message: require_system_authority_result,
+        writer: Writer
+      ): void {}
 
-@unmanaged
-export class require_system_authority_result {
-  static encode(
-    message: require_system_authority_result,
-    writer: Writer
-  ): void {}
+      static decode(
+        reader: Reader,
+        length: i32
+      ): require_system_authority_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new require_system_authority_result();
 
-  static decode(reader: Reader, length: i32): require_system_authority_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new require_system_authority_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    export class get_account_rc_arguments {
+      static encode(message: get_account_rc_arguments, writer: Writer): void {
+        const account = message.account;
+        if (account !== null) {
+          writer.uint32(10);
+          writer.bytes(account);
+        }
+      }
 
-  constructor() {}
-}
+      static decode(reader: Reader, length: i32): get_account_rc_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_account_rc_arguments();
 
-export class get_account_rc_arguments {
-  static encode(message: get_account_rc_arguments, writer: Writer): void {
-    const field_account = message.account;
-    if (field_account !== null) {
-      writer.uint32(10);
-      writer.bytes(field_account);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.account = reader.bytes();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): get_account_rc_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_account_rc_arguments();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.account = reader.bytes();
-          break;
+      account: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(account: Uint8Array | null = null) {
+        this.account = account;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class get_account_rc_result {
+      static encode(message: get_account_rc_result, writer: Writer): void {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
 
-  account: Uint8Array | null;
+      static decode(reader: Reader, length: i32): get_account_rc_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_account_rc_result();
 
-  constructor(account: Uint8Array | null = null) {
-    this.account = account;
-  }
-}
-
-@unmanaged
-export class get_account_rc_result {
-  static encode(message: get_account_rc_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.uint64(message.value);
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.uint64();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): get_account_rc_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_account_rc_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.uint64();
-          break;
+      value: u64;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: u64 = 0) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class consume_account_rc_arguments {
+      static encode(
+        message: consume_account_rc_arguments,
+        writer: Writer
+      ): void {
+        const account = message.account;
+        if (account !== null) {
+          writer.uint32(10);
+          writer.bytes(account);
+        }
 
-  value: u64;
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
 
-  constructor(value: u64 = 0) {
-    this.value = value;
-  }
-}
+      static decode(reader: Reader, length: i32): consume_account_rc_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new consume_account_rc_arguments();
 
-export class consume_account_rc_arguments {
-  static encode(message: consume_account_rc_arguments, writer: Writer): void {
-    const field_account = message.account;
-    if (field_account !== null) {
-      writer.uint32(10);
-      writer.bytes(field_account);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.account = reader.bytes();
+              break;
 
-    writer.uint32(16);
-    writer.uint64(message.value);
-  }
+            case 2:
+              message.value = reader.uint64();
+              break;
 
-  static decode(reader: Reader, length: i32): consume_account_rc_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new consume_account_rc_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.account = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 2:
-          message.value = reader.uint64();
-          break;
+      account: Uint8Array | null;
+      value: u64;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(account: Uint8Array | null = null, value: u64 = 0) {
+        this.account = account;
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class consume_account_rc_result {
+      static encode(message: consume_account_rc_result, writer: Writer): void {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
 
-  account: Uint8Array | null;
-  value: u64;
+      static decode(reader: Reader, length: i32): consume_account_rc_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new consume_account_rc_result();
 
-  constructor(account: Uint8Array | null = null, value: u64 = 0) {
-    this.account = account;
-    this.value = value;
-  }
-}
-
-@unmanaged
-export class consume_account_rc_result {
-  static encode(message: consume_account_rc_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.value);
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bool();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): consume_account_rc_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new consume_account_rc_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bool();
-          break;
+      value: bool;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: bool = false) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class get_resource_limits_arguments {
+      static encode(
+        message: get_resource_limits_arguments,
+        writer: Writer
+      ): void {}
 
-  value: bool;
+      static decode(
+        reader: Reader,
+        length: i32
+      ): get_resource_limits_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_resource_limits_arguments();
 
-  constructor(value: bool = false) {
-    this.value = value;
-  }
-}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
+
+      constructor() {}
+    }
+
+    @unmanaged
+    export class get_resource_limits_result {
+      static encode(message: get_resource_limits_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.resource_limit_data.encode(value, writer);
+          writer.ldelim();
+        }
+      }
+
+      static decode(reader: Reader, length: i32): get_resource_limits_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_resource_limits_result();
 
-@unmanaged
-export class get_resource_limits_arguments {
-  static encode(message: get_resource_limits_arguments, writer: Writer): void {}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.chain.resource_limit_data.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): get_resource_limits_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_resource_limits_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      value: koinos.chain.resource_limit_data | null;
 
-  constructor() {}
-}
-
-@unmanaged
-export class get_resource_limits_result {
-  static encode(message: get_resource_limits_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      resource_limit_data.encode(field_value, writer);
-      writer.ldelim();
+      constructor(value: koinos.chain.resource_limit_data | null = null) {
+        this.value = value;
+      }
     }
-  }
 
-  static decode(reader: Reader, length: i32): get_resource_limits_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_resource_limits_result();
+    @unmanaged
+    export class consume_block_resources_arguments {
+      static encode(
+        message: consume_block_resources_arguments,
+        writer: Writer
+      ): void {
+        writer.uint32(8);
+        writer.uint64(message.disk_storage_consumed);
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = resource_limit_data.decode(reader, reader.uint32());
-          break;
+        writer.uint32(16);
+        writer.uint64(message.network_bandwidth_consumed);
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        writer.uint32(24);
+        writer.uint64(message.compute_bandwidth_consumed);
       }
-    }
 
-    return message;
-  }
+      static decode(
+        reader: Reader,
+        length: i32
+      ): consume_block_resources_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new consume_block_resources_arguments();
 
-  value: resource_limit_data | null;
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.disk_storage_consumed = reader.uint64();
+              break;
 
-  constructor(value: resource_limit_data | null = null) {
-    this.value = value;
-  }
-}
-
-@unmanaged
-export class consume_block_resources_arguments {
-  static encode(
-    message: consume_block_resources_arguments,
-    writer: Writer
-  ): void {
-    writer.uint32(8);
-    writer.uint64(message.disk_storage_consumed);
-
-    writer.uint32(16);
-    writer.uint64(message.network_bandwidth_consumed);
-
-    writer.uint32(24);
-    writer.uint64(message.compute_bandwidth_consumed);
-  }
+            case 2:
+              message.network_bandwidth_consumed = reader.uint64();
+              break;
 
-  static decode(
-    reader: Reader,
-    length: i32
-  ): consume_block_resources_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new consume_block_resources_arguments();
+            case 3:
+              message.compute_bandwidth_consumed = reader.uint64();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.disk_storage_consumed = reader.uint64();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        case 2:
-          message.network_bandwidth_consumed = reader.uint64();
-          break;
+        return message;
+      }
 
-        case 3:
-          message.compute_bandwidth_consumed = reader.uint64();
-          break;
+      disk_storage_consumed: u64;
+      network_bandwidth_consumed: u64;
+      compute_bandwidth_consumed: u64;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        disk_storage_consumed: u64 = 0,
+        network_bandwidth_consumed: u64 = 0,
+        compute_bandwidth_consumed: u64 = 0
+      ) {
+        this.disk_storage_consumed = disk_storage_consumed;
+        this.network_bandwidth_consumed = network_bandwidth_consumed;
+        this.compute_bandwidth_consumed = compute_bandwidth_consumed;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class consume_block_resources_result {
+      static encode(
+        message: consume_block_resources_result,
+        writer: Writer
+      ): void {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
 
-  disk_storage_consumed: u64;
-  network_bandwidth_consumed: u64;
-  compute_bandwidth_consumed: u64;
-
-  constructor(
-    disk_storage_consumed: u64 = 0,
-    network_bandwidth_consumed: u64 = 0,
-    compute_bandwidth_consumed: u64 = 0
-  ) {
-    this.disk_storage_consumed = disk_storage_consumed;
-    this.network_bandwidth_consumed = network_bandwidth_consumed;
-    this.compute_bandwidth_consumed = compute_bandwidth_consumed;
-  }
-}
-
-@unmanaged
-export class consume_block_resources_result {
-  static encode(message: consume_block_resources_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.value);
-  }
+      static decode(
+        reader: Reader,
+        length: i32
+      ): consume_block_resources_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new consume_block_resources_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bool();
+              break;
 
-  static decode(reader: Reader, length: i32): consume_block_resources_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new consume_block_resources_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bool();
-          break;
+        return message;
+      }
+
+      value: bool;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: bool = false) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class put_object_arguments {
+      static encode(message: put_object_arguments, writer: Writer): void {
+        const space = message.space;
+        if (space !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.object_space.encode(space, writer);
+          writer.ldelim();
+        }
 
-  value: bool;
+        const key = message.key;
+        if (key !== null) {
+          writer.uint32(18);
+          writer.bytes(key);
+        }
 
-  constructor(value: bool = false) {
-    this.value = value;
-  }
-}
+        const obj = message.obj;
+        if (obj !== null) {
+          writer.uint32(26);
+          writer.bytes(obj);
+        }
+      }
 
-export class put_object_arguments {
-  static encode(message: put_object_arguments, writer: Writer): void {
-    const field_space = message.space;
-    if (field_space !== null) {
-      writer.uint32(10);
-      writer.fork();
-      object_space.encode(field_space, writer);
-      writer.ldelim();
-    }
+      static decode(reader: Reader, length: i32): put_object_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new put_object_arguments();
 
-    const field_key = message.key;
-    if (field_key !== null) {
-      writer.uint32(18);
-      writer.bytes(field_key);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.space = koinos.chain.object_space.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-    const field_obj = message.obj;
-    if (field_obj !== null) {
-      writer.uint32(26);
-      writer.bytes(field_obj);
-    }
-  }
+            case 2:
+              message.key = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): put_object_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new put_object_arguments();
+            case 3:
+              message.obj = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.space = object_space.decode(reader, reader.uint32());
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        case 2:
-          message.key = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 3:
-          message.obj = reader.bytes();
-          break;
+      space: koinos.chain.object_space | null;
+      key: Uint8Array | null;
+      obj: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        space: koinos.chain.object_space | null = null,
+        key: Uint8Array | null = null,
+        obj: Uint8Array | null = null
+      ) {
+        this.space = space;
+        this.key = key;
+        this.obj = obj;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class put_object_result {
+      static encode(message: put_object_result, writer: Writer): void {
+        writer.uint32(8);
+        writer.int32(message.value);
+      }
 
-  space: object_space | null;
-  key: Uint8Array | null;
-  obj: Uint8Array | null;
-
-  constructor(
-    space: object_space | null = null,
-    key: Uint8Array | null = null,
-    obj: Uint8Array | null = null
-  ) {
-    this.space = space;
-    this.key = key;
-    this.obj = obj;
-  }
-}
-
-@unmanaged
-export class put_object_result {
-  static encode(message: put_object_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.int32(message.value);
-  }
+      static decode(reader: Reader, length: i32): put_object_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new put_object_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.int32();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): put_object_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new put_object_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.int32();
-          break;
+      value: i32;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: i32 = 0) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class remove_object_arguments {
+      static encode(message: remove_object_arguments, writer: Writer): void {
+        const space = message.space;
+        if (space !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.object_space.encode(space, writer);
+          writer.ldelim();
+        }
 
-  value: i32;
+        const key = message.key;
+        if (key !== null) {
+          writer.uint32(18);
+          writer.bytes(key);
+        }
+      }
 
-  constructor(value: i32 = 0) {
-    this.value = value;
-  }
-}
-
-export class remove_object_arguments {
-  static encode(message: remove_object_arguments, writer: Writer): void {
-    const field_space = message.space;
-    if (field_space !== null) {
-      writer.uint32(10);
-      writer.fork();
-      object_space.encode(field_space, writer);
-      writer.ldelim();
-    }
-
-    const field_key = message.key;
-    if (field_key !== null) {
-      writer.uint32(18);
-      writer.bytes(field_key);
-    }
-  }
+      static decode(reader: Reader, length: i32): remove_object_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new remove_object_arguments();
 
-  static decode(reader: Reader, length: i32): remove_object_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new remove_object_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.space = koinos.chain.object_space.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.space = object_space.decode(reader, reader.uint32());
-          break;
+            case 2:
+              message.key = reader.bytes();
+              break;
 
-        case 2:
-          message.key = reader.bytes();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      space: koinos.chain.object_space | null;
+      key: Uint8Array | null;
 
-  space: object_space | null;
-  key: Uint8Array | null;
-
-  constructor(
-    space: object_space | null = null,
-    key: Uint8Array | null = null
-  ) {
-    this.space = space;
-    this.key = key;
-  }
-}
+      constructor(
+        space: koinos.chain.object_space | null = null,
+        key: Uint8Array | null = null
+      ) {
+        this.space = space;
+        this.key = key;
+      }
+    }
+
+    @unmanaged
+    export class remove_object_result {
+      static encode(message: remove_object_result, writer: Writer): void {}
 
-@unmanaged
-export class remove_object_result {
-  static encode(message: remove_object_result, writer: Writer): void {}
+      static decode(reader: Reader, length: i32): remove_object_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new remove_object_result();
 
-  static decode(reader: Reader, length: i32): remove_object_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new remove_object_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    export class get_object_arguments {
+      static encode(message: get_object_arguments, writer: Writer): void {
+        const space = message.space;
+        if (space !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.object_space.encode(space, writer);
+          writer.ldelim();
+        }
 
-  constructor() {}
-}
+        const key = message.key;
+        if (key !== null) {
+          writer.uint32(18);
+          writer.bytes(key);
+        }
+      }
 
-export class get_object_arguments {
-  static encode(message: get_object_arguments, writer: Writer): void {
-    const field_space = message.space;
-    if (field_space !== null) {
-      writer.uint32(10);
-      writer.fork();
-      object_space.encode(field_space, writer);
-      writer.ldelim();
-    }
+      static decode(reader: Reader, length: i32): get_object_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_object_arguments();
 
-    const field_key = message.key;
-    if (field_key !== null) {
-      writer.uint32(18);
-      writer.bytes(field_key);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.space = koinos.chain.object_space.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): get_object_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_object_arguments();
+            case 2:
+              message.key = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.space = object_space.decode(reader, reader.uint32());
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-        case 2:
-          message.key = reader.bytes();
-          break;
+      space: koinos.chain.object_space | null;
+      key: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        space: koinos.chain.object_space | null = null,
+        key: Uint8Array | null = null
+      ) {
+        this.space = space;
+        this.key = key;
       }
     }
 
-    return message;
-  }
+    export class database_object {
+      static encode(message: database_object, writer: Writer): void {
+        writer.uint32(8);
+        writer.bool(message.exists);
 
-  space: object_space | null;
-  key: Uint8Array | null;
-
-  constructor(
-    space: object_space | null = null,
-    key: Uint8Array | null = null
-  ) {
-    this.space = space;
-    this.key = key;
-  }
-}
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(18);
+          writer.bytes(value);
+        }
 
-export class database_object {
-  static encode(message: database_object, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.exists);
+        const key = message.key;
+        if (key !== null) {
+          writer.uint32(26);
+          writer.bytes(key);
+        }
+      }
 
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(18);
-      writer.bytes(field_value);
-    }
+      static decode(reader: Reader, length: i32): database_object {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new database_object();
 
-    const field_key = message.key;
-    if (field_key !== null) {
-      writer.uint32(26);
-      writer.bytes(field_key);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.exists = reader.bool();
+              break;
 
-  static decode(reader: Reader, length: i32): database_object {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new database_object();
+            case 2:
+              message.value = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.exists = reader.bool();
-          break;
+            case 3:
+              message.key = reader.bytes();
+              break;
 
-        case 2:
-          message.value = reader.bytes();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-        case 3:
-          message.key = reader.bytes();
-          break;
+      exists: bool;
+      value: Uint8Array | null;
+      key: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        exists: bool = false,
+        value: Uint8Array | null = null,
+        key: Uint8Array | null = null
+      ) {
+        this.exists = exists;
+        this.value = value;
+        this.key = key;
       }
     }
 
-    return message;
-  }
+    export class get_object_result {
+      static encode(message: get_object_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.database_object.encode(value, writer);
+          writer.ldelim();
+        }
+      }
 
-  exists: bool;
-  value: Uint8Array | null;
-  key: Uint8Array | null;
-
-  constructor(
-    exists: bool = false,
-    value: Uint8Array | null = null,
-    key: Uint8Array | null = null
-  ) {
-    this.exists = exists;
-    this.value = value;
-    this.key = key;
-  }
-}
-
-export class get_object_result {
-  static encode(message: get_object_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      database_object.encode(field_value, writer);
-      writer.ldelim();
-    }
-  }
+      static decode(reader: Reader, length: i32): get_object_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_object_result();
 
-  static decode(reader: Reader, length: i32): get_object_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_object_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.chain.database_object.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = database_object.decode(reader, reader.uint32());
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
-
-    return message;
-  }
 
-  value: database_object | null;
+      value: koinos.chain.database_object | null;
 
-  constructor(value: database_object | null = null) {
-    this.value = value;
-  }
-}
-
-export class get_next_object_arguments {
-  static encode(message: get_next_object_arguments, writer: Writer): void {
-    const field_space = message.space;
-    if (field_space !== null) {
-      writer.uint32(10);
-      writer.fork();
-      object_space.encode(field_space, writer);
-      writer.ldelim();
-    }
-
-    const field_key = message.key;
-    if (field_key !== null) {
-      writer.uint32(18);
-      writer.bytes(field_key);
+      constructor(value: koinos.chain.database_object | null = null) {
+        this.value = value;
+      }
     }
-  }
 
-  static decode(reader: Reader, length: i32): get_next_object_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_next_object_arguments();
+    export class get_next_object_arguments {
+      static encode(message: get_next_object_arguments, writer: Writer): void {
+        const space = message.space;
+        if (space !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.object_space.encode(space, writer);
+          writer.ldelim();
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.space = object_space.decode(reader, reader.uint32());
-          break;
+        const key = message.key;
+        if (key !== null) {
+          writer.uint32(18);
+          writer.bytes(key);
+        }
+      }
 
-        case 2:
-          message.key = reader.bytes();
-          break;
+      static decode(reader: Reader, length: i32): get_next_object_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_next_object_arguments();
 
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.space = koinos.chain.object_space.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-    return message;
-  }
+            case 2:
+              message.key = reader.bytes();
+              break;
 
-  space: object_space | null;
-  key: Uint8Array | null;
-
-  constructor(
-    space: object_space | null = null,
-    key: Uint8Array | null = null
-  ) {
-    this.space = space;
-    this.key = key;
-  }
-}
-
-export class get_next_object_result {
-  static encode(message: get_next_object_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      database_object.encode(field_value, writer);
-      writer.ldelim();
-    }
-  }
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): get_next_object_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_next_object_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = database_object.decode(reader, reader.uint32());
-          break;
+      space: koinos.chain.object_space | null;
+      key: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        space: koinos.chain.object_space | null = null,
+        key: Uint8Array | null = null
+      ) {
+        this.space = space;
+        this.key = key;
       }
     }
 
-    return message;
-  }
+    export class get_next_object_result {
+      static encode(message: get_next_object_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.database_object.encode(value, writer);
+          writer.ldelim();
+        }
+      }
 
-  value: database_object | null;
+      static decode(reader: Reader, length: i32): get_next_object_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_next_object_result();
 
-  constructor(value: database_object | null = null) {
-    this.value = value;
-  }
-}
-
-export class get_prev_object_arguments {
-  static encode(message: get_prev_object_arguments, writer: Writer): void {
-    const field_space = message.space;
-    if (field_space !== null) {
-      writer.uint32(10);
-      writer.fork();
-      object_space.encode(field_space, writer);
-      writer.ldelim();
-    }
-
-    const field_key = message.key;
-    if (field_key !== null) {
-      writer.uint32(18);
-      writer.bytes(field_key);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.chain.database_object.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): get_prev_object_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_prev_object_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.space = object_space.decode(reader, reader.uint32());
-          break;
+        return message;
+      }
 
-        case 2:
-          message.key = reader.bytes();
-          break;
+      value: koinos.chain.database_object | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: koinos.chain.database_object | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class get_prev_object_arguments {
+      static encode(message: get_prev_object_arguments, writer: Writer): void {
+        const space = message.space;
+        if (space !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.object_space.encode(space, writer);
+          writer.ldelim();
+        }
 
-  space: object_space | null;
-  key: Uint8Array | null;
-
-  constructor(
-    space: object_space | null = null,
-    key: Uint8Array | null = null
-  ) {
-    this.space = space;
-    this.key = key;
-  }
-}
-
-export class get_prev_object_result {
-  static encode(message: get_prev_object_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      database_object.encode(field_value, writer);
-      writer.ldelim();
-    }
-  }
+        const key = message.key;
+        if (key !== null) {
+          writer.uint32(18);
+          writer.bytes(key);
+        }
+      }
+
+      static decode(reader: Reader, length: i32): get_prev_object_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_prev_object_arguments();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.space = koinos.chain.object_space.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): get_prev_object_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_prev_object_result();
+            case 2:
+              message.key = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = database_object.decode(reader, reader.uint32());
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      space: koinos.chain.object_space | null;
+      key: Uint8Array | null;
+
+      constructor(
+        space: koinos.chain.object_space | null = null,
+        key: Uint8Array | null = null
+      ) {
+        this.space = space;
+        this.key = key;
+      }
     }
 
-    return message;
-  }
+    export class get_prev_object_result {
+      static encode(message: get_prev_object_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.database_object.encode(value, writer);
+          writer.ldelim();
+        }
+      }
 
-  value: database_object | null;
+      static decode(reader: Reader, length: i32): get_prev_object_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_prev_object_result();
 
-  constructor(value: database_object | null = null) {
-    this.value = value;
-  }
-}
-
-export class log_arguments {
-  static encode(message: log_arguments, writer: Writer): void {
-    const field_message_2 = message.message;
-    if (field_message_2 !== null) {
-      writer.uint32(10);
-      writer.string(field_message_2);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.chain.database_object.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): log_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new log_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.message = reader.string();
-          break;
+        return message;
+      }
+
+      value: koinos.chain.database_object | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: koinos.chain.database_object | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class log_arguments {
+      static encode(message: log_arguments, writer: Writer): void {
+        const message_2 = message.message;
+        if (message_2 !== null) {
+          writer.uint32(10);
+          writer.string(message_2);
+        }
+      }
 
-  message: string | null;
+      static decode(reader: Reader, length: i32): log_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new log_arguments();
 
-  constructor(message: string | null = null) {
-    this.message = message;
-  }
-}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.message = reader.string();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-@unmanaged
-export class log_result {
-  static encode(message: log_result, writer: Writer): void {}
+        return message;
+      }
 
-  static decode(reader: Reader, length: i32): log_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new log_result();
+      message: string | null;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(message: string | null = null) {
+        this.message = message;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class log_result {
+      static encode(message: log_result, writer: Writer): void {}
 
-  constructor() {}
-}
+      static decode(reader: Reader, length: i32): log_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new log_result();
 
-export class event_arguments {
-  static encode(message: event_arguments, writer: Writer): void {
-    const field_name = message.name;
-    if (field_name !== null) {
-      writer.uint32(10);
-      writer.string(field_name);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-    const field_data = message.data;
-    if (field_data !== null) {
-      writer.uint32(18);
-      writer.bytes(field_data);
+      constructor() {}
     }
+
+    export class event_arguments {
+      static encode(message: event_arguments, writer: Writer): void {
+        const name = message.name;
+        if (name !== null) {
+          writer.uint32(10);
+          writer.string(name);
+        }
 
-    const field_impacted = message.impacted;
-    if (field_impacted.length !== 0) {
-      for (let i = 0; i < field_impacted.length; ++i) {
-        writer.uint32(26);
-        writer.bytes(field_impacted[i]);
+        const data = message.data;
+        if (data !== null) {
+          writer.uint32(18);
+          writer.bytes(data);
+        }
+
+        const impacted = message.impacted;
+        if (impacted.length !== 0) {
+          for (let i = 0; i < impacted.length; ++i) {
+            writer.uint32(26);
+            writer.bytes(impacted[i]);
+          }
+        }
       }
-    }
-  }
+
+      static decode(reader: Reader, length: i32): event_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new event_arguments();
 
-  static decode(reader: Reader, length: i32): event_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new event_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.name = reader.string();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.name = reader.string();
-          break;
+            case 2:
+              message.data = reader.bytes();
+              break;
 
-        case 2:
-          message.data = reader.bytes();
-          break;
+            case 3:
+              message.impacted.push(reader.bytes());
+              break;
 
-        case 3:
-          message.impacted.push(reader.bytes());
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      name: string | null;
+      data: Uint8Array | null;
+      impacted: Array<Uint8Array>;
 
-  name: string | null;
-  data: Uint8Array | null;
-  impacted: Array<Uint8Array>;
-
-  constructor(
-    name: string | null = null,
-    data: Uint8Array | null = null,
-    impacted: Array<Uint8Array> = []
-  ) {
-    this.name = name;
-    this.data = data;
-    this.impacted = impacted;
-  }
-}
+      constructor(
+        name: string | null = null,
+        data: Uint8Array | null = null,
+        impacted: Array<Uint8Array> = []
+      ) {
+        this.name = name;
+        this.data = data;
+        this.impacted = impacted;
+      }
+    }
+
+    @unmanaged
+    export class event_result {
+      static encode(message: event_result, writer: Writer): void {}
 
-@unmanaged
-export class event_result {
-  static encode(message: event_result, writer: Writer): void {}
+      static decode(reader: Reader, length: i32): event_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new event_result();
 
-  static decode(reader: Reader, length: i32): event_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new event_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    export class hash_arguments {
+      static encode(message: hash_arguments, writer: Writer): void {
+        writer.uint32(8);
+        writer.uint64(message.code);
 
-  constructor() {}
-}
+        const obj = message.obj;
+        if (obj !== null) {
+          writer.uint32(18);
+          writer.bytes(obj);
+        }
 
-export class hash_arguments {
-  static encode(message: hash_arguments, writer: Writer): void {
-    writer.uint32(8);
-    writer.uint64(message.code);
+        writer.uint32(24);
+        writer.uint64(message.size);
+      }
 
-    const field_obj = message.obj;
-    if (field_obj !== null) {
-      writer.uint32(18);
-      writer.bytes(field_obj);
-    }
+      static decode(reader: Reader, length: i32): hash_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new hash_arguments();
 
-    writer.uint32(24);
-    writer.uint64(message.size);
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.code = reader.uint64();
+              break;
+
+            case 2:
+              message.obj = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): hash_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new hash_arguments();
+            case 3:
+              message.size = reader.uint64();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.code = reader.uint64();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        case 2:
-          message.obj = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 3:
-          message.size = reader.uint64();
-          break;
+      code: u64;
+      obj: Uint8Array | null;
+      size: u64;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(code: u64 = 0, obj: Uint8Array | null = null, size: u64 = 0) {
+        this.code = code;
+        this.obj = obj;
+        this.size = size;
       }
     }
 
-    return message;
-  }
+    export class hash_result {
+      static encode(message: hash_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.bytes(value);
+        }
+      }
 
-  code: u64;
-  obj: Uint8Array | null;
-  size: u64;
-
-  constructor(code: u64 = 0, obj: Uint8Array | null = null, size: u64 = 0) {
-    this.code = code;
-    this.obj = obj;
-    this.size = size;
-  }
-}
-
-export class hash_result {
-  static encode(message: hash_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.bytes(field_value);
-    }
-  }
+      static decode(reader: Reader, length: i32): hash_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new hash_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bytes();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): hash_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new hash_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bytes();
-          break;
+      value: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: Uint8Array | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class recover_public_key_arguments {
+      static encode(
+        message: recover_public_key_arguments,
+        writer: Writer
+      ): void {
+        writer.uint32(8);
+        writer.int32(message.type);
 
-  value: Uint8Array | null;
+        const signature = message.signature;
+        if (signature !== null) {
+          writer.uint32(18);
+          writer.bytes(signature);
+        }
 
-  constructor(value: Uint8Array | null = null) {
-    this.value = value;
-  }
-}
+        const digest = message.digest;
+        if (digest !== null) {
+          writer.uint32(26);
+          writer.bytes(digest);
+        }
+      }
 
-export class recover_public_key_arguments {
-  static encode(message: recover_public_key_arguments, writer: Writer): void {
-    writer.uint32(8);
-    writer.int32(message.type);
+      static decode(reader: Reader, length: i32): recover_public_key_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new recover_public_key_arguments();
 
-    const field_signature = message.signature;
-    if (field_signature !== null) {
-      writer.uint32(18);
-      writer.bytes(field_signature);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.type = reader.int32();
+              break;
 
-    const field_digest = message.digest;
-    if (field_digest !== null) {
-      writer.uint32(26);
-      writer.bytes(field_digest);
-    }
-  }
+            case 2:
+              message.signature = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): recover_public_key_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new recover_public_key_arguments();
+            case 3:
+              message.digest = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.type = reader.int32();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        case 2:
-          message.signature = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 3:
-          message.digest = reader.bytes();
-          break;
+      type: koinos.chain.dsa;
+      signature: Uint8Array | null;
+      digest: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        type: koinos.chain.dsa = 0,
+        signature: Uint8Array | null = null,
+        digest: Uint8Array | null = null
+      ) {
+        this.type = type;
+        this.signature = signature;
+        this.digest = digest;
       }
     }
 
-    return message;
-  }
+    export class recover_public_key_result {
+      static encode(message: recover_public_key_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.bytes(value);
+        }
+      }
 
-  type: dsa;
-  signature: Uint8Array | null;
-  digest: Uint8Array | null;
-
-  constructor(
-    type: dsa = 0,
-    signature: Uint8Array | null = null,
-    digest: Uint8Array | null = null
-  ) {
-    this.type = type;
-    this.signature = signature;
-    this.digest = digest;
-  }
-}
-
-export class recover_public_key_result {
-  static encode(message: recover_public_key_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.bytes(field_value);
-    }
-  }
+      static decode(reader: Reader, length: i32): recover_public_key_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new recover_public_key_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): recover_public_key_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new recover_public_key_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bytes();
-          break;
+      value: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: Uint8Array | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class verify_merkle_root_arguments {
+      static encode(
+        message: verify_merkle_root_arguments,
+        writer: Writer
+      ): void {
+        const root = message.root;
+        if (root !== null) {
+          writer.uint32(10);
+          writer.bytes(root);
+        }
 
-  value: Uint8Array | null;
+        const hashes = message.hashes;
+        if (hashes.length !== 0) {
+          for (let i = 0; i < hashes.length; ++i) {
+            writer.uint32(18);
+            writer.bytes(hashes[i]);
+          }
+        }
+      }
 
-  constructor(value: Uint8Array | null = null) {
-    this.value = value;
-  }
-}
+      static decode(reader: Reader, length: i32): verify_merkle_root_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new verify_merkle_root_arguments();
 
-export class verify_merkle_root_arguments {
-  static encode(message: verify_merkle_root_arguments, writer: Writer): void {
-    const field_root = message.root;
-    if (field_root !== null) {
-      writer.uint32(10);
-      writer.bytes(field_root);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.root = reader.bytes();
+              break;
 
-    const field_hashes = message.hashes;
-    if (field_hashes.length !== 0) {
-      for (let i = 0; i < field_hashes.length; ++i) {
-        writer.uint32(18);
-        writer.bytes(field_hashes[i]);
-      }
-    }
-  }
+            case 2:
+              message.hashes.push(reader.bytes());
+              break;
 
-  static decode(reader: Reader, length: i32): verify_merkle_root_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new verify_merkle_root_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.root = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 2:
-          message.hashes.push(reader.bytes());
-          break;
+      root: Uint8Array | null;
+      hashes: Array<Uint8Array>;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        root: Uint8Array | null = null,
+        hashes: Array<Uint8Array> = []
+      ) {
+        this.root = root;
+        this.hashes = hashes;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class verify_merkle_root_result {
+      static encode(message: verify_merkle_root_result, writer: Writer): void {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
 
-  root: Uint8Array | null;
-  hashes: Array<Uint8Array>;
+      static decode(reader: Reader, length: i32): verify_merkle_root_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new verify_merkle_root_result();
 
-  constructor(root: Uint8Array | null = null, hashes: Array<Uint8Array> = []) {
-    this.root = root;
-    this.hashes = hashes;
-  }
-}
-
-@unmanaged
-export class verify_merkle_root_result {
-  static encode(message: verify_merkle_root_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.value);
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bool();
+              break;
 
-  static decode(reader: Reader, length: i32): verify_merkle_root_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new verify_merkle_root_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bool();
-          break;
+        return message;
+      }
+
+      value: bool;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: bool = false) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class verify_signature_arguments {
+      static encode(message: verify_signature_arguments, writer: Writer): void {
+        writer.uint32(8);
+        writer.int32(message.type);
 
-  value: bool;
+        const public_key = message.public_key;
+        if (public_key !== null) {
+          writer.uint32(18);
+          writer.bytes(public_key);
+        }
 
-  constructor(value: bool = false) {
-    this.value = value;
-  }
-}
+        const signature = message.signature;
+        if (signature !== null) {
+          writer.uint32(26);
+          writer.bytes(signature);
+        }
 
-export class verify_signature_arguments {
-  static encode(message: verify_signature_arguments, writer: Writer): void {
-    writer.uint32(8);
-    writer.int32(message.type);
+        const digest = message.digest;
+        if (digest !== null) {
+          writer.uint32(34);
+          writer.bytes(digest);
+        }
+      }
 
-    const field_public_key = message.public_key;
-    if (field_public_key !== null) {
-      writer.uint32(18);
-      writer.bytes(field_public_key);
-    }
+      static decode(reader: Reader, length: i32): verify_signature_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new verify_signature_arguments();
 
-    const field_signature = message.signature;
-    if (field_signature !== null) {
-      writer.uint32(26);
-      writer.bytes(field_signature);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.type = reader.int32();
+              break;
 
-    const field_digest = message.digest;
-    if (field_digest !== null) {
-      writer.uint32(34);
-      writer.bytes(field_digest);
-    }
-  }
+            case 2:
+              message.public_key = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): verify_signature_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new verify_signature_arguments();
+            case 3:
+              message.signature = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.type = reader.int32();
-          break;
+            case 4:
+              message.digest = reader.bytes();
+              break;
 
-        case 2:
-          message.public_key = reader.bytes();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        case 3:
-          message.signature = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 4:
-          message.digest = reader.bytes();
-          break;
+      type: koinos.chain.dsa;
+      public_key: Uint8Array | null;
+      signature: Uint8Array | null;
+      digest: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        type: koinos.chain.dsa = 0,
+        public_key: Uint8Array | null = null,
+        signature: Uint8Array | null = null,
+        digest: Uint8Array | null = null
+      ) {
+        this.type = type;
+        this.public_key = public_key;
+        this.signature = signature;
+        this.digest = digest;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class verify_signature_result {
+      static encode(message: verify_signature_result, writer: Writer): void {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
 
-  type: dsa;
-  public_key: Uint8Array | null;
-  signature: Uint8Array | null;
-  digest: Uint8Array | null;
-
-  constructor(
-    type: dsa = 0,
-    public_key: Uint8Array | null = null,
-    signature: Uint8Array | null = null,
-    digest: Uint8Array | null = null
-  ) {
-    this.type = type;
-    this.public_key = public_key;
-    this.signature = signature;
-    this.digest = digest;
-  }
-}
-
-@unmanaged
-export class verify_signature_result {
-  static encode(message: verify_signature_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.value);
-  }
+      static decode(reader: Reader, length: i32): verify_signature_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new verify_signature_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bool();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): verify_signature_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new verify_signature_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bool();
-          break;
+      value: bool;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: bool = false) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class verify_vrf_proof_arguments {
+      static encode(message: verify_vrf_proof_arguments, writer: Writer): void {
+        writer.uint32(8);
+        writer.int32(message.type);
 
-  value: bool;
+        const public_key = message.public_key;
+        if (public_key !== null) {
+          writer.uint32(18);
+          writer.bytes(public_key);
+        }
 
-  constructor(value: bool = false) {
-    this.value = value;
-  }
-}
+        const proof = message.proof;
+        if (proof !== null) {
+          writer.uint32(26);
+          writer.bytes(proof);
+        }
 
-export class verify_vrf_proof_arguments {
-  static encode(message: verify_vrf_proof_arguments, writer: Writer): void {
-    writer.uint32(8);
-    writer.int32(message.type);
+        const hash = message.hash;
+        if (hash !== null) {
+          writer.uint32(34);
+          writer.bytes(hash);
+        }
 
-    const field_public_key = message.public_key;
-    if (field_public_key !== null) {
-      writer.uint32(18);
-      writer.bytes(field_public_key);
-    }
+        const message_2 = message.message;
+        if (message_2 !== null) {
+          writer.uint32(42);
+          writer.bytes(message_2);
+        }
+      }
 
-    const field_proof = message.proof;
-    if (field_proof !== null) {
-      writer.uint32(26);
-      writer.bytes(field_proof);
-    }
+      static decode(reader: Reader, length: i32): verify_vrf_proof_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new verify_vrf_proof_arguments();
 
-    const field_hash = message.hash;
-    if (field_hash !== null) {
-      writer.uint32(34);
-      writer.bytes(field_hash);
-    }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.type = reader.int32();
+              break;
 
-    const field_message_2 = message.message;
-    if (field_message_2 !== null) {
-      writer.uint32(42);
-      writer.bytes(field_message_2);
-    }
-  }
+            case 2:
+              message.public_key = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): verify_vrf_proof_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new verify_vrf_proof_arguments();
+            case 3:
+              message.proof = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.type = reader.int32();
-          break;
+            case 4:
+              message.hash = reader.bytes();
+              break;
 
-        case 2:
-          message.public_key = reader.bytes();
-          break;
+            case 5:
+              message.message = reader.bytes();
+              break;
 
-        case 3:
-          message.proof = reader.bytes();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        case 4:
-          message.hash = reader.bytes();
-          break;
+        return message;
+      }
 
-        case 5:
-          message.message = reader.bytes();
-          break;
+      type: koinos.chain.dsa;
+      public_key: Uint8Array | null;
+      proof: Uint8Array | null;
+      hash: Uint8Array | null;
+      message: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        type: koinos.chain.dsa = 0,
+        public_key: Uint8Array | null = null,
+        proof: Uint8Array | null = null,
+        hash: Uint8Array | null = null,
+        message: Uint8Array | null = null
+      ) {
+        this.type = type;
+        this.public_key = public_key;
+        this.proof = proof;
+        this.hash = hash;
+        this.message = message;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class verify_vrf_proof_result {
+      static encode(message: verify_vrf_proof_result, writer: Writer): void {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
 
-  type: dsa;
-  public_key: Uint8Array | null;
-  proof: Uint8Array | null;
-  hash: Uint8Array | null;
-  message: Uint8Array | null;
-
-  constructor(
-    type: dsa = 0,
-    public_key: Uint8Array | null = null,
-    proof: Uint8Array | null = null,
-    hash: Uint8Array | null = null,
-    message: Uint8Array | null = null
-  ) {
-    this.type = type;
-    this.public_key = public_key;
-    this.proof = proof;
-    this.hash = hash;
-    this.message = message;
-  }
-}
-
-@unmanaged
-export class verify_vrf_proof_result {
-  static encode(message: verify_vrf_proof_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.value);
-  }
+      static decode(reader: Reader, length: i32): verify_vrf_proof_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new verify_vrf_proof_result();
+
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bool();
+              break;
+
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-  static decode(reader: Reader, length: i32): verify_vrf_proof_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new verify_vrf_proof_result();
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bool();
-          break;
+      value: bool;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: bool = false) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class call_contract_arguments {
+      static encode(message: call_contract_arguments, writer: Writer): void {
+        const contract_id = message.contract_id;
+        if (contract_id !== null) {
+          writer.uint32(10);
+          writer.bytes(contract_id);
+        }
 
-  value: bool;
+        writer.uint32(16);
+        writer.uint32(message.entry_point);
 
-  constructor(value: bool = false) {
-    this.value = value;
-  }
-}
+        const args = message.args;
+        if (args !== null) {
+          writer.uint32(26);
+          writer.bytes(args);
+        }
+      }
 
-export class call_contract_arguments {
-  static encode(message: call_contract_arguments, writer: Writer): void {
-    const field_contract_id = message.contract_id;
-    if (field_contract_id !== null) {
-      writer.uint32(10);
-      writer.bytes(field_contract_id);
-    }
+      static decode(reader: Reader, length: i32): call_contract_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new call_contract_arguments();
 
-    writer.uint32(16);
-    writer.uint32(message.entry_point);
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.contract_id = reader.bytes();
+              break;
 
-    const field_args = message.args;
-    if (field_args !== null) {
-      writer.uint32(26);
-      writer.bytes(field_args);
-    }
-  }
+            case 2:
+              message.entry_point = reader.uint32();
+              break;
 
-  static decode(reader: Reader, length: i32): call_contract_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new call_contract_arguments();
+            case 3:
+              message.args = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.contract_id = reader.bytes();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        case 2:
-          message.entry_point = reader.uint32();
-          break;
+        return message;
+      }
 
-        case 3:
-          message.args = reader.bytes();
-          break;
+      contract_id: Uint8Array | null;
+      entry_point: u32;
+      args: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        contract_id: Uint8Array | null = null,
+        entry_point: u32 = 0,
+        args: Uint8Array | null = null
+      ) {
+        this.contract_id = contract_id;
+        this.entry_point = entry_point;
+        this.args = args;
       }
     }
 
-    return message;
-  }
+    export class call_contract_result {
+      static encode(message: call_contract_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.bytes(value);
+        }
+      }
 
-  contract_id: Uint8Array | null;
-  entry_point: u32;
-  args: Uint8Array | null;
-
-  constructor(
-    contract_id: Uint8Array | null = null,
-    entry_point: u32 = 0,
-    args: Uint8Array | null = null
-  ) {
-    this.contract_id = contract_id;
-    this.entry_point = entry_point;
-    this.args = args;
-  }
-}
-
-export class call_contract_result {
-  static encode(message: call_contract_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.bytes(field_value);
-    }
-  }
+      static decode(reader: Reader, length: i32): call_contract_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new call_contract_result();
 
-  static decode(reader: Reader, length: i32): call_contract_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new call_contract_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bytes();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      value: Uint8Array | null;
 
-  value: Uint8Array | null;
+      constructor(value: Uint8Array | null = null) {
+        this.value = value;
+      }
+    }
 
-  constructor(value: Uint8Array | null = null) {
-    this.value = value;
-  }
-}
+    @unmanaged
+    export class get_entry_point_arguments {
+      static encode(message: get_entry_point_arguments, writer: Writer): void {}
 
-@unmanaged
-export class get_entry_point_arguments {
-  static encode(message: get_entry_point_arguments, writer: Writer): void {}
+      static decode(reader: Reader, length: i32): get_entry_point_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_entry_point_arguments();
 
-  static decode(reader: Reader, length: i32): get_entry_point_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_entry_point_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    @unmanaged
+    export class get_entry_point_result {
+      static encode(message: get_entry_point_result, writer: Writer): void {
+        writer.uint32(8);
+        writer.uint32(message.value);
+      }
 
-  constructor() {}
-}
-
-@unmanaged
-export class get_entry_point_result {
-  static encode(message: get_entry_point_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.uint32(message.value);
-  }
+      static decode(reader: Reader, length: i32): get_entry_point_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_entry_point_result();
 
-  static decode(reader: Reader, length: i32): get_entry_point_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_entry_point_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.uint32();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.uint32();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      value: u32;
 
-  value: u32;
+      constructor(value: u32 = 0) {
+        this.value = value;
+      }
+    }
 
-  constructor(value: u32 = 0) {
-    this.value = value;
-  }
-}
+    @unmanaged
+    export class get_contract_arguments_arguments {
+      static encode(
+        message: get_contract_arguments_arguments,
+        writer: Writer
+      ): void {}
 
-@unmanaged
-export class get_contract_arguments_arguments {
-  static encode(
-    message: get_contract_arguments_arguments,
-    writer: Writer
-  ): void {}
+      static decode(
+        reader: Reader,
+        length: i32
+      ): get_contract_arguments_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_contract_arguments_arguments();
 
-  static decode(reader: Reader, length: i32): get_contract_arguments_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_contract_arguments_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    export class get_contract_arguments_result {
+      static encode(
+        message: get_contract_arguments_result,
+        writer: Writer
+      ): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.bytes(value);
+        }
+      }
 
-  constructor() {}
-}
+      static decode(
+        reader: Reader,
+        length: i32
+      ): get_contract_arguments_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_contract_arguments_result();
 
-export class get_contract_arguments_result {
-  static encode(message: get_contract_arguments_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.bytes(field_value);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): get_contract_arguments_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_contract_arguments_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bytes();
-          break;
+        return message;
+      }
+
+      value: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: Uint8Array | null = null) {
+        this.value = value;
       }
     }
-
-    return message;
-  }
 
-  value: Uint8Array | null;
+    export class set_contract_result_arguments {
+      static encode(
+        message: set_contract_result_arguments,
+        writer: Writer
+      ): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.bytes(value);
+        }
+      }
 
-  constructor(value: Uint8Array | null = null) {
-    this.value = value;
-  }
-}
-
-export class set_contract_result_arguments {
-  static encode(message: set_contract_result_arguments, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.bytes(field_value);
-    }
-  }
+      static decode(
+        reader: Reader,
+        length: i32
+      ): set_contract_result_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new set_contract_result_arguments();
 
-  static decode(reader: Reader, length: i32): set_contract_result_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new set_contract_result_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bytes();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bytes();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      value: Uint8Array | null;
 
-  value: Uint8Array | null;
+      constructor(value: Uint8Array | null = null) {
+        this.value = value;
+      }
+    }
 
-  constructor(value: Uint8Array | null = null) {
-    this.value = value;
-  }
-}
+    @unmanaged
+    export class set_contract_result_result {
+      static encode(
+        message: set_contract_result_result,
+        writer: Writer
+      ): void {}
 
-@unmanaged
-export class set_contract_result_result {
-  static encode(message: set_contract_result_result, writer: Writer): void {}
+      static decode(reader: Reader, length: i32): set_contract_result_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new set_contract_result_result();
 
-  static decode(reader: Reader, length: i32): set_contract_result_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new set_contract_result_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    @unmanaged
+    export class exit_contract_arguments {
+      static encode(message: exit_contract_arguments, writer: Writer): void {
+        writer.uint32(8);
+        writer.uint32(message.exit_code);
+      }
 
-  constructor() {}
-}
-
-@unmanaged
-export class exit_contract_arguments {
-  static encode(message: exit_contract_arguments, writer: Writer): void {
-    writer.uint32(8);
-    writer.uint32(message.exit_code);
-  }
+      static decode(reader: Reader, length: i32): exit_contract_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new exit_contract_arguments();
 
-  static decode(reader: Reader, length: i32): exit_contract_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new exit_contract_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.exit_code = reader.uint32();
+              break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.exit_code = reader.uint32();
-          break;
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      exit_code: u32;
 
-  exit_code: u32;
+      constructor(exit_code: u32 = 0) {
+        this.exit_code = exit_code;
+      }
+    }
 
-  constructor(exit_code: u32 = 0) {
-    this.exit_code = exit_code;
-  }
-}
+    @unmanaged
+    export class exit_contract_result {
+      static encode(message: exit_contract_result, writer: Writer): void {}
 
-@unmanaged
-export class exit_contract_result {
-  static encode(message: exit_contract_result, writer: Writer): void {}
+      static decode(reader: Reader, length: i32): exit_contract_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new exit_contract_result();
 
-  static decode(reader: Reader, length: i32): exit_contract_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new exit_contract_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
-    }
 
-    return message;
-  }
+      constructor() {}
+    }
 
-  constructor() {}
-}
+    @unmanaged
+    export class get_contract_id_arguments {
+      static encode(message: get_contract_id_arguments, writer: Writer): void {}
 
-@unmanaged
-export class get_contract_id_arguments {
-  static encode(message: get_contract_id_arguments, writer: Writer): void {}
+      static decode(reader: Reader, length: i32): get_contract_id_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_contract_id_arguments();
 
-  static decode(reader: Reader, length: i32): get_contract_id_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_contract_id_arguments();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
-  }
+    export class get_contract_id_result {
+      static encode(message: get_contract_id_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.bytes(value);
+        }
+      }
 
-  constructor() {}
-}
+      static decode(reader: Reader, length: i32): get_contract_id_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_contract_id_result();
 
-export class get_contract_id_result {
-  static encode(message: get_contract_id_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.bytes(field_value);
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): get_contract_id_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_contract_id_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
+
+        return message;
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bytes();
-          break;
+      value: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: Uint8Array | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    @unmanaged
+    export class get_caller_arguments {
+      static encode(message: get_caller_arguments, writer: Writer): void {}
 
-  value: Uint8Array | null;
+      static decode(reader: Reader, length: i32): get_caller_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_caller_arguments();
 
-  constructor(value: Uint8Array | null = null) {
-    this.value = value;
-  }
-}
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-@unmanaged
-export class get_caller_arguments {
-  static encode(message: get_caller_arguments, writer: Writer): void {}
+        return message;
+      }
 
-  static decode(reader: Reader, length: i32): get_caller_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_caller_arguments();
+      constructor() {}
+    }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+    export class get_caller_result {
+      static encode(message: get_caller_result, writer: Writer): void {
+        const value = message.value;
+        if (value !== null) {
+          writer.uint32(10);
+          writer.fork();
+          koinos.chain.caller_data.encode(value, writer);
+          writer.ldelim();
+        }
       }
-    }
 
-    return message;
-  }
+      static decode(reader: Reader, length: i32): get_caller_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new get_caller_result();
 
-  constructor() {}
-}
-
-export class get_caller_result {
-  static encode(message: get_caller_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      caller_data.encode(field_value, writer);
-      writer.ldelim();
-    }
-  }
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.value = koinos.chain.caller_data.decode(
+                reader,
+                reader.uint32()
+              );
+              break;
 
-  static decode(reader: Reader, length: i32): get_caller_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_caller_result();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = caller_data.decode(reader, reader.uint32());
-          break;
+        return message;
+      }
+
+      value: koinos.chain.caller_data | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(value: koinos.chain.caller_data | null = null) {
+        this.value = value;
       }
     }
 
-    return message;
-  }
+    export class require_authority_arguments {
+      static encode(
+        message: require_authority_arguments,
+        writer: Writer
+      ): void {
+        writer.uint32(8);
+        writer.int32(message.type);
 
-  value: caller_data | null;
+        const account = message.account;
+        if (account !== null) {
+          writer.uint32(18);
+          writer.bytes(account);
+        }
+      }
 
-  constructor(value: caller_data | null = null) {
-    this.value = value;
-  }
-}
+      static decode(reader: Reader, length: i32): require_authority_arguments {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new require_authority_arguments();
 
-export class require_authority_arguments {
-  static encode(message: require_authority_arguments, writer: Writer): void {
-    writer.uint32(8);
-    writer.int32(message.type);
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            case 1:
+              message.type = reader.int32();
+              break;
 
-    const field_account = message.account;
-    if (field_account !== null) {
-      writer.uint32(18);
-      writer.bytes(field_account);
-    }
-  }
+            case 2:
+              message.account = reader.bytes();
+              break;
 
-  static decode(reader: Reader, length: i32): require_authority_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new require_authority_arguments();
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.type = reader.int32();
-          break;
+        return message;
+      }
 
-        case 2:
-          message.account = reader.bytes();
-          break;
+      type: koinos_2.chain.authorization_type;
+      account: Uint8Array | null;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      constructor(
+        type: koinos_2.chain.authorization_type = 0,
+        account: Uint8Array | null = null
+      ) {
+        this.type = type;
+        this.account = account;
       }
     }
 
-    return message;
-  }
-
-  type: authorization_type;
-  account: Uint8Array | null;
-
-  constructor(type: authorization_type = 0, account: Uint8Array | null = null) {
-    this.type = type;
-    this.account = account;
-  }
-}
+    @unmanaged
+    export class require_authority_result {
+      static encode(message: require_authority_result, writer: Writer): void {}
 
-@unmanaged
-export class require_authority_result {
-  static encode(message: require_authority_result, writer: Writer): void {}
+      static decode(reader: Reader, length: i32): require_authority_result {
+        const end: usize = length < 0 ? reader.end : reader.ptr + length;
+        const message = new require_authority_result();
 
-  static decode(reader: Reader, length: i32): require_authority_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new require_authority_result();
+        while (reader.ptr < end) {
+          const tag = reader.uint32();
+          switch (tag >>> 3) {
+            default:
+              reader.skipType(tag & 7);
+              break;
+          }
+        }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+        return message;
       }
+
+      constructor() {}
     }
 
-    return message;
+    export enum system_authorization_type {
+      set_system_contract = 0,
+      set_system_call = 1,
+    }
   }
-
-  constructor() {}
-}
-
-export enum system_authorization_type {
-  set_system_contract = 0,
-  set_system_call = 1,
 }
