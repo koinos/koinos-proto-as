@@ -476,6 +476,85 @@ export class mint_result {
   }
 }
 
+export class burn_arguments {
+  static encode(message: burn_arguments, writer: Writer): void {
+    const field_from = message.from;
+    if (field_from !== null) {
+      writer.uint32(10);
+      writer.bytes(field_from);
+    }
+
+    writer.uint32(16);
+    writer.uint64(message.value);
+  }
+
+  static decode(reader: Reader, length: i32): burn_arguments {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new burn_arguments();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.from = reader.bytes();
+          break;
+
+        case 2:
+          message.value = reader.uint64();
+          break;
+
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  from: Uint8Array | null;
+  value: u64;
+
+  constructor(from: Uint8Array | null = null, value: u64 = 0) {
+    this.from = from;
+    this.value = value;
+  }
+}
+
+@unmanaged
+export class burn_result {
+  static encode(message: burn_result, writer: Writer): void {
+    writer.uint32(8);
+    writer.bool(message.value);
+  }
+
+  static decode(reader: Reader, length: i32): burn_result {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new burn_result();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.value = reader.bool();
+          break;
+
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  value: bool;
+
+  constructor(value: bool = false) {
+    this.value = value;
+  }
+}
+
 @unmanaged
 export class balance_object {
   static encode(message: balance_object, writer: Writer): void {
@@ -559,6 +638,51 @@ export class mana_balance_object {
     this.balance = balance;
     this.mana = mana;
     this.last_mana_update = last_mana_update;
+  }
+}
+
+export class burn_event {
+  static encode(message: burn_event, writer: Writer): void {
+    const field_from = message.from;
+    if (field_from !== null) {
+      writer.uint32(10);
+      writer.bytes(field_from);
+    }
+
+    writer.uint32(16);
+    writer.uint64(message.value);
+  }
+
+  static decode(reader: Reader, length: i32): burn_event {
+    const end: usize = length < 0 ? reader.end : reader.ptr + length;
+    const message = new burn_event();
+
+    while (reader.ptr < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.from = reader.bytes();
+          break;
+
+        case 2:
+          message.value = reader.uint64();
+          break;
+
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+
+    return message;
+  }
+
+  from: Uint8Array | null;
+  value: u64;
+
+  constructor(from: Uint8Array | null = null, value: u64 = 0) {
+    this.from = from;
+    this.value = value;
   }
 }
 
