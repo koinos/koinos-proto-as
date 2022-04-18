@@ -1,9 +1,9 @@
 {
   "name": "koinos-proto-as",
-  "version": "1.0.0",
+  "version": "0.3.2",
   "main": "index.ts",
-  "repository": "https://github.com/roaminroe/koinos-proto-as",
-  "author": "roaminroe <roamin@tuta.io>",
+  "repository": "https://github.com/koinos/koinos-proto-as",
+  "author": "Koinos Group <contact@koinos.group>",
   "license": "MIT",
   "scripts": {
     "generateKoinosProtoFiles": "yarn protoc -I ./koinos-proto --plugin=protoc-gen-as=./node_modules/.bin/as-proto-gen --as_out=. ./koinos-proto/koinos/*.proto ./koinos-proto/koinos/**/*.proto ./koinos-proto/koinos/**/**/*.proto",
