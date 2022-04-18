@@ -1,5 +1,5 @@
 import { Writer, Reader } from "as-proto";
-import { Any } from "../../google/protobuf/any";
+import { Any } from "../../assembly/google/protobuf/any";
 
 export class value_type {
   static encode(message: value_type, writer: Writer): void {
