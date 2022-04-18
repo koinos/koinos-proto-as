@@ -14,5 +14,5 @@ for file in $(find koinos -name "*.ts" -type f); do
    filename=${file##*/}
    noext=${filename%.*}
 
-   echo "export * from './$dirname/$noext';" >> index.ts
+   echo "export * as $noext from './$dirname/$noext';" >> index.ts
 done
