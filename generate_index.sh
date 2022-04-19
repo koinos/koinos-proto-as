@@ -1,14 +1,15 @@
 #!/bin/bash
 
-rm assembly/index.ts
-touch assembly/index.ts
+pushd assembly
 
-echo "export { Protobuf } from 'as-proto';" >> assembly/index.ts
-echo "" >> assembly/index.ts
-echo "export * from './google/protobuf/any';" >> assembly/index.ts
-echo "" >> assembly/index.ts
+rm index.ts
+touch index.ts
 
-cd assembly
+echo "export { Protobuf } from 'as-proto';" >> index.ts
+echo "" >> index.ts
+echo "export * from './google/protobuf/any';" >> index.ts
+echo "" >> index.ts
+
 for file in $(find koinos -name "*.ts" -type f); do
    dirname=${file%/*}
    filename=${file##*/}
@@ -16,3 +17,5 @@ for file in $(find koinos -name "*.ts" -type f); do
 
    echo "export * from './$dirname/$noext';" >> index.ts
 done
+
+popd
