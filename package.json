@@ -1,6 +1,6 @@
 {
   "name": "koinos-proto-as",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "main": "index.ts",
   "repository": "https://github.com/koinos/koinos-proto-as",
   "author": "Koinos Group <contact@koinos.group>",
