@@ -1,15 +1,15 @@
 #!/bin/bash
 
-rm index.ts
-touch index.ts
+rm assembly/index.ts
+touch assembly/index.ts
 
-echo "export { Protobuf } from 'as-proto';" >> index.ts
-echo "" >> index.ts
-echo "export * from './assembly/google/protobuf/any';" >> index.ts
-echo "" >> index.ts
+echo "export { Protobuf } from 'as-proto';" >> assembly/index.ts
+echo "" >> assembly/index.ts
+echo "export * from './google/protobuf/any';" >> assembly/index.ts
+echo "" >> assembly/index.ts
 
-#find koinos -name "*.ts" -type f | while read -d $'\0' file
-for file in $(find assembly/koinos -name "*.ts" -type f); do
+cd assembly
+for file in $(find koinos -name "*.ts" -type f); do
    dirname=${file%/*}
    filename=${file##*/}
    noext=${filename%.*}
