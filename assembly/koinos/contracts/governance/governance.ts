@@ -1,637 +1,648 @@
 import { Writer, Reader } from "as-proto";
-import { transaction } from "../../protocol/protocol";
+import { protocol } from "../../protocol/protocol";
 
-export class proposal_record {
-  static encode(message: proposal_record, writer: Writer): void {
-    const field_proposal = message.proposal;
-    if (field_proposal !== null) {
-      writer.uint32(10);
-      writer.fork();
-      transaction.encode(field_proposal, writer);
-      writer.ldelim();
+export namespace governance {
+  export class proposal_record {
+    static encode(message: proposal_record, writer: Writer): void {
+      const proposal = message.proposal;
+      if (proposal !== null) {
+        writer.uint32(10);
+        writer.fork();
+        protocol.transaction.encode(proposal, writer);
+        writer.ldelim();
+      }
+
+      writer.uint32(16);
+      writer.uint64(message.vote_start_height);
+
+      writer.uint32(24);
+      writer.uint64(message.vote_tally);
+
+      writer.uint32(32);
+      writer.uint64(message.vote_threshold);
+
+      writer.uint32(40);
+      writer.bool(message.shall_authorize);
+
+      writer.uint32(48);
+      writer.bool(message.updates_governance);
+
+      writer.uint32(56);
+      writer.int32(message.status);
     }
 
-    writer.uint32(16);
-    writer.uint64(message.vote_start_height);
+    static decode(reader: Reader, length: i32): proposal_record {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new proposal_record();
 
-    writer.uint32(24);
-    writer.uint64(message.vote_tally);
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.proposal = protocol.transaction.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
 
-    writer.uint32(32);
-    writer.uint64(message.vote_threshold);
+          case 2:
+            message.vote_start_height = reader.uint64();
+            break;
 
-    writer.uint32(40);
-    writer.bool(message.shall_authorize);
+          case 3:
+            message.vote_tally = reader.uint64();
+            break;
 
-    writer.uint32(48);
-    writer.bool(message.updates_governance);
+          case 4:
+            message.vote_threshold = reader.uint64();
+            break;
 
-    writer.uint32(56);
-    writer.int32(message.status);
+          case 5:
+            message.shall_authorize = reader.bool();
+            break;
+
+          case 6:
+            message.updates_governance = reader.bool();
+            break;
+
+          case 7:
+            message.status = reader.int32();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    proposal: protocol.transaction | null;
+    vote_start_height: u64;
+    vote_tally: u64;
+    vote_threshold: u64;
+    shall_authorize: bool;
+    updates_governance: bool;
+    status: proposal_status;
+
+    constructor(
+      proposal: protocol.transaction | null = null,
+      vote_start_height: u64 = 0,
+      vote_tally: u64 = 0,
+      vote_threshold: u64 = 0,
+      shall_authorize: bool = false,
+      updates_governance: bool = false,
+      status: proposal_status = 0
+    ) {
+      this.proposal = proposal;
+      this.vote_start_height = vote_start_height;
+      this.vote_tally = vote_tally;
+      this.vote_threshold = vote_threshold;
+      this.shall_authorize = shall_authorize;
+      this.updates_governance = updates_governance;
+      this.status = status;
+    }
   }
 
-  static decode(reader: Reader, length: i32): proposal_record {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new proposal_record();
+  export class submit_proposal_arguments {
+    static encode(message: submit_proposal_arguments, writer: Writer): void {
+      const proposal = message.proposal;
+      if (proposal !== null) {
+        writer.uint32(10);
+        writer.fork();
+        protocol.transaction.encode(proposal, writer);
+        writer.ldelim();
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.proposal = transaction.decode(reader, reader.uint32());
-          break;
+      writer.uint32(16);
+      writer.uint64(message.fee);
+    }
 
-        case 2:
-          message.vote_start_height = reader.uint64();
-          break;
+    static decode(reader: Reader, length: i32): submit_proposal_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new submit_proposal_arguments();
 
-        case 3:
-          message.vote_tally = reader.uint64();
-          break;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.proposal = protocol.transaction.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
 
-        case 4:
-          message.vote_threshold = reader.uint64();
-          break;
+          case 2:
+            message.fee = reader.uint64();
+            break;
 
-        case 5:
-          message.shall_authorize = reader.bool();
-          break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
 
-        case 6:
-          message.updates_governance = reader.bool();
-          break;
+      return message;
+    }
 
-        case 7:
-          message.status = reader.int32();
-          break;
+    proposal: protocol.transaction | null;
+    fee: u64;
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+    constructor(proposal: protocol.transaction | null = null, fee: u64 = 0) {
+      this.proposal = proposal;
+      this.fee = fee;
+    }
+  }
+
+  @unmanaged
+  export class submit_proposal_result {
+    static encode(message: submit_proposal_result, writer: Writer): void {
+      writer.uint32(8);
+      writer.bool(message.value);
+    }
+
+    static decode(reader: Reader, length: i32): submit_proposal_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new submit_proposal_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = reader.bool();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: bool;
+
+    constructor(value: bool = false) {
+      this.value = value;
+    }
+  }
+
+  export class get_proposal_by_id_arguments {
+    static encode(message: get_proposal_by_id_arguments, writer: Writer): void {
+      const proposal_id = message.proposal_id;
+      if (proposal_id !== null) {
+        writer.uint32(10);
+        writer.bytes(proposal_id);
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): get_proposal_by_id_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_proposal_by_id_arguments();
 
-  proposal: transaction | null;
-  vote_start_height: u64;
-  vote_tally: u64;
-  vote_threshold: u64;
-  shall_authorize: bool;
-  updates_governance: bool;
-  status: proposal_status;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.proposal_id = reader.bytes();
+            break;
 
-  constructor(
-    proposal: transaction | null = null,
-    vote_start_height: u64 = 0,
-    vote_tally: u64 = 0,
-    vote_threshold: u64 = 0,
-    shall_authorize: bool = false,
-    updates_governance: bool = false,
-    status: proposal_status = 0
-  ) {
-    this.proposal = proposal;
-    this.vote_start_height = vote_start_height;
-    this.vote_tally = vote_tally;
-    this.vote_threshold = vote_threshold;
-    this.shall_authorize = shall_authorize;
-    this.updates_governance = updates_governance;
-    this.status = status;
-  }
-}
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
 
-export class submit_proposal_arguments {
-  static encode(message: submit_proposal_arguments, writer: Writer): void {
-    const field_proposal = message.proposal;
-    if (field_proposal !== null) {
-      writer.uint32(10);
-      writer.fork();
-      transaction.encode(field_proposal, writer);
-      writer.ldelim();
+      return message;
     }
 
-    writer.uint32(16);
-    writer.uint64(message.fee);
+    proposal_id: Uint8Array | null;
+
+    constructor(proposal_id: Uint8Array | null = null) {
+      this.proposal_id = proposal_id;
+    }
   }
 
-  static decode(reader: Reader, length: i32): submit_proposal_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new submit_proposal_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.proposal = transaction.decode(reader, reader.uint32());
-          break;
-
-        case 2:
-          message.fee = reader.uint64();
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+  export class get_proposal_by_id_result {
+    static encode(message: get_proposal_by_id_result, writer: Writer): void {
+      const value = message.value;
+      if (value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        proposal_record.encode(value, writer);
+        writer.ldelim();
       }
     }
 
-    return message;
+    static decode(reader: Reader, length: i32): get_proposal_by_id_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_proposal_by_id_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = proposal_record.decode(reader, reader.uint32());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: proposal_record | null;
+
+    constructor(value: proposal_record | null = null) {
+      this.value = value;
+    }
   }
 
-  proposal: transaction | null;
-  fee: u64;
+  export class get_proposals_by_status_arguments {
+    static encode(
+      message: get_proposals_by_status_arguments,
+      writer: Writer
+    ): void {
+      const start_proposal = message.start_proposal;
+      if (start_proposal !== null) {
+        writer.uint32(10);
+        writer.bytes(start_proposal);
+      }
 
-  constructor(proposal: transaction | null = null, fee: u64 = 0) {
-    this.proposal = proposal;
-    this.fee = fee;
+      writer.uint32(16);
+      writer.uint64(message.limit);
+
+      writer.uint32(24);
+      writer.int32(message.status);
+    }
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): get_proposals_by_status_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_proposals_by_status_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.start_proposal = reader.bytes();
+            break;
+
+          case 2:
+            message.limit = reader.uint64();
+            break;
+
+          case 3:
+            message.status = reader.int32();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    start_proposal: Uint8Array | null;
+    limit: u64;
+    status: proposal_status;
+
+    constructor(
+      start_proposal: Uint8Array | null = null,
+      limit: u64 = 0,
+      status: proposal_status = 0
+    ) {
+      this.start_proposal = start_proposal;
+      this.limit = limit;
+      this.status = status;
+    }
   }
-}
 
-@unmanaged
-export class submit_proposal_result {
-  static encode(message: submit_proposal_result, writer: Writer): void {
-    writer.uint32(8);
-    writer.bool(message.value);
-  }
-
-  static decode(reader: Reader, length: i32): submit_proposal_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new submit_proposal_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = reader.bool();
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+  export class get_proposals_by_status_result {
+    static encode(
+      message: get_proposals_by_status_result,
+      writer: Writer
+    ): void {
+      const value = message.value;
+      for (let i = 0; i < value.length; ++i) {
+        writer.uint32(10);
+        writer.fork();
+        proposal_record.encode(value[i], writer);
+        writer.ldelim();
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): get_proposals_by_status_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_proposals_by_status_result();
 
-  value: bool;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value.push(proposal_record.decode(reader, reader.uint32()));
+            break;
 
-  constructor(value: bool = false) {
-    this.value = value;
-  }
-}
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
 
-export class get_proposal_by_id_arguments {
-  static encode(message: get_proposal_by_id_arguments, writer: Writer): void {
-    const field_proposal_id = message.proposal_id;
-    if (field_proposal_id !== null) {
-      writer.uint32(10);
-      writer.bytes(field_proposal_id);
+      return message;
+    }
+
+    value: Array<proposal_record>;
+
+    constructor(value: Array<proposal_record> = []) {
+      this.value = value;
     }
   }
 
-  static decode(reader: Reader, length: i32): get_proposal_by_id_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_proposal_by_id_arguments();
+  export class get_proposals_arguments {
+    static encode(message: get_proposals_arguments, writer: Writer): void {
+      const start_proposal = message.start_proposal;
+      if (start_proposal !== null) {
+        writer.uint32(10);
+        writer.bytes(start_proposal);
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.proposal_id = reader.bytes();
-          break;
+      writer.uint32(16);
+      writer.uint64(message.limit);
+    }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+    static decode(reader: Reader, length: i32): get_proposals_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_proposals_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.start_proposal = reader.bytes();
+            break;
+
+          case 2:
+            message.limit = reader.uint64();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    start_proposal: Uint8Array | null;
+    limit: u64;
+
+    constructor(start_proposal: Uint8Array | null = null, limit: u64 = 0) {
+      this.start_proposal = start_proposal;
+      this.limit = limit;
+    }
+  }
+
+  export class get_proposals_result {
+    static encode(message: get_proposals_result, writer: Writer): void {
+      const value = message.value;
+      for (let i = 0; i < value.length; ++i) {
+        writer.uint32(10);
+        writer.fork();
+        proposal_record.encode(value[i], writer);
+        writer.ldelim();
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): get_proposals_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_proposals_result();
 
-  proposal_id: Uint8Array | null;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value.push(proposal_record.decode(reader, reader.uint32()));
+            break;
 
-  constructor(proposal_id: Uint8Array | null = null) {
-    this.proposal_id = proposal_id;
-  }
-}
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
 
-export class get_proposal_by_id_result {
-  static encode(message: get_proposal_by_id_result, writer: Writer): void {
-    const field_value = message.value;
-    if (field_value !== null) {
-      writer.uint32(10);
-      writer.fork();
-      proposal_record.encode(field_value, writer);
-      writer.ldelim();
+      return message;
+    }
+
+    value: Array<proposal_record>;
+
+    constructor(value: Array<proposal_record> = []) {
+      this.value = value;
     }
   }
 
-  static decode(reader: Reader, length: i32): get_proposal_by_id_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_proposal_by_id_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value = proposal_record.decode(reader, reader.uint32());
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+  export class proposal_submission_event {
+    static encode(message: proposal_submission_event, writer: Writer): void {
+      const proposal = message.proposal;
+      if (proposal !== null) {
+        writer.uint32(10);
+        writer.fork();
+        proposal_record.encode(proposal, writer);
+        writer.ldelim();
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): proposal_submission_event {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new proposal_submission_event();
 
-  value: proposal_record | null;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.proposal = proposal_record.decode(reader, reader.uint32());
+            break;
 
-  constructor(value: proposal_record | null = null) {
-    this.value = value;
-  }
-}
-
-export class get_proposals_by_status_arguments {
-  static encode(
-    message: get_proposals_by_status_arguments,
-    writer: Writer
-  ): void {
-    const field_start_proposal = message.start_proposal;
-    if (field_start_proposal !== null) {
-      writer.uint32(10);
-      writer.bytes(field_start_proposal);
-    }
-
-    writer.uint32(16);
-    writer.uint64(message.limit);
-
-    writer.uint32(24);
-    writer.int32(message.status);
-  }
-
-  static decode(
-    reader: Reader,
-    length: i32
-  ): get_proposals_by_status_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_proposals_by_status_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.start_proposal = reader.bytes();
-          break;
-
-        case 2:
-          message.limit = reader.uint64();
-          break;
-
-        case 3:
-          message.status = reader.int32();
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
       }
+
+      return message;
     }
 
-    return message;
-  }
+    proposal: proposal_record | null;
 
-  start_proposal: Uint8Array | null;
-  limit: u64;
-  status: proposal_status;
-
-  constructor(
-    start_proposal: Uint8Array | null = null,
-    limit: u64 = 0,
-    status: proposal_status = 0
-  ) {
-    this.start_proposal = start_proposal;
-    this.limit = limit;
-    this.status = status;
-  }
-}
-
-export class get_proposals_by_status_result {
-  static encode(message: get_proposals_by_status_result, writer: Writer): void {
-    const field_value = message.value;
-    for (let i = 0; i < field_value.length; ++i) {
-      writer.uint32(10);
-      writer.fork();
-      proposal_record.encode(field_value[i], writer);
-      writer.ldelim();
+    constructor(proposal: proposal_record | null = null) {
+      this.proposal = proposal;
     }
   }
 
-  static decode(reader: Reader, length: i32): get_proposals_by_status_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_proposals_by_status_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value.push(proposal_record.decode(reader, reader.uint32()));
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+  export class proposal_status_event {
+    static encode(message: proposal_status_event, writer: Writer): void {
+      const id = message.id;
+      if (id !== null) {
+        writer.uint32(10);
+        writer.bytes(id);
       }
+
+      writer.uint32(16);
+      writer.int32(message.status);
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): proposal_status_event {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new proposal_status_event();
 
-  value: Array<proposal_record>;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.id = reader.bytes();
+            break;
 
-  constructor(value: Array<proposal_record> = []) {
-    this.value = value;
-  }
-}
+          case 2:
+            message.status = reader.int32();
+            break;
 
-export class get_proposals_arguments {
-  static encode(message: get_proposals_arguments, writer: Writer): void {
-    const field_start_proposal = message.start_proposal;
-    if (field_start_proposal !== null) {
-      writer.uint32(10);
-      writer.bytes(field_start_proposal);
-    }
-
-    writer.uint32(16);
-    writer.uint64(message.limit);
-  }
-
-  static decode(reader: Reader, length: i32): get_proposals_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_proposals_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.start_proposal = reader.bytes();
-          break;
-
-        case 2:
-          message.limit = reader.uint64();
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
       }
+
+      return message;
     }
 
-    return message;
-  }
+    id: Uint8Array | null;
+    status: proposal_status;
 
-  start_proposal: Uint8Array | null;
-  limit: u64;
-
-  constructor(start_proposal: Uint8Array | null = null, limit: u64 = 0) {
-    this.start_proposal = start_proposal;
-    this.limit = limit;
-  }
-}
-
-export class get_proposals_result {
-  static encode(message: get_proposals_result, writer: Writer): void {
-    const field_value = message.value;
-    for (let i = 0; i < field_value.length; ++i) {
-      writer.uint32(10);
-      writer.fork();
-      proposal_record.encode(field_value[i], writer);
-      writer.ldelim();
+    constructor(id: Uint8Array | null = null, status: proposal_status = 0) {
+      this.id = id;
+      this.status = status;
     }
   }
 
-  static decode(reader: Reader, length: i32): get_proposals_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_proposals_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.value.push(proposal_record.decode(reader, reader.uint32()));
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+  export class proposal_vote_event {
+    static encode(message: proposal_vote_event, writer: Writer): void {
+      const id = message.id;
+      if (id !== null) {
+        writer.uint32(10);
+        writer.bytes(id);
       }
+
+      writer.uint32(16);
+      writer.uint64(message.vote_tally);
+
+      writer.uint32(24);
+      writer.uint64(message.vote_threshold);
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): proposal_vote_event {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new proposal_vote_event();
 
-  value: Array<proposal_record>;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.id = reader.bytes();
+            break;
 
-  constructor(value: Array<proposal_record> = []) {
-    this.value = value;
-  }
-}
+          case 2:
+            message.vote_tally = reader.uint64();
+            break;
 
-export class proposal_submission_event {
-  static encode(message: proposal_submission_event, writer: Writer): void {
-    const field_proposal = message.proposal;
-    if (field_proposal !== null) {
-      writer.uint32(10);
-      writer.fork();
-      proposal_record.encode(field_proposal, writer);
-      writer.ldelim();
-    }
-  }
+          case 3:
+            message.vote_threshold = reader.uint64();
+            break;
 
-  static decode(reader: Reader, length: i32): proposal_submission_event {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new proposal_submission_event();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.proposal = proposal_record.decode(reader, reader.uint32());
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
       }
+
+      return message;
     }
 
-    return message;
-  }
+    id: Uint8Array | null;
+    vote_tally: u64;
+    vote_threshold: u64;
 
-  proposal: proposal_record | null;
-
-  constructor(proposal: proposal_record | null = null) {
-    this.proposal = proposal;
-  }
-}
-
-export class proposal_status_event {
-  static encode(message: proposal_status_event, writer: Writer): void {
-    const field_id = message.id;
-    if (field_id !== null) {
-      writer.uint32(10);
-      writer.bytes(field_id);
+    constructor(
+      id: Uint8Array | null = null,
+      vote_tally: u64 = 0,
+      vote_threshold: u64 = 0
+    ) {
+      this.id = id;
+      this.vote_tally = vote_tally;
+      this.vote_threshold = vote_threshold;
     }
-
-    writer.uint32(16);
-    writer.int32(message.status);
   }
 
-  static decode(reader: Reader, length: i32): proposal_status_event {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new proposal_status_event();
+  @unmanaged
+  export class block_callback_arguments {
+    static encode(message: block_callback_arguments, writer: Writer): void {}
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.id = reader.bytes();
-          break;
+    static decode(reader: Reader, length: i32): block_callback_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new block_callback_arguments();
 
-        case 2:
-          message.status = reader.int32();
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
       }
+
+      return message;
     }
 
-    return message;
+    constructor() {}
   }
 
-  id: Uint8Array | null;
-  status: proposal_status;
+  @unmanaged
+  export class block_callback_result {
+    static encode(message: block_callback_result, writer: Writer): void {}
 
-  constructor(id: Uint8Array | null = null, status: proposal_status = 0) {
-    this.id = id;
-    this.status = status;
-  }
-}
+    static decode(reader: Reader, length: i32): block_callback_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new block_callback_result();
 
-export class proposal_vote_event {
-  static encode(message: proposal_vote_event, writer: Writer): void {
-    const field_id = message.id;
-    if (field_id !== null) {
-      writer.uint32(10);
-      writer.bytes(field_id);
-    }
-
-    writer.uint32(16);
-    writer.uint64(message.vote_tally);
-
-    writer.uint32(24);
-    writer.uint64(message.vote_threshold);
-  }
-
-  static decode(reader: Reader, length: i32): proposal_vote_event {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new proposal_vote_event();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.id = reader.bytes();
-          break;
-
-        case 2:
-          message.vote_tally = reader.uint64();
-          break;
-
-        case 3:
-          message.vote_threshold = reader.uint64();
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
       }
+
+      return message;
     }
 
-    return message;
+    constructor() {}
   }
 
-  id: Uint8Array | null;
-  vote_tally: u64;
-  vote_threshold: u64;
-
-  constructor(
-    id: Uint8Array | null = null,
-    vote_tally: u64 = 0,
-    vote_threshold: u64 = 0
-  ) {
-    this.id = id;
-    this.vote_tally = vote_tally;
-    this.vote_threshold = vote_threshold;
+  export enum proposal_status {
+    pending = 0,
+    active = 1,
+    approved = 2,
+    expired = 3,
+    applied = 4,
   }
-}
-
-@unmanaged
-export class block_callback_arguments {
-  static encode(message: block_callback_arguments, writer: Writer): void {}
-
-  static decode(reader: Reader, length: i32): block_callback_arguments {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new block_callback_arguments();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
-
-  constructor() {}
-}
-
-@unmanaged
-export class block_callback_result {
-  static encode(message: block_callback_result, writer: Writer): void {}
-
-  static decode(reader: Reader, length: i32): block_callback_result {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new block_callback_result();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
-
-  constructor() {}
-}
-
-export enum proposal_status {
-  pending = 0,
-  active = 1,
-  approved = 2,
-  expired = 3,
-  applied = 4,
 }
