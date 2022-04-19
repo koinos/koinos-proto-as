@@ -6,29 +6,29 @@ export namespace protocol {
       writer.uint32(8);
       writer.uint32(message.sequence);
 
-      const source = message.source;
-      if (source !== null) {
+      const unique_name_source = message.source;
+      if (unique_name_source !== null) {
         writer.uint32(18);
-        writer.bytes(source);
+        writer.bytes(unique_name_source);
       }
 
-      const name = message.name;
-      if (name !== null) {
+      const unique_name_name = message.name;
+      if (unique_name_name !== null) {
         writer.uint32(26);
-        writer.string(name);
+        writer.string(unique_name_name);
       }
 
-      const data = message.data;
-      if (data !== null) {
+      const unique_name_data = message.data;
+      if (unique_name_data !== null) {
         writer.uint32(34);
-        writer.bytes(data);
+        writer.bytes(unique_name_data);
       }
 
-      const impacted = message.impacted;
-      if (impacted.length !== 0) {
-        for (let i = 0; i < impacted.length; ++i) {
+      const unique_name_impacted = message.impacted;
+      if (unique_name_impacted.length !== 0) {
+        for (let i = 0; i < unique_name_impacted.length; ++i) {
           writer.uint32(42);
-          writer.bytes(impacted[i]);
+          writer.bytes(unique_name_impacted[i]);
         }
       }
     }
@@ -92,10 +92,10 @@ export namespace protocol {
 
   export class contract_call_bundle {
     static encode(message: contract_call_bundle, writer: Writer): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
 
       writer.uint32(16);
@@ -140,11 +140,11 @@ export namespace protocol {
       writer.uint32(8);
       writer.uint32(message.thunk_id);
 
-      const system_call_bundle = message.system_call_bundle;
-      if (system_call_bundle !== null) {
+      const unique_name_system_call_bundle = message.system_call_bundle;
+      if (unique_name_system_call_bundle !== null) {
         writer.uint32(18);
         writer.fork();
-        contract_call_bundle.encode(system_call_bundle, writer);
+        contract_call_bundle.encode(unique_name_system_call_bundle, writer);
         writer.ldelim();
       }
     }
@@ -190,22 +190,22 @@ export namespace protocol {
 
   export class upload_contract_operation {
     static encode(message: upload_contract_operation, writer: Writer): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
 
-      const bytecode = message.bytecode;
-      if (bytecode !== null) {
+      const unique_name_bytecode = message.bytecode;
+      if (unique_name_bytecode !== null) {
         writer.uint32(18);
-        writer.bytes(bytecode);
+        writer.bytes(unique_name_bytecode);
       }
 
-      const abi = message.abi;
-      if (abi !== null) {
+      const unique_name_abi = message.abi;
+      if (unique_name_abi !== null) {
         writer.uint32(26);
-        writer.string(abi);
+        writer.string(unique_name_abi);
       }
 
       writer.uint32(32);
@@ -285,19 +285,19 @@ export namespace protocol {
 
   export class call_contract_operation {
     static encode(message: call_contract_operation, writer: Writer): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
 
       writer.uint32(16);
       writer.uint32(message.entry_point);
 
-      const args = message.args;
-      if (args !== null) {
+      const unique_name_args = message.args;
+      if (unique_name_args !== null) {
         writer.uint32(26);
-        writer.bytes(args);
+        writer.bytes(unique_name_args);
       }
     }
 
@@ -349,11 +349,11 @@ export namespace protocol {
       writer.uint32(8);
       writer.uint32(message.call_id);
 
-      const target = message.target;
-      if (target !== null) {
+      const unique_name_target = message.target;
+      if (unique_name_target !== null) {
         writer.uint32(18);
         writer.fork();
-        system_call_target.encode(target, writer);
+        system_call_target.encode(unique_name_target, writer);
         writer.ldelim();
       }
     }
@@ -396,10 +396,10 @@ export namespace protocol {
       message: set_system_contract_operation,
       writer: Writer
     ): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
 
       writer.uint32(16);
@@ -444,35 +444,38 @@ export namespace protocol {
 
   export class operation {
     static encode(message: operation, writer: Writer): void {
-      const upload_contract = message.upload_contract;
-      if (upload_contract !== null) {
+      const unique_name_upload_contract = message.upload_contract;
+      if (unique_name_upload_contract !== null) {
         writer.uint32(10);
         writer.fork();
-        upload_contract_operation.encode(upload_contract, writer);
+        upload_contract_operation.encode(unique_name_upload_contract, writer);
         writer.ldelim();
       }
 
-      const call_contract = message.call_contract;
-      if (call_contract !== null) {
+      const unique_name_call_contract = message.call_contract;
+      if (unique_name_call_contract !== null) {
         writer.uint32(18);
         writer.fork();
-        call_contract_operation.encode(call_contract, writer);
+        call_contract_operation.encode(unique_name_call_contract, writer);
         writer.ldelim();
       }
 
-      const set_system_call = message.set_system_call;
-      if (set_system_call !== null) {
+      const unique_name_set_system_call = message.set_system_call;
+      if (unique_name_set_system_call !== null) {
         writer.uint32(26);
         writer.fork();
-        set_system_call_operation.encode(set_system_call, writer);
+        set_system_call_operation.encode(unique_name_set_system_call, writer);
         writer.ldelim();
       }
 
-      const set_system_contract = message.set_system_contract;
-      if (set_system_contract !== null) {
+      const unique_name_set_system_contract = message.set_system_contract;
+      if (unique_name_set_system_contract !== null) {
         writer.uint32(34);
         writer.fork();
-        set_system_contract_operation.encode(set_system_contract, writer);
+        set_system_contract_operation.encode(
+          unique_name_set_system_contract,
+          writer
+        );
         writer.ldelim();
       }
     }
@@ -541,37 +544,37 @@ export namespace protocol {
 
   export class transaction_header {
     static encode(message: transaction_header, writer: Writer): void {
-      const chain_id = message.chain_id;
-      if (chain_id !== null) {
+      const unique_name_chain_id = message.chain_id;
+      if (unique_name_chain_id !== null) {
         writer.uint32(10);
-        writer.bytes(chain_id);
+        writer.bytes(unique_name_chain_id);
       }
 
       writer.uint32(16);
       writer.uint64(message.rc_limit);
 
-      const nonce = message.nonce;
-      if (nonce !== null) {
+      const unique_name_nonce = message.nonce;
+      if (unique_name_nonce !== null) {
         writer.uint32(26);
-        writer.bytes(nonce);
+        writer.bytes(unique_name_nonce);
       }
 
-      const operation_merkle_root = message.operation_merkle_root;
-      if (operation_merkle_root !== null) {
+      const unique_name_operation_merkle_root = message.operation_merkle_root;
+      if (unique_name_operation_merkle_root !== null) {
         writer.uint32(34);
-        writer.bytes(operation_merkle_root);
+        writer.bytes(unique_name_operation_merkle_root);
       }
 
-      const payer = message.payer;
-      if (payer !== null) {
+      const unique_name_payer = message.payer;
+      if (unique_name_payer !== null) {
         writer.uint32(42);
-        writer.bytes(payer);
+        writer.bytes(unique_name_payer);
       }
 
-      const payee = message.payee;
-      if (payee !== null) {
+      const unique_name_payee = message.payee;
+      if (unique_name_payee !== null) {
         writer.uint32(50);
-        writer.bytes(payee);
+        writer.bytes(unique_name_payee);
       }
     }
 
@@ -641,33 +644,33 @@ export namespace protocol {
 
   export class transaction {
     static encode(message: transaction, writer: Writer): void {
-      const id = message.id;
-      if (id !== null) {
+      const unique_name_id = message.id;
+      if (unique_name_id !== null) {
         writer.uint32(10);
-        writer.bytes(id);
+        writer.bytes(unique_name_id);
       }
 
-      const header = message.header;
-      if (header !== null) {
+      const unique_name_header = message.header;
+      if (unique_name_header !== null) {
         writer.uint32(18);
         writer.fork();
-        transaction_header.encode(header, writer);
+        transaction_header.encode(unique_name_header, writer);
         writer.ldelim();
       }
 
-      const operations = message.operations;
-      for (let i = 0; i < operations.length; ++i) {
+      const unique_name_operations = message.operations;
+      for (let i = 0; i < unique_name_operations.length; ++i) {
         writer.uint32(26);
         writer.fork();
-        operation.encode(operations[i], writer);
+        operation.encode(unique_name_operations[i], writer);
         writer.ldelim();
       }
 
-      const signatures = message.signatures;
-      if (signatures.length !== 0) {
-        for (let i = 0; i < signatures.length; ++i) {
+      const unique_name_signatures = message.signatures;
+      if (unique_name_signatures.length !== 0) {
+        for (let i = 0; i < unique_name_signatures.length; ++i) {
           writer.uint32(34);
-          writer.bytes(signatures[i]);
+          writer.bytes(unique_name_signatures[i]);
         }
       }
     }
@@ -724,16 +727,16 @@ export namespace protocol {
 
   export class transaction_receipt {
     static encode(message: transaction_receipt, writer: Writer): void {
-      const id = message.id;
-      if (id !== null) {
+      const unique_name_id = message.id;
+      if (unique_name_id !== null) {
         writer.uint32(10);
-        writer.bytes(id);
+        writer.bytes(unique_name_id);
       }
 
-      const payer = message.payer;
-      if (payer !== null) {
+      const unique_name_payer = message.payer;
+      if (unique_name_payer !== null) {
         writer.uint32(18);
-        writer.bytes(payer);
+        writer.bytes(unique_name_payer);
       }
 
       writer.uint32(24);
@@ -757,19 +760,19 @@ export namespace protocol {
       writer.uint32(72);
       writer.bool(message.reverted);
 
-      const events = message.events;
-      for (let i = 0; i < events.length; ++i) {
+      const unique_name_events = message.events;
+      for (let i = 0; i < unique_name_events.length; ++i) {
         writer.uint32(82);
         writer.fork();
-        event_data.encode(events[i], writer);
+        event_data.encode(unique_name_events[i], writer);
         writer.ldelim();
       }
 
-      const logs = message.logs;
-      if (logs.length !== 0) {
-        for (let i = 0; i < logs.length; ++i) {
+      const unique_name_logs = message.logs;
+      if (unique_name_logs.length !== 0) {
+        for (let i = 0; i < unique_name_logs.length; ++i) {
           writer.uint32(90);
-          writer.string(logs[i]);
+          writer.string(unique_name_logs[i]);
         }
       }
     }
@@ -875,10 +878,10 @@ export namespace protocol {
 
   export class block_header {
     static encode(message: block_header, writer: Writer): void {
-      const previous = message.previous;
-      if (previous !== null) {
+      const unique_name_previous = message.previous;
+      if (unique_name_previous !== null) {
         writer.uint32(10);
-        writer.bytes(previous);
+        writer.bytes(unique_name_previous);
       }
 
       writer.uint32(16);
@@ -887,29 +890,31 @@ export namespace protocol {
       writer.uint32(24);
       writer.uint64(message.timestamp);
 
-      const previous_state_merkle_root = message.previous_state_merkle_root;
-      if (previous_state_merkle_root !== null) {
+      const unique_name_previous_state_merkle_root =
+        message.previous_state_merkle_root;
+      if (unique_name_previous_state_merkle_root !== null) {
         writer.uint32(34);
-        writer.bytes(previous_state_merkle_root);
+        writer.bytes(unique_name_previous_state_merkle_root);
       }
 
-      const transaction_merkle_root = message.transaction_merkle_root;
-      if (transaction_merkle_root !== null) {
+      const unique_name_transaction_merkle_root =
+        message.transaction_merkle_root;
+      if (unique_name_transaction_merkle_root !== null) {
         writer.uint32(42);
-        writer.bytes(transaction_merkle_root);
+        writer.bytes(unique_name_transaction_merkle_root);
       }
 
-      const signer = message.signer;
-      if (signer !== null) {
+      const unique_name_signer = message.signer;
+      if (unique_name_signer !== null) {
         writer.uint32(50);
-        writer.bytes(signer);
+        writer.bytes(unique_name_signer);
       }
 
-      const approved_proposals = message.approved_proposals;
-      if (approved_proposals.length !== 0) {
-        for (let i = 0; i < approved_proposals.length; ++i) {
+      const unique_name_approved_proposals = message.approved_proposals;
+      if (unique_name_approved_proposals.length !== 0) {
+        for (let i = 0; i < unique_name_approved_proposals.length; ++i) {
           writer.uint32(58);
-          writer.bytes(approved_proposals[i]);
+          writer.bytes(unique_name_approved_proposals[i]);
         }
       }
     }
@@ -987,32 +992,32 @@ export namespace protocol {
 
   export class block {
     static encode(message: block, writer: Writer): void {
-      const id = message.id;
-      if (id !== null) {
+      const unique_name_id = message.id;
+      if (unique_name_id !== null) {
         writer.uint32(10);
-        writer.bytes(id);
+        writer.bytes(unique_name_id);
       }
 
-      const header = message.header;
-      if (header !== null) {
+      const unique_name_header = message.header;
+      if (unique_name_header !== null) {
         writer.uint32(18);
         writer.fork();
-        block_header.encode(header, writer);
+        block_header.encode(unique_name_header, writer);
         writer.ldelim();
       }
 
-      const transactions = message.transactions;
-      for (let i = 0; i < transactions.length; ++i) {
+      const unique_name_transactions = message.transactions;
+      for (let i = 0; i < unique_name_transactions.length; ++i) {
         writer.uint32(26);
         writer.fork();
-        transaction.encode(transactions[i], writer);
+        transaction.encode(unique_name_transactions[i], writer);
         writer.ldelim();
       }
 
-      const signature = message.signature;
-      if (signature !== null) {
+      const unique_name_signature = message.signature;
+      if (unique_name_signature !== null) {
         writer.uint32(34);
-        writer.bytes(signature);
+        writer.bytes(unique_name_signature);
       }
     }
 
@@ -1070,10 +1075,10 @@ export namespace protocol {
 
   export class block_receipt {
     static encode(message: block_receipt, writer: Writer): void {
-      const id = message.id;
-      if (id !== null) {
+      const unique_name_id = message.id;
+      if (unique_name_id !== null) {
         writer.uint32(10);
-        writer.bytes(id);
+        writer.bytes(unique_name_id);
       }
 
       writer.uint32(16);
@@ -1088,33 +1093,33 @@ export namespace protocol {
       writer.uint32(40);
       writer.uint64(message.compute_bandwidth_used);
 
-      const state_merkle_root = message.state_merkle_root;
-      if (state_merkle_root !== null) {
+      const unique_name_state_merkle_root = message.state_merkle_root;
+      if (unique_name_state_merkle_root !== null) {
         writer.uint32(50);
-        writer.bytes(state_merkle_root);
+        writer.bytes(unique_name_state_merkle_root);
       }
 
-      const events = message.events;
-      for (let i = 0; i < events.length; ++i) {
+      const unique_name_events = message.events;
+      for (let i = 0; i < unique_name_events.length; ++i) {
         writer.uint32(58);
         writer.fork();
-        event_data.encode(events[i], writer);
+        event_data.encode(unique_name_events[i], writer);
         writer.ldelim();
       }
 
-      const transaction_receipts = message.transaction_receipts;
-      for (let i = 0; i < transaction_receipts.length; ++i) {
+      const unique_name_transaction_receipts = message.transaction_receipts;
+      for (let i = 0; i < unique_name_transaction_receipts.length; ++i) {
         writer.uint32(66);
         writer.fork();
-        transaction_receipt.encode(transaction_receipts[i], writer);
+        transaction_receipt.encode(unique_name_transaction_receipts[i], writer);
         writer.ldelim();
       }
 
-      const logs = message.logs;
-      if (logs.length !== 0) {
-        for (let i = 0; i < logs.length; ++i) {
+      const unique_name_logs = message.logs;
+      if (unique_name_logs.length !== 0) {
+        for (let i = 0; i < unique_name_logs.length; ++i) {
           writer.uint32(74);
-          writer.string(logs[i]);
+          writer.string(unique_name_logs[i]);
         }
       }
     }

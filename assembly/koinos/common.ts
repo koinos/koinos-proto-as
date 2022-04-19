@@ -3,19 +3,19 @@ import { Writer, Reader } from "as-proto";
 export namespace common {
   export class block_topology {
     static encode(message: block_topology, writer: Writer): void {
-      const id = message.id;
-      if (id !== null) {
+      const unique_name_id = message.id;
+      if (unique_name_id !== null) {
         writer.uint32(10);
-        writer.bytes(id);
+        writer.bytes(unique_name_id);
       }
 
       writer.uint32(16);
       writer.uint64(message.height);
 
-      const previous = message.previous;
-      if (previous !== null) {
+      const unique_name_previous = message.previous;
+      if (unique_name_previous !== null) {
         writer.uint32(26);
-        writer.bytes(previous);
+        writer.bytes(unique_name_previous);
       }
     }
 

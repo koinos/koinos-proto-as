@@ -3,19 +3,19 @@ import { Writer, Reader } from "as-proto";
 export namespace pow {
   export class difficulty_metadata {
     static encode(message: difficulty_metadata, writer: Writer): void {
-      const target = message.target;
-      if (target !== null) {
+      const unique_name_target = message.target;
+      if (unique_name_target !== null) {
         writer.uint32(10);
-        writer.bytes(target);
+        writer.bytes(unique_name_target);
       }
 
       writer.uint32(16);
       writer.uint64(message.last_block_time);
 
-      const difficulty = message.difficulty;
-      if (difficulty !== null) {
+      const unique_name_difficulty = message.difficulty;
+      if (unique_name_difficulty !== null) {
         writer.uint32(26);
-        writer.bytes(difficulty);
+        writer.bytes(unique_name_difficulty);
       }
 
       writer.uint32(32);
@@ -106,11 +106,11 @@ export namespace pow {
       message: get_difficulty_metadata_result,
       writer: Writer
     ): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        difficulty_metadata.encode(value, writer);
+        difficulty_metadata.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -144,16 +144,16 @@ export namespace pow {
 
   export class pow_signature_data {
     static encode(message: pow_signature_data, writer: Writer): void {
-      const nonce = message.nonce;
-      if (nonce !== null) {
+      const unique_name_nonce = message.nonce;
+      if (unique_name_nonce !== null) {
         writer.uint32(10);
-        writer.bytes(nonce);
+        writer.bytes(unique_name_nonce);
       }
 
-      const recoverable_signature = message.recoverable_signature;
-      if (recoverable_signature !== null) {
+      const unique_name_recoverable_signature = message.recoverable_signature;
+      if (unique_name_recoverable_signature !== null) {
         writer.uint32(18);
-        writer.bytes(recoverable_signature);
+        writer.bytes(unique_name_recoverable_signature);
       }
     }
 

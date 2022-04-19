@@ -7,10 +7,10 @@ export namespace chain {
       writer.uint32(8);
       writer.bool(message.system);
 
-      const zone = message.zone;
-      if (zone !== null) {
+      const unique_name_zone = message.zone;
+      if (unique_name_zone !== null) {
         writer.uint32(18);
-        writer.bytes(zone);
+        writer.bytes(unique_name_zone);
       }
 
       writer.uint32(24);
@@ -62,18 +62,18 @@ export namespace chain {
 
   export class database_key {
     static encode(message: database_key, writer: Writer): void {
-      const space = message.space;
-      if (space !== null) {
+      const unique_name_space = message.space;
+      if (unique_name_space !== null) {
         writer.uint32(10);
         writer.fork();
-        object_space.encode(space, writer);
+        object_space.encode(unique_name_space, writer);
         writer.ldelim();
       }
 
-      const key = message.key;
-      if (key !== null) {
+      const unique_name_key = message.key;
+      if (unique_name_key !== null) {
         writer.uint32(18);
-        writer.bytes(key);
+        writer.bytes(unique_name_key);
       }
     }
 
@@ -149,11 +149,11 @@ export namespace chain {
 
   export class head_info {
     static encode(message: head_info, writer: Writer): void {
-      const head_topology = message.head_topology;
-      if (head_topology !== null) {
+      const unique_name_head_topology = message.head_topology;
+      if (unique_name_head_topology !== null) {
         writer.uint32(10);
         writer.fork();
-        common.block_topology.encode(head_topology, writer);
+        common.block_topology.encode(unique_name_head_topology, writer);
         writer.ldelim();
       }
 
@@ -212,10 +212,10 @@ export namespace chain {
 
   export class caller_data {
     static encode(message: caller_data, writer: Writer): void {
-      const caller = message.caller;
-      if (caller !== null) {
+      const unique_name_caller = message.caller;
+      if (unique_name_caller !== null) {
         writer.uint32(10);
-        writer.bytes(caller);
+        writer.bytes(unique_name_caller);
       }
 
       writer.uint32(16);
@@ -346,10 +346,10 @@ export namespace chain {
 
   export class contract_metadata_object {
     static encode(message: contract_metadata_object, writer: Writer): void {
-      const hash = message.hash;
-      if (hash !== null) {
+      const unique_name_hash = message.hash;
+      if (unique_name_hash !== null) {
         writer.uint32(10);
-        writer.bytes(hash);
+        writer.bytes(unique_name_hash);
       }
 
       writer.uint32(16);
@@ -425,10 +425,10 @@ export namespace chain {
 
   export class compute_bandwidth_entry {
     static encode(message: compute_bandwidth_entry, writer: Writer): void {
-      const name = message.name;
-      if (name !== null) {
+      const unique_name_name = message.name;
+      if (unique_name_name !== null) {
         writer.uint32(10);
-        writer.string(name);
+        writer.string(unique_name_name);
       }
 
       writer.uint32(16);
@@ -470,11 +470,11 @@ export namespace chain {
 
   export class compute_bandwidth_registry {
     static encode(message: compute_bandwidth_registry, writer: Writer): void {
-      const entries = message.entries;
-      for (let i = 0; i < entries.length; ++i) {
+      const unique_name_entries = message.entries;
+      for (let i = 0; i < unique_name_entries.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        compute_bandwidth_entry.encode(entries[i], writer);
+        compute_bandwidth_entry.encode(unique_name_entries[i], writer);
         writer.ldelim();
       }
     }
@@ -510,24 +510,24 @@ export namespace chain {
 
   export class genesis_entry {
     static encode(message: genesis_entry, writer: Writer): void {
-      const space = message.space;
-      if (space !== null) {
+      const unique_name_space = message.space;
+      if (unique_name_space !== null) {
         writer.uint32(10);
         writer.fork();
-        object_space.encode(space, writer);
+        object_space.encode(unique_name_space, writer);
         writer.ldelim();
       }
 
-      const key = message.key;
-      if (key !== null) {
+      const unique_name_key = message.key;
+      if (unique_name_key !== null) {
         writer.uint32(18);
-        writer.bytes(key);
+        writer.bytes(unique_name_key);
       }
 
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(26);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -576,11 +576,11 @@ export namespace chain {
 
   export class genesis_data {
     static encode(message: genesis_data, writer: Writer): void {
-      const entries = message.entries;
-      for (let i = 0; i < entries.length; ++i) {
+      const unique_name_entries = message.entries;
+      for (let i = 0; i < unique_name_entries.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        genesis_entry.encode(entries[i], writer);
+        genesis_entry.encode(unique_name_entries[i], writer);
         writer.ldelim();
       }
     }

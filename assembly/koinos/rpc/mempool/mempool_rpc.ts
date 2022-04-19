@@ -5,11 +5,11 @@ import { rpc } from "../rpc";
 export namespace mempool_rpc {
   export class pending_transaction {
     static encode(message: pending_transaction, writer: Writer): void {
-      const transaction = message.transaction;
-      if (transaction !== null) {
+      const unique_name_transaction = message.transaction;
+      if (unique_name_transaction !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(transaction, writer);
+        protocol.transaction.encode(unique_name_transaction, writer);
         writer.ldelim();
       }
 
@@ -81,10 +81,10 @@ export namespace mempool_rpc {
       message: check_pending_account_resources_request,
       writer: Writer
     ): void {
-      const payer = message.payer;
-      if (payer !== null) {
+      const unique_name_payer = message.payer;
+      if (unique_name_payer !== null) {
         writer.uint32(10);
-        writer.bytes(payer);
+        writer.bytes(unique_name_payer);
       }
 
       writer.uint32(16);
@@ -225,11 +225,11 @@ export namespace mempool_rpc {
       message: get_pending_transactions_response,
       writer: Writer
     ): void {
-      const pending_transactions = message.pending_transactions;
-      for (let i = 0; i < pending_transactions.length; ++i) {
+      const unique_name_pending_transactions = message.pending_transactions;
+      for (let i = 0; i < unique_name_pending_transactions.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        pending_transaction.encode(pending_transactions[i], writer);
+        pending_transaction.encode(unique_name_pending_transactions[i], writer);
         writer.ldelim();
       }
     }
@@ -268,32 +268,33 @@ export namespace mempool_rpc {
 
   export class mempool_request {
     static encode(message: mempool_request, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const check_pending_account_resources =
+      const unique_name_check_pending_account_resources =
         message.check_pending_account_resources;
-      if (check_pending_account_resources !== null) {
+      if (unique_name_check_pending_account_resources !== null) {
         writer.uint32(18);
         writer.fork();
         check_pending_account_resources_request.encode(
-          check_pending_account_resources,
+          unique_name_check_pending_account_resources,
           writer
         );
         writer.ldelim();
       }
 
-      const get_pending_transactions = message.get_pending_transactions;
-      if (get_pending_transactions !== null) {
+      const unique_name_get_pending_transactions =
+        message.get_pending_transactions;
+      if (unique_name_get_pending_transactions !== null) {
         writer.uint32(26);
         writer.fork();
         get_pending_transactions_request.encode(
-          get_pending_transactions,
+          unique_name_get_pending_transactions,
           writer
         );
         writer.ldelim();
@@ -350,40 +351,41 @@ export namespace mempool_rpc {
 
   export class mempool_response {
     static encode(message: mempool_response, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const error = message.error;
-      if (error !== null) {
+      const unique_name_error = message.error;
+      if (unique_name_error !== null) {
         writer.uint32(18);
         writer.fork();
-        rpc.error_response.encode(error, writer);
+        rpc.error_response.encode(unique_name_error, writer);
         writer.ldelim();
       }
 
-      const check_pending_account_resources =
+      const unique_name_check_pending_account_resources =
         message.check_pending_account_resources;
-      if (check_pending_account_resources !== null) {
+      if (unique_name_check_pending_account_resources !== null) {
         writer.uint32(26);
         writer.fork();
         check_pending_account_resources_response.encode(
-          check_pending_account_resources,
+          unique_name_check_pending_account_resources,
           writer
         );
         writer.ldelim();
       }
 
-      const get_pending_transactions = message.get_pending_transactions;
-      if (get_pending_transactions !== null) {
+      const unique_name_get_pending_transactions =
+        message.get_pending_transactions;
+      if (unique_name_get_pending_transactions !== null) {
         writer.uint32(34);
         writer.fork();
         get_pending_transactions_response.encode(
-          get_pending_transactions,
+          unique_name_get_pending_transactions,
           writer
         );
         writer.ldelim();

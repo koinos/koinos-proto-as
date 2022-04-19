@@ -8,11 +8,11 @@ export namespace transaction_store_rpc {
       message: get_transactions_by_id_request,
       writer: Writer
     ): void {
-      const transaction_ids = message.transaction_ids;
-      if (transaction_ids.length !== 0) {
-        for (let i = 0; i < transaction_ids.length; ++i) {
+      const unique_name_transaction_ids = message.transaction_ids;
+      if (unique_name_transaction_ids.length !== 0) {
+        for (let i = 0; i < unique_name_transaction_ids.length; ++i) {
           writer.uint32(10);
-          writer.bytes(transaction_ids[i]);
+          writer.bytes(unique_name_transaction_ids[i]);
         }
       }
     }
@@ -49,11 +49,14 @@ export namespace transaction_store_rpc {
       message: get_transactions_by_id_response,
       writer: Writer
     ): void {
-      const transactions = message.transactions;
-      for (let i = 0; i < transactions.length; ++i) {
+      const unique_name_transactions = message.transactions;
+      for (let i = 0; i < unique_name_transactions.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        transaction_store.transaction_item.encode(transactions[i], writer);
+        transaction_store.transaction_item.encode(
+          unique_name_transactions[i],
+          writer
+        );
         writer.ldelim();
       }
     }
@@ -92,19 +95,22 @@ export namespace transaction_store_rpc {
 
   export class transaction_store_request {
     static encode(message: transaction_store_request, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const get_transactions_by_id = message.get_transactions_by_id;
-      if (get_transactions_by_id !== null) {
+      const unique_name_get_transactions_by_id = message.get_transactions_by_id;
+      if (unique_name_get_transactions_by_id !== null) {
         writer.uint32(18);
         writer.fork();
-        get_transactions_by_id_request.encode(get_transactions_by_id, writer);
+        get_transactions_by_id_request.encode(
+          unique_name_get_transactions_by_id,
+          writer
+        );
         writer.ldelim();
       }
     }
@@ -148,27 +154,30 @@ export namespace transaction_store_rpc {
 
   export class transaction_store_response {
     static encode(message: transaction_store_response, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const error = message.error;
-      if (error !== null) {
+      const unique_name_error = message.error;
+      if (unique_name_error !== null) {
         writer.uint32(18);
         writer.fork();
-        rpc.error_response.encode(error, writer);
+        rpc.error_response.encode(unique_name_error, writer);
         writer.ldelim();
       }
 
-      const get_transactions_by_id = message.get_transactions_by_id;
-      if (get_transactions_by_id !== null) {
+      const unique_name_get_transactions_by_id = message.get_transactions_by_id;
+      if (unique_name_get_transactions_by_id !== null) {
         writer.uint32(26);
         writer.fork();
-        get_transactions_by_id_response.encode(get_transactions_by_id, writer);
+        get_transactions_by_id_response.encode(
+          unique_name_get_transactions_by_id,
+          writer
+        );
         writer.ldelim();
       }
     }

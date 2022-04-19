@@ -26,10 +26,10 @@ export namespace token {
 
   export class name_result {
     static encode(message: name_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.string(value);
+        writer.string(unique_name_value);
       }
     }
 
@@ -85,10 +85,10 @@ export namespace token {
 
   export class symbol_result {
     static encode(message: symbol_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.string(value);
+        writer.string(unique_name_value);
       }
     }
 
@@ -235,10 +235,10 @@ export namespace token {
 
   export class balance_of_arguments {
     static encode(message: balance_of_arguments, writer: Writer): void {
-      const owner = message.owner;
-      if (owner !== null) {
+      const unique_name_owner = message.owner;
+      if (unique_name_owner !== null) {
         writer.uint32(10);
-        writer.bytes(owner);
+        writer.bytes(unique_name_owner);
       }
     }
 
@@ -305,16 +305,16 @@ export namespace token {
 
   export class transfer_arguments {
     static encode(message: transfer_arguments, writer: Writer): void {
-      const from = message.from;
-      if (from !== null) {
+      const unique_name_from = message.from;
+      if (unique_name_from !== null) {
         writer.uint32(10);
-        writer.bytes(from);
+        writer.bytes(unique_name_from);
       }
 
-      const to = message.to;
-      if (to !== null) {
+      const unique_name_to = message.to;
+      if (unique_name_to !== null) {
         writer.uint32(18);
-        writer.bytes(to);
+        writer.bytes(unique_name_to);
       }
 
       writer.uint32(24);
@@ -400,10 +400,10 @@ export namespace token {
 
   export class mint_arguments {
     static encode(message: mint_arguments, writer: Writer): void {
-      const to = message.to;
-      if (to !== null) {
+      const unique_name_to = message.to;
+      if (unique_name_to !== null) {
         writer.uint32(10);
-        writer.bytes(to);
+        writer.bytes(unique_name_to);
       }
 
       writer.uint32(16);
@@ -479,10 +479,10 @@ export namespace token {
 
   export class burn_arguments {
     static encode(message: burn_arguments, writer: Writer): void {
-      const from = message.from;
-      if (from !== null) {
+      const unique_name_from = message.from;
+      if (unique_name_from !== null) {
         writer.uint32(10);
-        writer.bytes(from);
+        writer.bytes(unique_name_from);
       }
 
       writer.uint32(16);
@@ -644,10 +644,10 @@ export namespace token {
 
   export class burn_event {
     static encode(message: burn_event, writer: Writer): void {
-      const from = message.from;
-      if (from !== null) {
+      const unique_name_from = message.from;
+      if (unique_name_from !== null) {
         writer.uint32(10);
-        writer.bytes(from);
+        writer.bytes(unique_name_from);
       }
 
       writer.uint32(16);
@@ -689,10 +689,10 @@ export namespace token {
 
   export class mint_event {
     static encode(message: mint_event, writer: Writer): void {
-      const to = message.to;
-      if (to !== null) {
+      const unique_name_to = message.to;
+      if (unique_name_to !== null) {
         writer.uint32(10);
-        writer.bytes(to);
+        writer.bytes(unique_name_to);
       }
 
       writer.uint32(16);
@@ -734,16 +734,16 @@ export namespace token {
 
   export class transfer_event {
     static encode(message: transfer_event, writer: Writer): void {
-      const from = message.from;
-      if (from !== null) {
+      const unique_name_from = message.from;
+      if (unique_name_from !== null) {
         writer.uint32(10);
-        writer.bytes(from);
+        writer.bytes(unique_name_from);
       }
 
-      const to = message.to;
-      if (to !== null) {
+      const unique_name_to = message.to;
+      if (unique_name_to !== null) {
         writer.uint32(18);
-        writer.bytes(to);
+        writer.bytes(unique_name_to);
       }
 
       writer.uint32(24);

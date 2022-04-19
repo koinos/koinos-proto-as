@@ -4,11 +4,11 @@ import { any } from "../../google/protobuf/any";
 export namespace value {
   export class value_type {
     static encode(message: value_type, writer: Writer): void {
-      const message_value = message.message_value;
-      if (message_value !== null) {
+      const unique_name_message_value = message.message_value;
+      if (unique_name_message_value !== null) {
         writer.uint32(10);
         writer.fork();
-        any.Any.encode(message_value, writer);
+        any.Any.encode(unique_name_message_value, writer);
         writer.ldelim();
       }
 
@@ -51,16 +51,16 @@ export namespace value {
       writer.uint32(112);
       writer.bool(message.bool_value);
 
-      const string_value = message.string_value;
-      if (string_value !== null) {
+      const unique_name_string_value = message.string_value;
+      if (unique_name_string_value !== null) {
         writer.uint32(122);
-        writer.string(string_value);
+        writer.string(unique_name_string_value);
       }
 
-      const bytes_value = message.bytes_value;
-      if (bytes_value !== null) {
+      const unique_name_bytes_value = message.bytes_value;
+      if (unique_name_bytes_value !== null) {
         writer.uint32(130);
-        writer.bytes(bytes_value);
+        writer.bytes(unique_name_bytes_value);
       }
     }
 
@@ -200,10 +200,10 @@ export namespace value {
 
   export class enum_type {
     static encode(message: enum_type, writer: Writer): void {
-      const name = message.name;
-      if (name !== null) {
+      const unique_name_name = message.name;
+      if (unique_name_name !== null) {
         writer.uint32(10);
-        writer.string(name);
+        writer.string(unique_name_name);
       }
 
       writer.uint32(16);
@@ -245,11 +245,11 @@ export namespace value {
 
   export class list_type {
     static encode(message: list_type, writer: Writer): void {
-      const values = message.values;
-      for (let i = 0; i < values.length; ++i) {
+      const unique_name_values = message.values;
+      for (let i = 0; i < unique_name_values.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        value_type.encode(values[i], writer);
+        value_type.encode(unique_name_values[i], writer);
         writer.ldelim();
       }
     }

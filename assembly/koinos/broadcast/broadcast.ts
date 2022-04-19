@@ -5,19 +5,19 @@ import { common } from "../common";
 export namespace broadcast {
   export class transaction_accepted {
     static encode(message: transaction_accepted, writer: Writer): void {
-      const transaction = message.transaction;
-      if (transaction !== null) {
+      const unique_name_transaction = message.transaction;
+      if (unique_name_transaction !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(transaction, writer);
+        protocol.transaction.encode(unique_name_transaction, writer);
         writer.ldelim();
       }
 
-      const receipt = message.receipt;
-      if (receipt !== null) {
+      const unique_name_receipt = message.receipt;
+      if (unique_name_receipt !== null) {
         writer.uint32(18);
         writer.fork();
-        protocol.transaction_receipt.encode(receipt, writer);
+        protocol.transaction_receipt.encode(unique_name_receipt, writer);
         writer.ldelim();
       }
 
@@ -76,10 +76,10 @@ export namespace broadcast {
 
   export class transaction_failed {
     static encode(message: transaction_failed, writer: Writer): void {
-      const id = message.id;
-      if (id !== null) {
+      const unique_name_id = message.id;
+      if (unique_name_id !== null) {
         writer.uint32(10);
-        writer.bytes(id);
+        writer.bytes(unique_name_id);
       }
     }
 
@@ -112,19 +112,19 @@ export namespace broadcast {
 
   export class mempool_accepted {
     static encode(message: mempool_accepted, writer: Writer): void {
-      const transaction = message.transaction;
-      if (transaction !== null) {
+      const unique_name_transaction = message.transaction;
+      if (unique_name_transaction !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(transaction, writer);
+        protocol.transaction.encode(unique_name_transaction, writer);
         writer.ldelim();
       }
 
-      const receipt = message.receipt;
-      if (receipt !== null) {
+      const unique_name_receipt = message.receipt;
+      if (unique_name_receipt !== null) {
         writer.uint32(18);
         writer.fork();
-        protocol.transaction_receipt.encode(receipt, writer);
+        protocol.transaction_receipt.encode(unique_name_receipt, writer);
         writer.ldelim();
       }
 
@@ -193,19 +193,19 @@ export namespace broadcast {
 
   export class block_accepted {
     static encode(message: block_accepted, writer: Writer): void {
-      const block = message.block;
-      if (block !== null) {
+      const unique_name_block = message.block;
+      if (unique_name_block !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.block.encode(block, writer);
+        protocol.block.encode(unique_name_block, writer);
         writer.ldelim();
       }
 
-      const receipt = message.receipt;
-      if (receipt !== null) {
+      const unique_name_receipt = message.receipt;
+      if (unique_name_receipt !== null) {
         writer.uint32(18);
         writer.fork();
-        protocol.block_receipt.encode(receipt, writer);
+        protocol.block_receipt.encode(unique_name_receipt, writer);
         writer.ldelim();
       }
 
@@ -261,11 +261,11 @@ export namespace broadcast {
 
   export class block_irreversible {
     static encode(message: block_irreversible, writer: Writer): void {
-      const topology = message.topology;
-      if (topology !== null) {
+      const unique_name_topology = message.topology;
+      if (unique_name_topology !== null) {
         writer.uint32(10);
         writer.fork();
-        common.block_topology.encode(topology, writer);
+        common.block_topology.encode(unique_name_topology, writer);
         writer.ldelim();
       }
     }
@@ -302,19 +302,23 @@ export namespace broadcast {
 
   export class fork_heads {
     static encode(message: fork_heads, writer: Writer): void {
-      const last_irreversible_block = message.last_irreversible_block;
-      if (last_irreversible_block !== null) {
+      const unique_name_last_irreversible_block =
+        message.last_irreversible_block;
+      if (unique_name_last_irreversible_block !== null) {
         writer.uint32(10);
         writer.fork();
-        common.block_topology.encode(last_irreversible_block, writer);
+        common.block_topology.encode(
+          unique_name_last_irreversible_block,
+          writer
+        );
         writer.ldelim();
       }
 
-      const heads = message.heads;
-      for (let i = 0; i < heads.length; ++i) {
+      const unique_name_heads = message.heads;
+      for (let i = 0; i < unique_name_heads.length; ++i) {
         writer.uint32(18);
         writer.fork();
-        common.block_topology.encode(heads[i], writer);
+        common.block_topology.encode(unique_name_heads[i], writer);
         writer.ldelim();
       }
     }
@@ -396,26 +400,26 @@ export namespace broadcast {
 
   export class event_parcel {
     static encode(message: event_parcel, writer: Writer): void {
-      const block_id = message.block_id;
-      if (block_id !== null) {
+      const unique_name_block_id = message.block_id;
+      if (unique_name_block_id !== null) {
         writer.uint32(10);
-        writer.bytes(block_id);
+        writer.bytes(unique_name_block_id);
       }
 
       writer.uint32(16);
       writer.uint64(message.height);
 
-      const transaction_id = message.transaction_id;
-      if (transaction_id !== null) {
+      const unique_name_transaction_id = message.transaction_id;
+      if (unique_name_transaction_id !== null) {
         writer.uint32(26);
-        writer.bytes(transaction_id);
+        writer.bytes(unique_name_transaction_id);
       }
 
-      const event = message.event;
-      if (event !== null) {
+      const unique_name_event = message.event;
+      if (unique_name_event !== null) {
         writer.uint32(34);
         writer.fork();
-        protocol.event_data.encode(event, writer);
+        protocol.event_data.encode(unique_name_event, writer);
         writer.ldelim();
       }
     }

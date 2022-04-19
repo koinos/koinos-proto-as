@@ -7,11 +7,11 @@ import { rpc } from "../rpc";
 export namespace chain_rpc {
   export class submit_block_request {
     static encode(message: submit_block_request, writer: Writer): void {
-      const block = message.block;
-      if (block !== null) {
+      const unique_name_block = message.block;
+      if (unique_name_block !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.block.encode(block, writer);
+        protocol.block.encode(unique_name_block, writer);
         writer.ldelim();
       }
     }
@@ -45,11 +45,11 @@ export namespace chain_rpc {
 
   export class submit_block_response {
     static encode(message: submit_block_response, writer: Writer): void {
-      const receipt = message.receipt;
-      if (receipt !== null) {
+      const unique_name_receipt = message.receipt;
+      if (unique_name_receipt !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.block_receipt.encode(receipt, writer);
+        protocol.block_receipt.encode(unique_name_receipt, writer);
         writer.ldelim();
       }
     }
@@ -86,11 +86,11 @@ export namespace chain_rpc {
 
   export class submit_transaction_request {
     static encode(message: submit_transaction_request, writer: Writer): void {
-      const transaction = message.transaction;
-      if (transaction !== null) {
+      const unique_name_transaction = message.transaction;
+      if (unique_name_transaction !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(transaction, writer);
+        protocol.transaction.encode(unique_name_transaction, writer);
         writer.ldelim();
       }
     }
@@ -127,11 +127,11 @@ export namespace chain_rpc {
 
   export class submit_transaction_response {
     static encode(message: submit_transaction_response, writer: Writer): void {
-      const receipt = message.receipt;
-      if (receipt !== null) {
+      const unique_name_receipt = message.receipt;
+      if (unique_name_receipt !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction_receipt.encode(receipt, writer);
+        protocol.transaction_receipt.encode(unique_name_receipt, writer);
         writer.ldelim();
       }
     }
@@ -191,21 +191,21 @@ export namespace chain_rpc {
 
   export class get_head_info_response {
     static encode(message: get_head_info_response, writer: Writer): void {
-      const head_topology = message.head_topology;
-      if (head_topology !== null) {
+      const unique_name_head_topology = message.head_topology;
+      if (unique_name_head_topology !== null) {
         writer.uint32(10);
         writer.fork();
-        common.block_topology.encode(head_topology, writer);
+        common.block_topology.encode(unique_name_head_topology, writer);
         writer.ldelim();
       }
 
       writer.uint32(16);
       writer.uint64(message.last_irreversible_block);
 
-      const head_state_merkle_root = message.head_state_merkle_root;
-      if (head_state_merkle_root !== null) {
+      const unique_name_head_state_merkle_root = message.head_state_merkle_root;
+      if (unique_name_head_state_merkle_root !== null) {
         writer.uint32(26);
-        writer.bytes(head_state_merkle_root);
+        writer.bytes(unique_name_head_state_merkle_root);
       }
     }
 
@@ -280,10 +280,10 @@ export namespace chain_rpc {
 
   export class get_chain_id_response {
     static encode(message: get_chain_id_response, writer: Writer): void {
-      const chain_id = message.chain_id;
-      if (chain_id !== null) {
+      const unique_name_chain_id = message.chain_id;
+      if (unique_name_chain_id !== null) {
         writer.uint32(10);
-        writer.bytes(chain_id);
+        writer.bytes(unique_name_chain_id);
       }
     }
 
@@ -339,19 +339,23 @@ export namespace chain_rpc {
 
   export class get_fork_heads_response {
     static encode(message: get_fork_heads_response, writer: Writer): void {
-      const last_irreversible_block = message.last_irreversible_block;
-      if (last_irreversible_block !== null) {
+      const unique_name_last_irreversible_block =
+        message.last_irreversible_block;
+      if (unique_name_last_irreversible_block !== null) {
         writer.uint32(10);
         writer.fork();
-        common.block_topology.encode(last_irreversible_block, writer);
+        common.block_topology.encode(
+          unique_name_last_irreversible_block,
+          writer
+        );
         writer.ldelim();
       }
 
-      const fork_heads = message.fork_heads;
-      for (let i = 0; i < fork_heads.length; ++i) {
+      const unique_name_fork_heads = message.fork_heads;
+      for (let i = 0; i < unique_name_fork_heads.length; ++i) {
         writer.uint32(18);
         writer.fork();
-        common.block_topology.encode(fork_heads[i], writer);
+        common.block_topology.encode(unique_name_fork_heads[i], writer);
         writer.ldelim();
       }
     }
@@ -399,19 +403,19 @@ export namespace chain_rpc {
 
   export class read_contract_request {
     static encode(message: read_contract_request, writer: Writer): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
 
       writer.uint32(16);
       writer.uint32(message.entry_point);
 
-      const args = message.args;
-      if (args !== null) {
+      const unique_name_args = message.args;
+      if (unique_name_args !== null) {
         writer.uint32(26);
-        writer.bytes(args);
+        writer.bytes(unique_name_args);
       }
     }
 
@@ -460,17 +464,17 @@ export namespace chain_rpc {
 
   export class read_contract_response {
     static encode(message: read_contract_response, writer: Writer): void {
-      const result = message.result;
-      if (result !== null) {
+      const unique_name_result = message.result;
+      if (unique_name_result !== null) {
         writer.uint32(10);
-        writer.bytes(result);
+        writer.bytes(unique_name_result);
       }
 
-      const logs = message.logs;
-      if (logs.length !== 0) {
-        for (let i = 0; i < logs.length; ++i) {
+      const unique_name_logs = message.logs;
+      if (unique_name_logs.length !== 0) {
+        for (let i = 0; i < unique_name_logs.length; ++i) {
           writer.uint32(18);
-          writer.string(logs[i]);
+          writer.string(unique_name_logs[i]);
         }
       }
     }
@@ -510,10 +514,10 @@ export namespace chain_rpc {
 
   export class get_account_nonce_request {
     static encode(message: get_account_nonce_request, writer: Writer): void {
-      const account = message.account;
-      if (account !== null) {
+      const unique_name_account = message.account;
+      if (unique_name_account !== null) {
         writer.uint32(10);
-        writer.bytes(account);
+        writer.bytes(unique_name_account);
       }
     }
 
@@ -546,10 +550,10 @@ export namespace chain_rpc {
 
   export class get_account_nonce_response {
     static encode(message: get_account_nonce_response, writer: Writer): void {
-      const nonce = message.nonce;
-      if (nonce !== null) {
+      const unique_name_nonce = message.nonce;
+      if (unique_name_nonce !== null) {
         writer.uint32(10);
-        writer.bytes(nonce);
+        writer.bytes(unique_name_nonce);
       }
     }
 
@@ -582,10 +586,10 @@ export namespace chain_rpc {
 
   export class get_account_rc_request {
     static encode(message: get_account_rc_request, writer: Writer): void {
-      const account = message.account;
-      if (account !== null) {
+      const unique_name_account = message.account;
+      if (unique_name_account !== null) {
         writer.uint32(10);
-        writer.bytes(account);
+        writer.bytes(unique_name_account);
       }
     }
 
@@ -676,11 +680,14 @@ export namespace chain_rpc {
   @unmanaged
   export class get_resource_limits_response {
     static encode(message: get_resource_limits_response, writer: Writer): void {
-      const resource_limit_data = message.resource_limit_data;
-      if (resource_limit_data !== null) {
+      const unique_name_resource_limit_data = message.resource_limit_data;
+      if (unique_name_resource_limit_data !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.resource_limit_data.encode(resource_limit_data, writer);
+        chain.resource_limit_data.encode(
+          unique_name_resource_limit_data,
+          writer
+        );
         writer.ldelim();
       }
     }
@@ -717,83 +724,89 @@ export namespace chain_rpc {
 
   export class chain_request {
     static encode(message: chain_request, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const submit_block = message.submit_block;
-      if (submit_block !== null) {
+      const unique_name_submit_block = message.submit_block;
+      if (unique_name_submit_block !== null) {
         writer.uint32(18);
         writer.fork();
-        submit_block_request.encode(submit_block, writer);
+        submit_block_request.encode(unique_name_submit_block, writer);
         writer.ldelim();
       }
 
-      const submit_transaction = message.submit_transaction;
-      if (submit_transaction !== null) {
+      const unique_name_submit_transaction = message.submit_transaction;
+      if (unique_name_submit_transaction !== null) {
         writer.uint32(26);
         writer.fork();
-        submit_transaction_request.encode(submit_transaction, writer);
+        submit_transaction_request.encode(
+          unique_name_submit_transaction,
+          writer
+        );
         writer.ldelim();
       }
 
-      const get_head_info = message.get_head_info;
-      if (get_head_info !== null) {
+      const unique_name_get_head_info = message.get_head_info;
+      if (unique_name_get_head_info !== null) {
         writer.uint32(34);
         writer.fork();
-        get_head_info_request.encode(get_head_info, writer);
+        get_head_info_request.encode(unique_name_get_head_info, writer);
         writer.ldelim();
       }
 
-      const get_chain_id = message.get_chain_id;
-      if (get_chain_id !== null) {
+      const unique_name_get_chain_id = message.get_chain_id;
+      if (unique_name_get_chain_id !== null) {
         writer.uint32(42);
         writer.fork();
-        get_chain_id_request.encode(get_chain_id, writer);
+        get_chain_id_request.encode(unique_name_get_chain_id, writer);
         writer.ldelim();
       }
 
-      const get_fork_heads = message.get_fork_heads;
-      if (get_fork_heads !== null) {
+      const unique_name_get_fork_heads = message.get_fork_heads;
+      if (unique_name_get_fork_heads !== null) {
         writer.uint32(50);
         writer.fork();
-        get_fork_heads_request.encode(get_fork_heads, writer);
+        get_fork_heads_request.encode(unique_name_get_fork_heads, writer);
         writer.ldelim();
       }
 
-      const read_contract = message.read_contract;
-      if (read_contract !== null) {
+      const unique_name_read_contract = message.read_contract;
+      if (unique_name_read_contract !== null) {
         writer.uint32(58);
         writer.fork();
-        read_contract_request.encode(read_contract, writer);
+        read_contract_request.encode(unique_name_read_contract, writer);
         writer.ldelim();
       }
 
-      const get_account_nonce = message.get_account_nonce;
-      if (get_account_nonce !== null) {
+      const unique_name_get_account_nonce = message.get_account_nonce;
+      if (unique_name_get_account_nonce !== null) {
         writer.uint32(66);
         writer.fork();
-        get_account_nonce_request.encode(get_account_nonce, writer);
+        get_account_nonce_request.encode(unique_name_get_account_nonce, writer);
         writer.ldelim();
       }
 
-      const get_account_rc = message.get_account_rc;
-      if (get_account_rc !== null) {
+      const unique_name_get_account_rc = message.get_account_rc;
+      if (unique_name_get_account_rc !== null) {
         writer.uint32(74);
         writer.fork();
-        get_account_rc_request.encode(get_account_rc, writer);
+        get_account_rc_request.encode(unique_name_get_account_rc, writer);
         writer.ldelim();
       }
 
-      const get_resource_limits = message.get_resource_limits;
-      if (get_resource_limits !== null) {
+      const unique_name_get_resource_limits = message.get_resource_limits;
+      if (unique_name_get_resource_limits !== null) {
         writer.uint32(82);
         writer.fork();
-        get_resource_limits_request.encode(get_resource_limits, writer);
+        get_resource_limits_request.encode(
+          unique_name_get_resource_limits,
+          writer
+        );
         writer.ldelim();
       }
     }
@@ -919,91 +932,100 @@ export namespace chain_rpc {
 
   export class chain_response {
     static encode(message: chain_response, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const error = message.error;
-      if (error !== null) {
+      const unique_name_error = message.error;
+      if (unique_name_error !== null) {
         writer.uint32(18);
         writer.fork();
-        rpc.error_response.encode(error, writer);
+        rpc.error_response.encode(unique_name_error, writer);
         writer.ldelim();
       }
 
-      const submit_block = message.submit_block;
-      if (submit_block !== null) {
+      const unique_name_submit_block = message.submit_block;
+      if (unique_name_submit_block !== null) {
         writer.uint32(26);
         writer.fork();
-        submit_block_response.encode(submit_block, writer);
+        submit_block_response.encode(unique_name_submit_block, writer);
         writer.ldelim();
       }
 
-      const submit_transaction = message.submit_transaction;
-      if (submit_transaction !== null) {
+      const unique_name_submit_transaction = message.submit_transaction;
+      if (unique_name_submit_transaction !== null) {
         writer.uint32(34);
         writer.fork();
-        submit_transaction_response.encode(submit_transaction, writer);
+        submit_transaction_response.encode(
+          unique_name_submit_transaction,
+          writer
+        );
         writer.ldelim();
       }
 
-      const get_head_info = message.get_head_info;
-      if (get_head_info !== null) {
+      const unique_name_get_head_info = message.get_head_info;
+      if (unique_name_get_head_info !== null) {
         writer.uint32(42);
         writer.fork();
-        get_head_info_response.encode(get_head_info, writer);
+        get_head_info_response.encode(unique_name_get_head_info, writer);
         writer.ldelim();
       }
 
-      const get_chain_id = message.get_chain_id;
-      if (get_chain_id !== null) {
+      const unique_name_get_chain_id = message.get_chain_id;
+      if (unique_name_get_chain_id !== null) {
         writer.uint32(50);
         writer.fork();
-        get_chain_id_response.encode(get_chain_id, writer);
+        get_chain_id_response.encode(unique_name_get_chain_id, writer);
         writer.ldelim();
       }
 
-      const get_fork_heads = message.get_fork_heads;
-      if (get_fork_heads !== null) {
+      const unique_name_get_fork_heads = message.get_fork_heads;
+      if (unique_name_get_fork_heads !== null) {
         writer.uint32(58);
         writer.fork();
-        get_fork_heads_response.encode(get_fork_heads, writer);
+        get_fork_heads_response.encode(unique_name_get_fork_heads, writer);
         writer.ldelim();
       }
 
-      const read_contract = message.read_contract;
-      if (read_contract !== null) {
+      const unique_name_read_contract = message.read_contract;
+      if (unique_name_read_contract !== null) {
         writer.uint32(66);
         writer.fork();
-        read_contract_response.encode(read_contract, writer);
+        read_contract_response.encode(unique_name_read_contract, writer);
         writer.ldelim();
       }
 
-      const get_account_nonce = message.get_account_nonce;
-      if (get_account_nonce !== null) {
+      const unique_name_get_account_nonce = message.get_account_nonce;
+      if (unique_name_get_account_nonce !== null) {
         writer.uint32(74);
         writer.fork();
-        get_account_nonce_response.encode(get_account_nonce, writer);
+        get_account_nonce_response.encode(
+          unique_name_get_account_nonce,
+          writer
+        );
         writer.ldelim();
       }
 
-      const get_account_rc = message.get_account_rc;
-      if (get_account_rc !== null) {
+      const unique_name_get_account_rc = message.get_account_rc;
+      if (unique_name_get_account_rc !== null) {
         writer.uint32(82);
         writer.fork();
-        get_account_rc_response.encode(get_account_rc, writer);
+        get_account_rc_response.encode(unique_name_get_account_rc, writer);
         writer.ldelim();
       }
 
-      const get_resource_limits = message.get_resource_limits;
-      if (get_resource_limits !== null) {
+      const unique_name_get_resource_limits = message.get_resource_limits;
+      if (unique_name_get_resource_limits !== null) {
         writer.uint32(90);
         writer.fork();
-        get_resource_limits_response.encode(get_resource_limits, writer);
+        get_resource_limits_response.encode(
+          unique_name_get_resource_limits,
+          writer
+        );
         writer.ldelim();
       }
     }

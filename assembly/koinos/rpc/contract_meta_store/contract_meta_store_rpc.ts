@@ -5,10 +5,10 @@ import { rpc } from "../rpc";
 export namespace contract_meta_store_rpc {
   export class get_contract_meta_request {
     static encode(message: get_contract_meta_request, writer: Writer): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
     }
 
@@ -41,11 +41,11 @@ export namespace contract_meta_store_rpc {
 
   export class get_contract_meta_response {
     static encode(message: get_contract_meta_response, writer: Writer): void {
-      const meta = message.meta;
-      if (meta !== null) {
+      const unique_name_meta = message.meta;
+      if (unique_name_meta !== null) {
         writer.uint32(10);
         writer.fork();
-        contract_meta_store.contract_meta_item.encode(meta, writer);
+        contract_meta_store.contract_meta_item.encode(unique_name_meta, writer);
         writer.ldelim();
       }
     }
@@ -82,19 +82,19 @@ export namespace contract_meta_store_rpc {
 
   export class contract_meta_store_request {
     static encode(message: contract_meta_store_request, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const get_contract_meta = message.get_contract_meta;
-      if (get_contract_meta !== null) {
+      const unique_name_get_contract_meta = message.get_contract_meta;
+      if (unique_name_get_contract_meta !== null) {
         writer.uint32(18);
         writer.fork();
-        get_contract_meta_request.encode(get_contract_meta, writer);
+        get_contract_meta_request.encode(unique_name_get_contract_meta, writer);
         writer.ldelim();
       }
     }
@@ -140,27 +140,30 @@ export namespace contract_meta_store_rpc {
 
   export class contract_meta_store_response {
     static encode(message: contract_meta_store_response, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const error = message.error;
-      if (error !== null) {
+      const unique_name_error = message.error;
+      if (unique_name_error !== null) {
         writer.uint32(18);
         writer.fork();
-        rpc.error_response.encode(error, writer);
+        rpc.error_response.encode(unique_name_error, writer);
         writer.ldelim();
       }
 
-      const get_contract_meta = message.get_contract_meta;
-      if (get_contract_meta !== null) {
+      const unique_name_get_contract_meta = message.get_contract_meta;
+      if (unique_name_get_contract_meta !== null) {
         writer.uint32(26);
         writer.fork();
-        get_contract_meta_response.encode(get_contract_meta, writer);
+        get_contract_meta_response.encode(
+          unique_name_get_contract_meta,
+          writer
+        );
         writer.ldelim();
       }
     }

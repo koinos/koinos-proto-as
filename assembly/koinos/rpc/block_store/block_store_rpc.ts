@@ -7,11 +7,11 @@ import { rpc } from "../rpc";
 export namespace block_store_rpc {
   export class get_blocks_by_id_request {
     static encode(message: get_blocks_by_id_request, writer: Writer): void {
-      const block_ids = message.block_ids;
-      if (block_ids.length !== 0) {
-        for (let i = 0; i < block_ids.length; ++i) {
+      const unique_name_block_ids = message.block_ids;
+      if (unique_name_block_ids.length !== 0) {
+        for (let i = 0; i < unique_name_block_ids.length; ++i) {
           writer.uint32(10);
-          writer.bytes(block_ids[i]);
+          writer.bytes(unique_name_block_ids[i]);
         }
       }
 
@@ -67,11 +67,11 @@ export namespace block_store_rpc {
 
   export class get_blocks_by_id_response {
     static encode(message: get_blocks_by_id_response, writer: Writer): void {
-      const block_items = message.block_items;
-      for (let i = 0; i < block_items.length; ++i) {
+      const unique_name_block_items = message.block_items;
+      for (let i = 0; i < unique_name_block_items.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        block_store.block_item.encode(block_items[i], writer);
+        block_store.block_item.encode(unique_name_block_items[i], writer);
         writer.ldelim();
       }
     }
@@ -107,10 +107,10 @@ export namespace block_store_rpc {
 
   export class get_blocks_by_height_request {
     static encode(message: get_blocks_by_height_request, writer: Writer): void {
-      const head_block_id = message.head_block_id;
-      if (head_block_id !== null) {
+      const unique_name_head_block_id = message.head_block_id;
+      if (unique_name_head_block_id !== null) {
         writer.uint32(10);
-        writer.bytes(head_block_id);
+        writer.bytes(unique_name_head_block_id);
       }
 
       writer.uint32(16);
@@ -188,11 +188,11 @@ export namespace block_store_rpc {
       message: get_blocks_by_height_response,
       writer: Writer
     ): void {
-      const block_items = message.block_items;
-      for (let i = 0; i < block_items.length; ++i) {
+      const unique_name_block_items = message.block_items;
+      for (let i = 0; i < unique_name_block_items.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        block_store.block_item.encode(block_items[i], writer);
+        block_store.block_item.encode(unique_name_block_items[i], writer);
         writer.ldelim();
       }
     }
@@ -228,19 +228,19 @@ export namespace block_store_rpc {
 
   export class add_block_request {
     static encode(message: add_block_request, writer: Writer): void {
-      const block_to_add = message.block_to_add;
-      if (block_to_add !== null) {
+      const unique_name_block_to_add = message.block_to_add;
+      if (unique_name_block_to_add !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.block.encode(block_to_add, writer);
+        protocol.block.encode(unique_name_block_to_add, writer);
         writer.ldelim();
       }
 
-      const receipt_to_add = message.receipt_to_add;
-      if (receipt_to_add !== null) {
+      const unique_name_receipt_to_add = message.receipt_to_add;
+      if (unique_name_receipt_to_add !== null) {
         writer.uint32(18);
         writer.fork();
-        protocol.block_receipt.encode(receipt_to_add, writer);
+        protocol.block_receipt.encode(unique_name_receipt_to_add, writer);
         writer.ldelim();
       }
     }
@@ -335,11 +335,11 @@ export namespace block_store_rpc {
 
   export class get_highest_block_response {
     static encode(message: get_highest_block_response, writer: Writer): void {
-      const topology = message.topology;
-      if (topology !== null) {
+      const unique_name_topology = message.topology;
+      if (unique_name_topology !== null) {
         writer.uint32(10);
         writer.fork();
-        common.block_topology.encode(topology, writer);
+        common.block_topology.encode(unique_name_topology, writer);
         writer.ldelim();
       }
     }
@@ -376,43 +376,46 @@ export namespace block_store_rpc {
 
   export class block_store_request {
     static encode(message: block_store_request, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const get_blocks_by_id = message.get_blocks_by_id;
-      if (get_blocks_by_id !== null) {
+      const unique_name_get_blocks_by_id = message.get_blocks_by_id;
+      if (unique_name_get_blocks_by_id !== null) {
         writer.uint32(18);
         writer.fork();
-        get_blocks_by_id_request.encode(get_blocks_by_id, writer);
+        get_blocks_by_id_request.encode(unique_name_get_blocks_by_id, writer);
         writer.ldelim();
       }
 
-      const get_blocks_by_height = message.get_blocks_by_height;
-      if (get_blocks_by_height !== null) {
+      const unique_name_get_blocks_by_height = message.get_blocks_by_height;
+      if (unique_name_get_blocks_by_height !== null) {
         writer.uint32(26);
         writer.fork();
-        get_blocks_by_height_request.encode(get_blocks_by_height, writer);
+        get_blocks_by_height_request.encode(
+          unique_name_get_blocks_by_height,
+          writer
+        );
         writer.ldelim();
       }
 
-      const add_block = message.add_block;
-      if (add_block !== null) {
+      const unique_name_add_block = message.add_block;
+      if (unique_name_add_block !== null) {
         writer.uint32(34);
         writer.fork();
-        add_block_request.encode(add_block, writer);
+        add_block_request.encode(unique_name_add_block, writer);
         writer.ldelim();
       }
 
-      const get_highest_block = message.get_highest_block;
-      if (get_highest_block !== null) {
+      const unique_name_get_highest_block = message.get_highest_block;
+      if (unique_name_get_highest_block !== null) {
         writer.uint32(42);
         writer.fork();
-        get_highest_block_request.encode(get_highest_block, writer);
+        get_highest_block_request.encode(unique_name_get_highest_block, writer);
         writer.ldelim();
       }
     }
@@ -488,51 +491,57 @@ export namespace block_store_rpc {
 
   export class block_store_response {
     static encode(message: block_store_response, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const error = message.error;
-      if (error !== null) {
+      const unique_name_error = message.error;
+      if (unique_name_error !== null) {
         writer.uint32(18);
         writer.fork();
-        rpc.error_response.encode(error, writer);
+        rpc.error_response.encode(unique_name_error, writer);
         writer.ldelim();
       }
 
-      const get_blocks_by_id = message.get_blocks_by_id;
-      if (get_blocks_by_id !== null) {
+      const unique_name_get_blocks_by_id = message.get_blocks_by_id;
+      if (unique_name_get_blocks_by_id !== null) {
         writer.uint32(26);
         writer.fork();
-        get_blocks_by_id_response.encode(get_blocks_by_id, writer);
+        get_blocks_by_id_response.encode(unique_name_get_blocks_by_id, writer);
         writer.ldelim();
       }
 
-      const get_blocks_by_height = message.get_blocks_by_height;
-      if (get_blocks_by_height !== null) {
+      const unique_name_get_blocks_by_height = message.get_blocks_by_height;
+      if (unique_name_get_blocks_by_height !== null) {
         writer.uint32(34);
         writer.fork();
-        get_blocks_by_height_response.encode(get_blocks_by_height, writer);
+        get_blocks_by_height_response.encode(
+          unique_name_get_blocks_by_height,
+          writer
+        );
         writer.ldelim();
       }
 
-      const add_block = message.add_block;
-      if (add_block !== null) {
+      const unique_name_add_block = message.add_block;
+      if (unique_name_add_block !== null) {
         writer.uint32(42);
         writer.fork();
-        add_block_response.encode(add_block, writer);
+        add_block_response.encode(unique_name_add_block, writer);
         writer.ldelim();
       }
 
-      const get_highest_block = message.get_highest_block;
-      if (get_highest_block !== null) {
+      const unique_name_get_highest_block = message.get_highest_block;
+      if (unique_name_get_highest_block !== null) {
         writer.uint32(50);
         writer.fork();
-        get_highest_block_response.encode(get_highest_block, writer);
+        get_highest_block_response.encode(
+          unique_name_get_highest_block,
+          writer
+        );
         writer.ldelim();
       }
     }

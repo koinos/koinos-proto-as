@@ -30,11 +30,11 @@ export namespace system_calls {
 
   export class get_head_info_result {
     static encode(message: get_head_info_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.head_info.encode(value, writer);
+        chain.head_info.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -68,11 +68,11 @@ export namespace system_calls {
 
   export class apply_block_arguments {
     static encode(message: apply_block_arguments, writer: Writer): void {
-      const block = message.block;
-      if (block !== null) {
+      const unique_name_block = message.block;
+      if (unique_name_block !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.block.encode(block, writer);
+        protocol.block.encode(unique_name_block, writer);
         writer.ldelim();
       }
     }
@@ -129,11 +129,11 @@ export namespace system_calls {
 
   export class apply_transaction_arguments {
     static encode(message: apply_transaction_arguments, writer: Writer): void {
-      const transaction = message.transaction;
-      if (transaction !== null) {
+      const unique_name_transaction = message.transaction;
+      if (unique_name_transaction !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(transaction, writer);
+        protocol.transaction.encode(unique_name_transaction, writer);
         writer.ldelim();
       }
     }
@@ -196,11 +196,11 @@ export namespace system_calls {
       message: apply_upload_contract_operation_arguments,
       writer: Writer
     ): void {
-      const op = message.op;
-      if (op !== null) {
+      const unique_name_op = message.op;
+      if (unique_name_op !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.upload_contract_operation.encode(op, writer);
+        protocol.upload_contract_operation.encode(unique_name_op, writer);
         writer.ldelim();
       }
     }
@@ -272,11 +272,11 @@ export namespace system_calls {
       message: apply_call_contract_operation_arguments,
       writer: Writer
     ): void {
-      const op = message.op;
-      if (op !== null) {
+      const unique_name_op = message.op;
+      if (unique_name_op !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.call_contract_operation.encode(op, writer);
+        protocol.call_contract_operation.encode(unique_name_op, writer);
         writer.ldelim();
       }
     }
@@ -348,11 +348,11 @@ export namespace system_calls {
       message: apply_set_system_call_operation_arguments,
       writer: Writer
     ): void {
-      const op = message.op;
-      if (op !== null) {
+      const unique_name_op = message.op;
+      if (unique_name_op !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.set_system_call_operation.encode(op, writer);
+        protocol.set_system_call_operation.encode(unique_name_op, writer);
         writer.ldelim();
       }
     }
@@ -424,11 +424,11 @@ export namespace system_calls {
       message: apply_set_system_contract_operation_arguments,
       writer: Writer
     ): void {
-      const op = message.op;
-      if (op !== null) {
+      const unique_name_op = message.op;
+      if (unique_name_op !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.set_system_contract_operation.encode(op, writer);
+        protocol.set_system_contract_operation.encode(unique_name_op, writer);
         writer.ldelim();
       }
     }
@@ -714,24 +714,24 @@ export namespace system_calls {
       message: process_block_signature_arguments,
       writer: Writer
     ): void {
-      const digest = message.digest;
-      if (digest !== null) {
+      const unique_name_digest = message.digest;
+      if (unique_name_digest !== null) {
         writer.uint32(10);
-        writer.bytes(digest);
+        writer.bytes(unique_name_digest);
       }
 
-      const header = message.header;
-      if (header !== null) {
+      const unique_name_header = message.header;
+      if (unique_name_header !== null) {
         writer.uint32(18);
         writer.fork();
-        protocol.block_header.encode(header, writer);
+        protocol.block_header.encode(unique_name_header, writer);
         writer.ldelim();
       }
 
-      const signature = message.signature;
-      if (signature !== null) {
+      const unique_name_signature = message.signature;
+      if (unique_name_signature !== null) {
         writer.uint32(26);
-        writer.bytes(signature);
+        writer.bytes(unique_name_signature);
       }
     }
 
@@ -846,11 +846,11 @@ export namespace system_calls {
 
   export class get_transaction_result {
     static encode(message: get_transaction_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(value, writer);
+        protocol.transaction.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -890,10 +890,10 @@ export namespace system_calls {
       message: get_transaction_field_arguments,
       writer: Writer
     ): void {
-      const field = message.field;
-      if (field !== null) {
+      const unique_name_field = message.field;
+      if (unique_name_field !== null) {
         writer.uint32(10);
-        writer.string(field);
+        writer.string(unique_name_field);
       }
     }
 
@@ -929,11 +929,11 @@ export namespace system_calls {
 
   export class get_transaction_field_result {
     static encode(message: get_transaction_field_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        value.value_type.encode(value, writer);
+        value.value_type.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -990,11 +990,11 @@ export namespace system_calls {
 
   export class get_block_result {
     static encode(message: get_block_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.block.encode(value, writer);
+        protocol.block.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -1028,10 +1028,10 @@ export namespace system_calls {
 
   export class get_block_field_arguments {
     static encode(message: get_block_field_arguments, writer: Writer): void {
-      const field = message.field;
-      if (field !== null) {
+      const unique_name_field = message.field;
+      if (unique_name_field !== null) {
         writer.uint32(10);
-        writer.string(field);
+        writer.string(unique_name_field);
       }
     }
 
@@ -1064,11 +1064,11 @@ export namespace system_calls {
 
   export class get_block_field_result {
     static encode(message: get_block_field_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        value.value_type.encode(value, writer);
+        value.value_type.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -1171,10 +1171,10 @@ export namespace system_calls {
 
   export class get_account_nonce_arguments {
     static encode(message: get_account_nonce_arguments, writer: Writer): void {
-      const account = message.account;
-      if (account !== null) {
+      const unique_name_account = message.account;
+      if (unique_name_account !== null) {
         writer.uint32(10);
-        writer.bytes(account);
+        writer.bytes(unique_name_account);
       }
     }
 
@@ -1207,10 +1207,10 @@ export namespace system_calls {
 
   export class get_account_nonce_result {
     static encode(message: get_account_nonce_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -1246,16 +1246,16 @@ export namespace system_calls {
       message: verify_account_nonce_arguments,
       writer: Writer
     ): void {
-      const account = message.account;
-      if (account !== null) {
+      const unique_name_account = message.account;
+      if (unique_name_account !== null) {
         writer.uint32(10);
-        writer.bytes(account);
+        writer.bytes(unique_name_account);
       }
 
-      const nonce = message.nonce;
-      if (nonce !== null) {
+      const unique_name_nonce = message.nonce;
+      if (unique_name_nonce !== null) {
         writer.uint32(18);
-        writer.bytes(nonce);
+        writer.bytes(unique_name_nonce);
       }
     }
 
@@ -1331,16 +1331,16 @@ export namespace system_calls {
 
   export class set_account_nonce_arguments {
     static encode(message: set_account_nonce_arguments, writer: Writer): void {
-      const account = message.account;
-      if (account !== null) {
+      const unique_name_account = message.account;
+      if (unique_name_account !== null) {
         writer.uint32(10);
-        writer.bytes(account);
+        writer.bytes(unique_name_account);
       }
 
-      const nonce = message.nonce;
-      if (nonce !== null) {
+      const unique_name_nonce = message.nonce;
+      if (unique_name_nonce !== null) {
         writer.uint32(18);
-        writer.bytes(nonce);
+        writer.bytes(unique_name_nonce);
       }
     }
 
@@ -1474,10 +1474,10 @@ export namespace system_calls {
 
   export class get_account_rc_arguments {
     static encode(message: get_account_rc_arguments, writer: Writer): void {
-      const account = message.account;
-      if (account !== null) {
+      const unique_name_account = message.account;
+      if (unique_name_account !== null) {
         writer.uint32(10);
-        writer.bytes(account);
+        writer.bytes(unique_name_account);
       }
     }
 
@@ -1544,10 +1544,10 @@ export namespace system_calls {
 
   export class consume_account_rc_arguments {
     static encode(message: consume_account_rc_arguments, writer: Writer): void {
-      const account = message.account;
-      if (account !== null) {
+      const unique_name_account = message.account;
+      if (unique_name_account !== null) {
         writer.uint32(10);
-        writer.bytes(account);
+        writer.bytes(unique_name_account);
       }
 
       writer.uint32(16);
@@ -1650,11 +1650,11 @@ export namespace system_calls {
   @unmanaged
   export class get_resource_limits_result {
     static encode(message: get_resource_limits_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.resource_limit_data.encode(value, writer);
+        chain.resource_limit_data.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -1790,24 +1790,24 @@ export namespace system_calls {
 
   export class put_object_arguments {
     static encode(message: put_object_arguments, writer: Writer): void {
-      const space = message.space;
-      if (space !== null) {
+      const unique_name_space = message.space;
+      if (unique_name_space !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.object_space.encode(space, writer);
+        chain.object_space.encode(unique_name_space, writer);
         writer.ldelim();
       }
 
-      const key = message.key;
-      if (key !== null) {
+      const unique_name_key = message.key;
+      if (unique_name_key !== null) {
         writer.uint32(18);
-        writer.bytes(key);
+        writer.bytes(unique_name_key);
       }
 
-      const obj = message.obj;
-      if (obj !== null) {
+      const unique_name_obj = message.obj;
+      if (unique_name_obj !== null) {
         writer.uint32(26);
-        writer.bytes(obj);
+        writer.bytes(unique_name_obj);
       }
     }
 
@@ -1890,18 +1890,18 @@ export namespace system_calls {
 
   export class remove_object_arguments {
     static encode(message: remove_object_arguments, writer: Writer): void {
-      const space = message.space;
-      if (space !== null) {
+      const unique_name_space = message.space;
+      if (unique_name_space !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.object_space.encode(space, writer);
+        chain.object_space.encode(unique_name_space, writer);
         writer.ldelim();
       }
 
-      const key = message.key;
-      if (key !== null) {
+      const unique_name_key = message.key;
+      if (unique_name_key !== null) {
         writer.uint32(18);
-        writer.bytes(key);
+        writer.bytes(unique_name_key);
       }
     }
 
@@ -1966,18 +1966,18 @@ export namespace system_calls {
 
   export class get_object_arguments {
     static encode(message: get_object_arguments, writer: Writer): void {
-      const space = message.space;
-      if (space !== null) {
+      const unique_name_space = message.space;
+      if (unique_name_space !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.object_space.encode(space, writer);
+        chain.object_space.encode(unique_name_space, writer);
         writer.ldelim();
       }
 
-      const key = message.key;
-      if (key !== null) {
+      const unique_name_key = message.key;
+      if (unique_name_key !== null) {
         writer.uint32(18);
-        writer.bytes(key);
+        writer.bytes(unique_name_key);
       }
     }
 
@@ -2022,16 +2022,16 @@ export namespace system_calls {
       writer.uint32(8);
       writer.bool(message.exists);
 
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(18);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
 
-      const key = message.key;
-      if (key !== null) {
+      const unique_name_key = message.key;
+      if (unique_name_key !== null) {
         writer.uint32(26);
-        writer.bytes(key);
+        writer.bytes(unique_name_key);
       }
     }
 
@@ -2080,11 +2080,11 @@ export namespace system_calls {
 
   export class get_object_result {
     static encode(message: get_object_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        database_object.encode(value, writer);
+        database_object.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -2118,18 +2118,18 @@ export namespace system_calls {
 
   export class get_next_object_arguments {
     static encode(message: get_next_object_arguments, writer: Writer): void {
-      const space = message.space;
-      if (space !== null) {
+      const unique_name_space = message.space;
+      if (unique_name_space !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.object_space.encode(space, writer);
+        chain.object_space.encode(unique_name_space, writer);
         writer.ldelim();
       }
 
-      const key = message.key;
-      if (key !== null) {
+      const unique_name_key = message.key;
+      if (unique_name_key !== null) {
         writer.uint32(18);
-        writer.bytes(key);
+        writer.bytes(unique_name_key);
       }
     }
 
@@ -2171,11 +2171,11 @@ export namespace system_calls {
 
   export class get_next_object_result {
     static encode(message: get_next_object_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        database_object.encode(value, writer);
+        database_object.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -2209,18 +2209,18 @@ export namespace system_calls {
 
   export class get_prev_object_arguments {
     static encode(message: get_prev_object_arguments, writer: Writer): void {
-      const space = message.space;
-      if (space !== null) {
+      const unique_name_space = message.space;
+      if (unique_name_space !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.object_space.encode(space, writer);
+        chain.object_space.encode(unique_name_space, writer);
         writer.ldelim();
       }
 
-      const key = message.key;
-      if (key !== null) {
+      const unique_name_key = message.key;
+      if (unique_name_key !== null) {
         writer.uint32(18);
-        writer.bytes(key);
+        writer.bytes(unique_name_key);
       }
     }
 
@@ -2262,11 +2262,11 @@ export namespace system_calls {
 
   export class get_prev_object_result {
     static encode(message: get_prev_object_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        database_object.encode(value, writer);
+        database_object.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -2300,10 +2300,10 @@ export namespace system_calls {
 
   export class log_arguments {
     static encode(message: log_arguments, writer: Writer): void {
-      const message_2 = message.message;
-      if (message_2 !== null) {
+      const unique_name_message_2 = message.message;
+      if (unique_name_message_2 !== null) {
         writer.uint32(10);
-        writer.string(message_2);
+        writer.string(unique_name_message_2);
       }
     }
 
@@ -2359,23 +2359,23 @@ export namespace system_calls {
 
   export class event_arguments {
     static encode(message: event_arguments, writer: Writer): void {
-      const name = message.name;
-      if (name !== null) {
+      const unique_name_name = message.name;
+      if (unique_name_name !== null) {
         writer.uint32(10);
-        writer.string(name);
+        writer.string(unique_name_name);
       }
 
-      const data = message.data;
-      if (data !== null) {
+      const unique_name_data = message.data;
+      if (unique_name_data !== null) {
         writer.uint32(18);
-        writer.bytes(data);
+        writer.bytes(unique_name_data);
       }
 
-      const impacted = message.impacted;
-      if (impacted.length !== 0) {
-        for (let i = 0; i < impacted.length; ++i) {
+      const unique_name_impacted = message.impacted;
+      if (unique_name_impacted.length !== 0) {
+        for (let i = 0; i < unique_name_impacted.length; ++i) {
           writer.uint32(26);
-          writer.bytes(impacted[i]);
+          writer.bytes(unique_name_impacted[i]);
         }
       }
     }
@@ -2451,10 +2451,10 @@ export namespace system_calls {
       writer.uint32(8);
       writer.uint64(message.code);
 
-      const obj = message.obj;
-      if (obj !== null) {
+      const unique_name_obj = message.obj;
+      if (unique_name_obj !== null) {
         writer.uint32(18);
-        writer.bytes(obj);
+        writer.bytes(unique_name_obj);
       }
 
       writer.uint32(24);
@@ -2502,10 +2502,10 @@ export namespace system_calls {
 
   export class hash_result {
     static encode(message: hash_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -2541,16 +2541,16 @@ export namespace system_calls {
       writer.uint32(8);
       writer.int32(message.type);
 
-      const signature = message.signature;
-      if (signature !== null) {
+      const unique_name_signature = message.signature;
+      if (unique_name_signature !== null) {
         writer.uint32(18);
-        writer.bytes(signature);
+        writer.bytes(unique_name_signature);
       }
 
-      const digest = message.digest;
-      if (digest !== null) {
+      const unique_name_digest = message.digest;
+      if (unique_name_digest !== null) {
         writer.uint32(26);
-        writer.bytes(digest);
+        writer.bytes(unique_name_digest);
       }
     }
 
@@ -2599,10 +2599,10 @@ export namespace system_calls {
 
   export class recover_public_key_result {
     static encode(message: recover_public_key_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -2635,17 +2635,17 @@ export namespace system_calls {
 
   export class verify_merkle_root_arguments {
     static encode(message: verify_merkle_root_arguments, writer: Writer): void {
-      const root = message.root;
-      if (root !== null) {
+      const unique_name_root = message.root;
+      if (unique_name_root !== null) {
         writer.uint32(10);
-        writer.bytes(root);
+        writer.bytes(unique_name_root);
       }
 
-      const hashes = message.hashes;
-      if (hashes.length !== 0) {
-        for (let i = 0; i < hashes.length; ++i) {
+      const unique_name_hashes = message.hashes;
+      if (unique_name_hashes.length !== 0) {
+        for (let i = 0; i < unique_name_hashes.length; ++i) {
           writer.uint32(18);
-          writer.bytes(hashes[i]);
+          writer.bytes(unique_name_hashes[i]);
         }
       }
     }
@@ -2725,22 +2725,22 @@ export namespace system_calls {
       writer.uint32(8);
       writer.int32(message.type);
 
-      const public_key = message.public_key;
-      if (public_key !== null) {
+      const unique_name_public_key = message.public_key;
+      if (unique_name_public_key !== null) {
         writer.uint32(18);
-        writer.bytes(public_key);
+        writer.bytes(unique_name_public_key);
       }
 
-      const signature = message.signature;
-      if (signature !== null) {
+      const unique_name_signature = message.signature;
+      if (unique_name_signature !== null) {
         writer.uint32(26);
-        writer.bytes(signature);
+        writer.bytes(unique_name_signature);
       }
 
-      const digest = message.digest;
-      if (digest !== null) {
+      const unique_name_digest = message.digest;
+      if (unique_name_digest !== null) {
         writer.uint32(34);
-        writer.bytes(digest);
+        writer.bytes(unique_name_digest);
       }
     }
 
@@ -2833,28 +2833,28 @@ export namespace system_calls {
       writer.uint32(8);
       writer.int32(message.type);
 
-      const public_key = message.public_key;
-      if (public_key !== null) {
+      const unique_name_public_key = message.public_key;
+      if (unique_name_public_key !== null) {
         writer.uint32(18);
-        writer.bytes(public_key);
+        writer.bytes(unique_name_public_key);
       }
 
-      const proof = message.proof;
-      if (proof !== null) {
+      const unique_name_proof = message.proof;
+      if (unique_name_proof !== null) {
         writer.uint32(26);
-        writer.bytes(proof);
+        writer.bytes(unique_name_proof);
       }
 
-      const hash = message.hash;
-      if (hash !== null) {
+      const unique_name_hash = message.hash;
+      if (unique_name_hash !== null) {
         writer.uint32(34);
-        writer.bytes(hash);
+        writer.bytes(unique_name_hash);
       }
 
-      const message_2 = message.message;
-      if (message_2 !== null) {
+      const unique_name_message_2 = message.message;
+      if (unique_name_message_2 !== null) {
         writer.uint32(42);
-        writer.bytes(message_2);
+        writer.bytes(unique_name_message_2);
       }
     }
 
@@ -2951,19 +2951,19 @@ export namespace system_calls {
 
   export class call_contract_arguments {
     static encode(message: call_contract_arguments, writer: Writer): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
 
       writer.uint32(16);
       writer.uint32(message.entry_point);
 
-      const args = message.args;
-      if (args !== null) {
+      const unique_name_args = message.args;
+      if (unique_name_args !== null) {
         writer.uint32(26);
-        writer.bytes(args);
+        writer.bytes(unique_name_args);
       }
     }
 
@@ -3012,10 +3012,10 @@ export namespace system_calls {
 
   export class call_contract_result {
     static encode(message: call_contract_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -3137,10 +3137,10 @@ export namespace system_calls {
       message: get_contract_arguments_result,
       writer: Writer
     ): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -3176,10 +3176,10 @@ export namespace system_calls {
       message: set_contract_result_arguments,
       writer: Writer
     ): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -3315,10 +3315,10 @@ export namespace system_calls {
 
   export class get_contract_id_result {
     static encode(message: get_contract_id_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(value);
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -3374,11 +3374,11 @@ export namespace system_calls {
 
   export class get_caller_result {
     static encode(message: get_caller_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.caller_data.encode(value, writer);
+        chain.caller_data.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -3415,10 +3415,10 @@ export namespace system_calls {
       writer.uint32(8);
       writer.int32(message.type);
 
-      const account = message.account;
-      if (account !== null) {
+      const unique_name_account = message.account;
+      if (unique_name_account !== null) {
         writer.uint32(18);
-        writer.bytes(account);
+        writer.bytes(unique_name_account);
       }
     }
 

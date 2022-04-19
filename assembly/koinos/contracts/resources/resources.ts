@@ -70,27 +70,27 @@ export namespace resources {
   @unmanaged
   export class resource_markets {
     static encode(message: resource_markets, writer: Writer): void {
-      const disk_storage = message.disk_storage;
-      if (disk_storage !== null) {
+      const unique_name_disk_storage = message.disk_storage;
+      if (unique_name_disk_storage !== null) {
         writer.uint32(10);
         writer.fork();
-        market.encode(disk_storage, writer);
+        market.encode(unique_name_disk_storage, writer);
         writer.ldelim();
       }
 
-      const network_bandwidth = message.network_bandwidth;
-      if (network_bandwidth !== null) {
+      const unique_name_network_bandwidth = message.network_bandwidth;
+      if (unique_name_network_bandwidth !== null) {
         writer.uint32(18);
         writer.fork();
-        market.encode(network_bandwidth, writer);
+        market.encode(unique_name_network_bandwidth, writer);
         writer.ldelim();
       }
 
-      const compute_bandwidth = message.compute_bandwidth;
-      if (compute_bandwidth !== null) {
+      const unique_name_compute_bandwidth = message.compute_bandwidth;
+      if (unique_name_compute_bandwidth !== null) {
         writer.uint32(26);
         writer.fork();
-        market.encode(compute_bandwidth, writer);
+        market.encode(unique_name_compute_bandwidth, writer);
         writer.ldelim();
       }
     }
@@ -167,11 +167,11 @@ export namespace resources {
   @unmanaged
   export class get_resource_markets_result {
     static encode(message: get_resource_markets_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        resource_markets.encode(value, writer);
+        resource_markets.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }

@@ -7,11 +7,11 @@ export namespace events {
       writer.uint32(8);
       writer.uint32(message.call_id);
 
-      const target = message.target;
-      if (target !== null) {
+      const unique_name_target = message.target;
+      if (unique_name_target !== null) {
         writer.uint32(18);
         writer.fork();
-        protocol.system_call_target.encode(target, writer);
+        protocol.system_call_target.encode(unique_name_target, writer);
         writer.ldelim();
       }
     }
@@ -57,10 +57,10 @@ export namespace events {
 
   export class set_system_contract_event {
     static encode(message: set_system_contract_event, writer: Writer): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
 
       writer.uint32(16);

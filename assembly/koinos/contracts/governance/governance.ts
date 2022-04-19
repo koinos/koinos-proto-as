@@ -4,11 +4,11 @@ import { protocol } from "../../protocol/protocol";
 export namespace governance {
   export class proposal_record {
     static encode(message: proposal_record, writer: Writer): void {
-      const proposal = message.proposal;
-      if (proposal !== null) {
+      const unique_name_proposal = message.proposal;
+      if (unique_name_proposal !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(proposal, writer);
+        protocol.transaction.encode(unique_name_proposal, writer);
         writer.ldelim();
       }
 
@@ -107,11 +107,11 @@ export namespace governance {
 
   export class submit_proposal_arguments {
     static encode(message: submit_proposal_arguments, writer: Writer): void {
-      const proposal = message.proposal;
-      if (proposal !== null) {
+      const unique_name_proposal = message.proposal;
+      if (unique_name_proposal !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(proposal, writer);
+        protocol.transaction.encode(unique_name_proposal, writer);
         writer.ldelim();
       }
 
@@ -191,10 +191,10 @@ export namespace governance {
 
   export class get_proposal_by_id_arguments {
     static encode(message: get_proposal_by_id_arguments, writer: Writer): void {
-      const proposal_id = message.proposal_id;
-      if (proposal_id !== null) {
+      const unique_name_proposal_id = message.proposal_id;
+      if (unique_name_proposal_id !== null) {
         writer.uint32(10);
-        writer.bytes(proposal_id);
+        writer.bytes(unique_name_proposal_id);
       }
     }
 
@@ -227,11 +227,11 @@ export namespace governance {
 
   export class get_proposal_by_id_result {
     static encode(message: get_proposal_by_id_result, writer: Writer): void {
-      const value = message.value;
-      if (value !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        proposal_record.encode(value, writer);
+        proposal_record.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -268,10 +268,10 @@ export namespace governance {
       message: get_proposals_by_status_arguments,
       writer: Writer
     ): void {
-      const start_proposal = message.start_proposal;
-      if (start_proposal !== null) {
+      const unique_name_start_proposal = message.start_proposal;
+      if (unique_name_start_proposal !== null) {
         writer.uint32(10);
-        writer.bytes(start_proposal);
+        writer.bytes(unique_name_start_proposal);
       }
 
       writer.uint32(16);
@@ -332,11 +332,11 @@ export namespace governance {
       message: get_proposals_by_status_result,
       writer: Writer
     ): void {
-      const value = message.value;
-      for (let i = 0; i < value.length; ++i) {
+      const unique_name_value = message.value;
+      for (let i = 0; i < unique_name_value.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        proposal_record.encode(value[i], writer);
+        proposal_record.encode(unique_name_value[i], writer);
         writer.ldelim();
       }
     }
@@ -370,10 +370,10 @@ export namespace governance {
 
   export class get_proposals_arguments {
     static encode(message: get_proposals_arguments, writer: Writer): void {
-      const start_proposal = message.start_proposal;
-      if (start_proposal !== null) {
+      const unique_name_start_proposal = message.start_proposal;
+      if (unique_name_start_proposal !== null) {
         writer.uint32(10);
-        writer.bytes(start_proposal);
+        writer.bytes(unique_name_start_proposal);
       }
 
       writer.uint32(16);
@@ -415,11 +415,11 @@ export namespace governance {
 
   export class get_proposals_result {
     static encode(message: get_proposals_result, writer: Writer): void {
-      const value = message.value;
-      for (let i = 0; i < value.length; ++i) {
+      const unique_name_value = message.value;
+      for (let i = 0; i < unique_name_value.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        proposal_record.encode(value[i], writer);
+        proposal_record.encode(unique_name_value[i], writer);
         writer.ldelim();
       }
     }
@@ -453,11 +453,11 @@ export namespace governance {
 
   export class proposal_submission_event {
     static encode(message: proposal_submission_event, writer: Writer): void {
-      const proposal = message.proposal;
-      if (proposal !== null) {
+      const unique_name_proposal = message.proposal;
+      if (unique_name_proposal !== null) {
         writer.uint32(10);
         writer.fork();
-        proposal_record.encode(proposal, writer);
+        proposal_record.encode(unique_name_proposal, writer);
         writer.ldelim();
       }
     }
@@ -491,10 +491,10 @@ export namespace governance {
 
   export class proposal_status_event {
     static encode(message: proposal_status_event, writer: Writer): void {
-      const id = message.id;
-      if (id !== null) {
+      const unique_name_id = message.id;
+      if (unique_name_id !== null) {
         writer.uint32(10);
-        writer.bytes(id);
+        writer.bytes(unique_name_id);
       }
 
       writer.uint32(16);
@@ -536,10 +536,10 @@ export namespace governance {
 
   export class proposal_vote_event {
     static encode(message: proposal_vote_event, writer: Writer): void {
-      const id = message.id;
-      if (id !== null) {
+      const unique_name_id = message.id;
+      if (unique_name_id !== null) {
         writer.uint32(10);
-        writer.bytes(id);
+        writer.bytes(unique_name_id);
       }
 
       writer.uint32(16);

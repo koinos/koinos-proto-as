@@ -4,19 +4,19 @@ import { protocol } from "../protocol/protocol";
 export namespace transaction_store {
   export class transaction_item {
     static encode(message: transaction_item, writer: Writer): void {
-      const transaction = message.transaction;
-      if (transaction !== null) {
+      const unique_name_transaction = message.transaction;
+      if (unique_name_transaction !== null) {
         writer.uint32(10);
         writer.fork();
-        protocol.transaction.encode(transaction, writer);
+        protocol.transaction.encode(unique_name_transaction, writer);
         writer.ldelim();
       }
 
-      const containing_blocks = message.containing_blocks;
-      if (containing_blocks.length !== 0) {
-        for (let i = 0; i < containing_blocks.length; ++i) {
+      const unique_name_containing_blocks = message.containing_blocks;
+      if (unique_name_containing_blocks.length !== 0) {
+        for (let i = 0; i < unique_name_containing_blocks.length; ++i) {
           writer.uint32(18);
-          writer.bytes(containing_blocks[i]);
+          writer.bytes(unique_name_containing_blocks[i]);
         }
       }
     }

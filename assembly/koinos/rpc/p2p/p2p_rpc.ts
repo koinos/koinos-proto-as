@@ -62,19 +62,19 @@ export namespace p2p_rpc {
   @unmanaged
   export class p2p_request {
     static encode(message: p2p_request, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const get_gossip_status = message.get_gossip_status;
-      if (get_gossip_status !== null) {
+      const unique_name_get_gossip_status = message.get_gossip_status;
+      if (unique_name_get_gossip_status !== null) {
         writer.uint32(18);
         writer.fork();
-        get_gossip_status_request.encode(get_gossip_status, writer);
+        get_gossip_status_request.encode(unique_name_get_gossip_status, writer);
         writer.ldelim();
       }
     }
@@ -120,27 +120,30 @@ export namespace p2p_rpc {
 
   export class p2p_response {
     static encode(message: p2p_response, writer: Writer): void {
-      const reserved = message.reserved;
-      if (reserved !== null) {
+      const unique_name_reserved = message.reserved;
+      if (unique_name_reserved !== null) {
         writer.uint32(10);
         writer.fork();
-        rpc.reserved_rpc.encode(reserved, writer);
+        rpc.reserved_rpc.encode(unique_name_reserved, writer);
         writer.ldelim();
       }
 
-      const error = message.error;
-      if (error !== null) {
+      const unique_name_error = message.error;
+      if (unique_name_error !== null) {
         writer.uint32(18);
         writer.fork();
-        rpc.error_response.encode(error, writer);
+        rpc.error_response.encode(unique_name_error, writer);
         writer.ldelim();
       }
 
-      const get_gossip_status = message.get_gossip_status;
-      if (get_gossip_status !== null) {
+      const unique_name_get_gossip_status = message.get_gossip_status;
+      if (unique_name_get_gossip_status !== null) {
         writer.uint32(26);
         writer.fork();
-        get_gossip_status_response.encode(get_gossip_status, writer);
+        get_gossip_status_response.encode(
+          unique_name_get_gossip_status,
+          writer
+        );
         writer.ldelim();
       }
     }

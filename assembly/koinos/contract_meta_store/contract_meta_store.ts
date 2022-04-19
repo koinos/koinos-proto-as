@@ -3,10 +3,10 @@ import { Writer, Reader } from "as-proto";
 export namespace contract_meta_store {
   export class contract_meta_item {
     static encode(message: contract_meta_item, writer: Writer): void {
-      const abi = message.abi;
-      if (abi !== null) {
+      const unique_name_abi = message.abi;
+      if (unique_name_abi !== null) {
         writer.uint32(10);
-        writer.string(abi);
+        writer.string(unique_name_abi);
       }
     }
 

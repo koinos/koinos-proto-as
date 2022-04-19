@@ -26,16 +26,16 @@ export namespace rpc {
 
   export class error_response {
     static encode(message: error_response, writer: Writer): void {
-      const message_2 = message.message;
-      if (message_2 !== null) {
+      const unique_name_message_2 = message.message;
+      if (unique_name_message_2 !== null) {
         writer.uint32(10);
-        writer.string(message_2);
+        writer.string(unique_name_message_2);
       }
 
-      const data = message.data;
-      if (data !== null) {
+      const unique_name_data = message.data;
+      if (unique_name_data !== null) {
         writer.uint32(18);
-        writer.string(data);
+        writer.string(unique_name_data);
       }
     }
 

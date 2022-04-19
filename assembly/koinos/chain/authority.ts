@@ -3,10 +3,10 @@ import { Writer, Reader } from "as-proto";
 export namespace authority {
   export class call_target {
     static encode(message: call_target, writer: Writer): void {
-      const contract_id = message.contract_id;
-      if (contract_id !== null) {
+      const unique_name_contract_id = message.contract_id;
+      if (unique_name_contract_id !== null) {
         writer.uint32(10);
-        writer.bytes(contract_id);
+        writer.bytes(unique_name_contract_id);
       }
 
       writer.uint32(16);
@@ -51,11 +51,11 @@ export namespace authority {
       writer.uint32(8);
       writer.int32(message.type);
 
-      const call = message.call;
-      if (call !== null) {
+      const unique_name_call = message.call;
+      if (unique_name_call !== null) {
         writer.uint32(18);
         writer.fork();
-        call_target.encode(call, writer);
+        call_target.encode(unique_name_call, writer);
         writer.ldelim();
       }
     }

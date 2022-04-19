@@ -4,28 +4,28 @@ import { protocol } from "../protocol/protocol";
 export namespace block_store {
   export class block_item {
     static encode(message: block_item, writer: Writer): void {
-      const block_id = message.block_id;
-      if (block_id !== null) {
+      const unique_name_block_id = message.block_id;
+      if (unique_name_block_id !== null) {
         writer.uint32(10);
-        writer.bytes(block_id);
+        writer.bytes(unique_name_block_id);
       }
 
       writer.uint32(16);
       writer.uint64(message.block_height);
 
-      const block = message.block;
-      if (block !== null) {
+      const unique_name_block = message.block;
+      if (unique_name_block !== null) {
         writer.uint32(26);
         writer.fork();
-        protocol.block.encode(block, writer);
+        protocol.block.encode(unique_name_block, writer);
         writer.ldelim();
       }
 
-      const receipt = message.receipt;
-      if (receipt !== null) {
+      const unique_name_receipt = message.receipt;
+      if (unique_name_receipt !== null) {
         writer.uint32(34);
         writer.fork();
-        protocol.block_receipt.encode(receipt, writer);
+        protocol.block_receipt.encode(unique_name_receipt, writer);
         writer.ldelim();
       }
     }
@@ -85,36 +85,36 @@ export namespace block_store {
 
   export class block_record {
     static encode(message: block_record, writer: Writer): void {
-      const block_id = message.block_id;
-      if (block_id !== null) {
+      const unique_name_block_id = message.block_id;
+      if (unique_name_block_id !== null) {
         writer.uint32(10);
-        writer.bytes(block_id);
+        writer.bytes(unique_name_block_id);
       }
 
       writer.uint32(16);
       writer.uint64(message.block_height);
 
-      const block = message.block;
-      if (block !== null) {
+      const unique_name_block = message.block;
+      if (unique_name_block !== null) {
         writer.uint32(26);
         writer.fork();
-        protocol.block.encode(block, writer);
+        protocol.block.encode(unique_name_block, writer);
         writer.ldelim();
       }
 
-      const receipt = message.receipt;
-      if (receipt !== null) {
+      const unique_name_receipt = message.receipt;
+      if (unique_name_receipt !== null) {
         writer.uint32(34);
         writer.fork();
-        protocol.block_receipt.encode(receipt, writer);
+        protocol.block_receipt.encode(unique_name_receipt, writer);
         writer.ldelim();
       }
 
-      const previous_block_ids = message.previous_block_ids;
-      if (previous_block_ids.length !== 0) {
-        for (let i = 0; i < previous_block_ids.length; ++i) {
+      const unique_name_previous_block_ids = message.previous_block_ids;
+      if (unique_name_previous_block_ids.length !== 0) {
+        for (let i = 0; i < unique_name_previous_block_ids.length; ++i) {
           writer.uint32(42);
-          writer.bytes(previous_block_ids[i]);
+          writer.bytes(unique_name_previous_block_ids[i]);
         }
       }
     }
