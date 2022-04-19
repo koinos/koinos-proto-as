@@ -1,597 +1,615 @@
 import { Writer, Reader } from "as-proto";
-import { block_item } from "../../block_store/block_store";
-import { block, block_receipt } from "../../protocol/protocol";
-import { block_topology } from "../../common";
-import { reserved_rpc, error_response } from "../rpc";
+import { block_store } from "../../block_store/block_store";
+import { protocol } from "../../protocol/protocol";
+import { common } from "../../common";
+import { rpc } from "../rpc";
 
-export class get_blocks_by_id_request {
-  static encode(message: get_blocks_by_id_request, writer: Writer): void {
-    const field_block_ids = message.block_ids;
-    if (field_block_ids.length !== 0) {
-      for (let i = 0; i < field_block_ids.length; ++i) {
+export namespace block_store_rpc {
+  export class get_blocks_by_id_request {
+    static encode(message: get_blocks_by_id_request, writer: Writer): void {
+      const block_ids = message.block_ids;
+      if (block_ids.length !== 0) {
+        for (let i = 0; i < block_ids.length; ++i) {
+          writer.uint32(10);
+          writer.bytes(block_ids[i]);
+        }
+      }
+
+      writer.uint32(16);
+      writer.bool(message.return_block);
+
+      writer.uint32(24);
+      writer.bool(message.return_receipt);
+    }
+
+    static decode(reader: Reader, length: i32): get_blocks_by_id_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_blocks_by_id_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.block_ids.push(reader.bytes());
+            break;
+
+          case 2:
+            message.return_block = reader.bool();
+            break;
+
+          case 3:
+            message.return_receipt = reader.bool();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    block_ids: Array<Uint8Array>;
+    return_block: bool;
+    return_receipt: bool;
+
+    constructor(
+      block_ids: Array<Uint8Array> = [],
+      return_block: bool = false,
+      return_receipt: bool = false
+    ) {
+      this.block_ids = block_ids;
+      this.return_block = return_block;
+      this.return_receipt = return_receipt;
+    }
+  }
+
+  export class get_blocks_by_id_response {
+    static encode(message: get_blocks_by_id_response, writer: Writer): void {
+      const block_items = message.block_items;
+      for (let i = 0; i < block_items.length; ++i) {
         writer.uint32(10);
-        writer.bytes(field_block_ids[i]);
+        writer.fork();
+        block_store.block_item.encode(block_items[i], writer);
+        writer.ldelim();
       }
     }
 
-    writer.uint32(16);
-    writer.bool(message.return_block);
+    static decode(reader: Reader, length: i32): get_blocks_by_id_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_blocks_by_id_response();
 
-    writer.uint32(24);
-    writer.bool(message.return_receipt);
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.block_items.push(
+              block_store.block_item.decode(reader, reader.uint32())
+            );
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    block_items: Array<block_store.block_item>;
+
+    constructor(block_items: Array<block_store.block_item> = []) {
+      this.block_items = block_items;
+    }
   }
 
-  static decode(reader: Reader, length: i32): get_blocks_by_id_request {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_blocks_by_id_request();
+  export class get_blocks_by_height_request {
+    static encode(message: get_blocks_by_height_request, writer: Writer): void {
+      const head_block_id = message.head_block_id;
+      if (head_block_id !== null) {
+        writer.uint32(10);
+        writer.bytes(head_block_id);
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.block_ids.push(reader.bytes());
-          break;
+      writer.uint32(16);
+      writer.uint64(message.ancestor_start_height);
 
-        case 2:
-          message.return_block = reader.bool();
-          break;
+      writer.uint32(24);
+      writer.uint32(message.num_blocks);
 
-        case 3:
-          message.return_receipt = reader.bool();
-          break;
+      writer.uint32(32);
+      writer.bool(message.return_block);
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      writer.uint32(40);
+      writer.bool(message.return_receipt);
+    }
+
+    static decode(reader: Reader, length: i32): get_blocks_by_height_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_blocks_by_height_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.head_block_id = reader.bytes();
+            break;
+
+          case 2:
+            message.ancestor_start_height = reader.uint64();
+            break;
+
+          case 3:
+            message.num_blocks = reader.uint32();
+            break;
+
+          case 4:
+            message.return_block = reader.bool();
+            break;
+
+          case 5:
+            message.return_receipt = reader.bool();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    head_block_id: Uint8Array | null;
+    ancestor_start_height: u64;
+    num_blocks: u32;
+    return_block: bool;
+    return_receipt: bool;
+
+    constructor(
+      head_block_id: Uint8Array | null = null,
+      ancestor_start_height: u64 = 0,
+      num_blocks: u32 = 0,
+      return_block: bool = false,
+      return_receipt: bool = false
+    ) {
+      this.head_block_id = head_block_id;
+      this.ancestor_start_height = ancestor_start_height;
+      this.num_blocks = num_blocks;
+      this.return_block = return_block;
+      this.return_receipt = return_receipt;
+    }
+  }
+
+  export class get_blocks_by_height_response {
+    static encode(
+      message: get_blocks_by_height_response,
+      writer: Writer
+    ): void {
+      const block_items = message.block_items;
+      for (let i = 0; i < block_items.length; ++i) {
+        writer.uint32(10);
+        writer.fork();
+        block_store.block_item.encode(block_items[i], writer);
+        writer.ldelim();
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): get_blocks_by_height_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_blocks_by_height_response();
 
-  block_ids: Array<Uint8Array>;
-  return_block: bool;
-  return_receipt: bool;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.block_items.push(
+              block_store.block_item.decode(reader, reader.uint32())
+            );
+            break;
 
-  constructor(
-    block_ids: Array<Uint8Array> = [],
-    return_block: bool = false,
-    return_receipt: bool = false
-  ) {
-    this.block_ids = block_ids;
-    this.return_block = return_block;
-    this.return_receipt = return_receipt;
-  }
-}
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
 
-export class get_blocks_by_id_response {
-  static encode(message: get_blocks_by_id_response, writer: Writer): void {
-    const field_block_items = message.block_items;
-    for (let i = 0; i < field_block_items.length; ++i) {
-      writer.uint32(10);
-      writer.fork();
-      block_item.encode(field_block_items[i], writer);
-      writer.ldelim();
+      return message;
+    }
+
+    block_items: Array<block_store.block_item>;
+
+    constructor(block_items: Array<block_store.block_item> = []) {
+      this.block_items = block_items;
     }
   }
 
-  static decode(reader: Reader, length: i32): get_blocks_by_id_response {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_blocks_by_id_response();
+  export class add_block_request {
+    static encode(message: add_block_request, writer: Writer): void {
+      const block_to_add = message.block_to_add;
+      if (block_to_add !== null) {
+        writer.uint32(10);
+        writer.fork();
+        protocol.block.encode(block_to_add, writer);
+        writer.ldelim();
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.block_items.push(block_item.decode(reader, reader.uint32()));
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
+      const receipt_to_add = message.receipt_to_add;
+      if (receipt_to_add !== null) {
+        writer.uint32(18);
+        writer.fork();
+        protocol.block_receipt.encode(receipt_to_add, writer);
+        writer.ldelim();
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): add_block_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new add_block_request();
 
-  block_items: Array<block_item>;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.block_to_add = protocol.block.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
 
-  constructor(block_items: Array<block_item> = []) {
-    this.block_items = block_items;
-  }
-}
+          case 2:
+            message.receipt_to_add = protocol.block_receipt.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
 
-export class get_blocks_by_height_request {
-  static encode(message: get_blocks_by_height_request, writer: Writer): void {
-    const field_head_block_id = message.head_block_id;
-    if (field_head_block_id !== null) {
-      writer.uint32(10);
-      writer.bytes(field_head_block_id);
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
     }
 
-    writer.uint32(16);
-    writer.uint64(message.ancestor_start_height);
+    block_to_add: protocol.block | null;
+    receipt_to_add: protocol.block_receipt | null;
 
-    writer.uint32(24);
-    writer.uint32(message.num_blocks);
-
-    writer.uint32(32);
-    writer.bool(message.return_block);
-
-    writer.uint32(40);
-    writer.bool(message.return_receipt);
+    constructor(
+      block_to_add: protocol.block | null = null,
+      receipt_to_add: protocol.block_receipt | null = null
+    ) {
+      this.block_to_add = block_to_add;
+      this.receipt_to_add = receipt_to_add;
+    }
   }
 
-  static decode(reader: Reader, length: i32): get_blocks_by_height_request {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_blocks_by_height_request();
+  @unmanaged
+  export class add_block_response {
+    static encode(message: add_block_response, writer: Writer): void {}
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.head_block_id = reader.bytes();
-          break;
+    static decode(reader: Reader, length: i32): add_block_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new add_block_response();
 
-        case 2:
-          message.ancestor_start_height = reader.uint64();
-          break;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
 
-        case 3:
-          message.num_blocks = reader.uint32();
-          break;
+      return message;
+    }
 
-        case 4:
-          message.return_block = reader.bool();
-          break;
+    constructor() {}
+  }
 
-        case 5:
-          message.return_receipt = reader.bool();
-          break;
+  @unmanaged
+  export class get_highest_block_request {
+    static encode(message: get_highest_block_request, writer: Writer): void {}
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+    static decode(reader: Reader, length: i32): get_highest_block_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_highest_block_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    constructor() {}
+  }
+
+  export class get_highest_block_response {
+    static encode(message: get_highest_block_response, writer: Writer): void {
+      const topology = message.topology;
+      if (topology !== null) {
+        writer.uint32(10);
+        writer.fork();
+        common.block_topology.encode(topology, writer);
+        writer.ldelim();
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): get_highest_block_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_highest_block_response();
 
-  head_block_id: Uint8Array | null;
-  ancestor_start_height: u64;
-  num_blocks: u32;
-  return_block: bool;
-  return_receipt: bool;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.topology = common.block_topology.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
 
-  constructor(
-    head_block_id: Uint8Array | null = null,
-    ancestor_start_height: u64 = 0,
-    num_blocks: u32 = 0,
-    return_block: bool = false,
-    return_receipt: bool = false
-  ) {
-    this.head_block_id = head_block_id;
-    this.ancestor_start_height = ancestor_start_height;
-    this.num_blocks = num_blocks;
-    this.return_block = return_block;
-    this.return_receipt = return_receipt;
-  }
-}
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
 
-export class get_blocks_by_height_response {
-  static encode(message: get_blocks_by_height_response, writer: Writer): void {
-    const field_block_items = message.block_items;
-    for (let i = 0; i < field_block_items.length; ++i) {
-      writer.uint32(10);
-      writer.fork();
-      block_item.encode(field_block_items[i], writer);
-      writer.ldelim();
+      return message;
+    }
+
+    topology: common.block_topology | null;
+
+    constructor(topology: common.block_topology | null = null) {
+      this.topology = topology;
     }
   }
 
-  static decode(reader: Reader, length: i32): get_blocks_by_height_response {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_blocks_by_height_response();
+  export class block_store_request {
+    static encode(message: block_store_request, writer: Writer): void {
+      const reserved = message.reserved;
+      if (reserved !== null) {
+        writer.uint32(10);
+        writer.fork();
+        rpc.reserved_rpc.encode(reserved, writer);
+        writer.ldelim();
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.block_items.push(block_item.decode(reader, reader.uint32()));
-          break;
+      const get_blocks_by_id = message.get_blocks_by_id;
+      if (get_blocks_by_id !== null) {
+        writer.uint32(18);
+        writer.fork();
+        get_blocks_by_id_request.encode(get_blocks_by_id, writer);
+        writer.ldelim();
+      }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      const get_blocks_by_height = message.get_blocks_by_height;
+      if (get_blocks_by_height !== null) {
+        writer.uint32(26);
+        writer.fork();
+        get_blocks_by_height_request.encode(get_blocks_by_height, writer);
+        writer.ldelim();
+      }
+
+      const add_block = message.add_block;
+      if (add_block !== null) {
+        writer.uint32(34);
+        writer.fork();
+        add_block_request.encode(add_block, writer);
+        writer.ldelim();
+      }
+
+      const get_highest_block = message.get_highest_block;
+      if (get_highest_block !== null) {
+        writer.uint32(42);
+        writer.fork();
+        get_highest_block_request.encode(get_highest_block, writer);
+        writer.ldelim();
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): block_store_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new block_store_request();
 
-  block_items: Array<block_item>;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
+            break;
 
-  constructor(block_items: Array<block_item> = []) {
-    this.block_items = block_items;
-  }
-}
+          case 2:
+            message.get_blocks_by_id = get_blocks_by_id_request.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
 
-export class add_block_request {
-  static encode(message: add_block_request, writer: Writer): void {
-    const field_block_to_add = message.block_to_add;
-    if (field_block_to_add !== null) {
-      writer.uint32(10);
-      writer.fork();
-      block.encode(field_block_to_add, writer);
-      writer.ldelim();
+          case 3:
+            message.get_blocks_by_height = get_blocks_by_height_request.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
+          case 4:
+            message.add_block = add_block_request.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
+          case 5:
+            message.get_highest_block = get_highest_block_request.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
     }
 
-    const field_receipt_to_add = message.receipt_to_add;
-    if (field_receipt_to_add !== null) {
-      writer.uint32(18);
-      writer.fork();
-      block_receipt.encode(field_receipt_to_add, writer);
-      writer.ldelim();
+    reserved: rpc.reserved_rpc | null;
+    get_blocks_by_id: get_blocks_by_id_request | null;
+    get_blocks_by_height: get_blocks_by_height_request | null;
+    add_block: add_block_request | null;
+    get_highest_block: get_highest_block_request | null;
+
+    constructor(
+      reserved: rpc.reserved_rpc | null = null,
+      get_blocks_by_id: get_blocks_by_id_request | null = null,
+      get_blocks_by_height: get_blocks_by_height_request | null = null,
+      add_block: add_block_request | null = null,
+      get_highest_block: get_highest_block_request | null = null
+    ) {
+      this.reserved = reserved;
+      this.get_blocks_by_id = get_blocks_by_id;
+      this.get_blocks_by_height = get_blocks_by_height;
+      this.add_block = add_block;
+      this.get_highest_block = get_highest_block;
     }
   }
 
-  static decode(reader: Reader, length: i32): add_block_request {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new add_block_request();
+  export class block_store_response {
+    static encode(message: block_store_response, writer: Writer): void {
+      const reserved = message.reserved;
+      if (reserved !== null) {
+        writer.uint32(10);
+        writer.fork();
+        rpc.reserved_rpc.encode(reserved, writer);
+        writer.ldelim();
+      }
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.block_to_add = block.decode(reader, reader.uint32());
-          break;
+      const error = message.error;
+      if (error !== null) {
+        writer.uint32(18);
+        writer.fork();
+        rpc.error_response.encode(error, writer);
+        writer.ldelim();
+      }
 
-        case 2:
-          message.receipt_to_add = block_receipt.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
+      const get_blocks_by_id = message.get_blocks_by_id;
+      if (get_blocks_by_id !== null) {
+        writer.uint32(26);
+        writer.fork();
+        get_blocks_by_id_response.encode(get_blocks_by_id, writer);
+        writer.ldelim();
+      }
 
-        default:
-          reader.skipType(tag & 7);
-          break;
+      const get_blocks_by_height = message.get_blocks_by_height;
+      if (get_blocks_by_height !== null) {
+        writer.uint32(34);
+        writer.fork();
+        get_blocks_by_height_response.encode(get_blocks_by_height, writer);
+        writer.ldelim();
+      }
+
+      const add_block = message.add_block;
+      if (add_block !== null) {
+        writer.uint32(42);
+        writer.fork();
+        add_block_response.encode(add_block, writer);
+        writer.ldelim();
+      }
+
+      const get_highest_block = message.get_highest_block;
+      if (get_highest_block !== null) {
+        writer.uint32(50);
+        writer.fork();
+        get_highest_block_response.encode(get_highest_block, writer);
+        writer.ldelim();
       }
     }
 
-    return message;
-  }
+    static decode(reader: Reader, length: i32): block_store_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new block_store_response();
 
-  block_to_add: block | null;
-  receipt_to_add: block_receipt | null;
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
+            break;
 
-  constructor(
-    block_to_add: block | null = null,
-    receipt_to_add: block_receipt | null = null
-  ) {
-    this.block_to_add = block_to_add;
-    this.receipt_to_add = receipt_to_add;
-  }
-}
+          case 2:
+            message.error = rpc.error_response.decode(reader, reader.uint32());
+            break;
 
-@unmanaged
-export class add_block_response {
-  static encode(message: add_block_response, writer: Writer): void {}
+          case 3:
+            message.get_blocks_by_id = get_blocks_by_id_response.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
 
-  static decode(reader: Reader, length: i32): add_block_response {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new add_block_response();
+          case 4:
+            message.get_blocks_by_height = get_blocks_by_height_response.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
 
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
+          case 5:
+            message.add_block = add_block_response.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
+          case 6:
+            message.get_highest_block = get_highest_block_response.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
       }
+
+      return message;
     }
 
-    return message;
-  }
+    reserved: rpc.reserved_rpc | null;
+    error: rpc.error_response | null;
+    get_blocks_by_id: get_blocks_by_id_response | null;
+    get_blocks_by_height: get_blocks_by_height_response | null;
+    add_block: add_block_response | null;
+    get_highest_block: get_highest_block_response | null;
 
-  constructor() {}
-}
-
-@unmanaged
-export class get_highest_block_request {
-  static encode(message: get_highest_block_request, writer: Writer): void {}
-
-  static decode(reader: Reader, length: i32): get_highest_block_request {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_highest_block_request();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
+    constructor(
+      reserved: rpc.reserved_rpc | null = null,
+      error: rpc.error_response | null = null,
+      get_blocks_by_id: get_blocks_by_id_response | null = null,
+      get_blocks_by_height: get_blocks_by_height_response | null = null,
+      add_block: add_block_response | null = null,
+      get_highest_block: get_highest_block_response | null = null
+    ) {
+      this.reserved = reserved;
+      this.error = error;
+      this.get_blocks_by_id = get_blocks_by_id;
+      this.get_blocks_by_height = get_blocks_by_height;
+      this.add_block = add_block;
+      this.get_highest_block = get_highest_block;
     }
-
-    return message;
-  }
-
-  constructor() {}
-}
-
-export class get_highest_block_response {
-  static encode(message: get_highest_block_response, writer: Writer): void {
-    const field_topology = message.topology;
-    if (field_topology !== null) {
-      writer.uint32(10);
-      writer.fork();
-      block_topology.encode(field_topology, writer);
-      writer.ldelim();
-    }
-  }
-
-  static decode(reader: Reader, length: i32): get_highest_block_response {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new get_highest_block_response();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.topology = block_topology.decode(reader, reader.uint32());
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
-
-  topology: block_topology | null;
-
-  constructor(topology: block_topology | null = null) {
-    this.topology = topology;
-  }
-}
-
-export class block_store_request {
-  static encode(message: block_store_request, writer: Writer): void {
-    const field_reserved = message.reserved;
-    if (field_reserved !== null) {
-      writer.uint32(10);
-      writer.fork();
-      reserved_rpc.encode(field_reserved, writer);
-      writer.ldelim();
-    }
-
-    const field_get_blocks_by_id = message.get_blocks_by_id;
-    if (field_get_blocks_by_id !== null) {
-      writer.uint32(18);
-      writer.fork();
-      get_blocks_by_id_request.encode(field_get_blocks_by_id, writer);
-      writer.ldelim();
-    }
-
-    const field_get_blocks_by_height = message.get_blocks_by_height;
-    if (field_get_blocks_by_height !== null) {
-      writer.uint32(26);
-      writer.fork();
-      get_blocks_by_height_request.encode(field_get_blocks_by_height, writer);
-      writer.ldelim();
-    }
-
-    const field_add_block = message.add_block;
-    if (field_add_block !== null) {
-      writer.uint32(34);
-      writer.fork();
-      add_block_request.encode(field_add_block, writer);
-      writer.ldelim();
-    }
-
-    const field_get_highest_block = message.get_highest_block;
-    if (field_get_highest_block !== null) {
-      writer.uint32(42);
-      writer.fork();
-      get_highest_block_request.encode(field_get_highest_block, writer);
-      writer.ldelim();
-    }
-  }
-
-  static decode(reader: Reader, length: i32): block_store_request {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new block_store_request();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.reserved = reserved_rpc.decode(reader, reader.uint32());
-          break;
-
-        case 2:
-          message.get_blocks_by_id = get_blocks_by_id_request.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        case 3:
-          message.get_blocks_by_height = get_blocks_by_height_request.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        case 4:
-          message.add_block = add_block_request.decode(reader, reader.uint32());
-          break;
-
-        case 5:
-          message.get_highest_block = get_highest_block_request.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
-
-  reserved: reserved_rpc | null;
-  get_blocks_by_id: get_blocks_by_id_request | null;
-  get_blocks_by_height: get_blocks_by_height_request | null;
-  add_block: add_block_request | null;
-  get_highest_block: get_highest_block_request | null;
-
-  constructor(
-    reserved: reserved_rpc | null = null,
-    get_blocks_by_id: get_blocks_by_id_request | null = null,
-    get_blocks_by_height: get_blocks_by_height_request | null = null,
-    add_block: add_block_request | null = null,
-    get_highest_block: get_highest_block_request | null = null
-  ) {
-    this.reserved = reserved;
-    this.get_blocks_by_id = get_blocks_by_id;
-    this.get_blocks_by_height = get_blocks_by_height;
-    this.add_block = add_block;
-    this.get_highest_block = get_highest_block;
-  }
-}
-
-export class block_store_response {
-  static encode(message: block_store_response, writer: Writer): void {
-    const field_reserved = message.reserved;
-    if (field_reserved !== null) {
-      writer.uint32(10);
-      writer.fork();
-      reserved_rpc.encode(field_reserved, writer);
-      writer.ldelim();
-    }
-
-    const field_error = message.error;
-    if (field_error !== null) {
-      writer.uint32(18);
-      writer.fork();
-      error_response.encode(field_error, writer);
-      writer.ldelim();
-    }
-
-    const field_get_blocks_by_id = message.get_blocks_by_id;
-    if (field_get_blocks_by_id !== null) {
-      writer.uint32(26);
-      writer.fork();
-      get_blocks_by_id_response.encode(field_get_blocks_by_id, writer);
-      writer.ldelim();
-    }
-
-    const field_get_blocks_by_height = message.get_blocks_by_height;
-    if (field_get_blocks_by_height !== null) {
-      writer.uint32(34);
-      writer.fork();
-      get_blocks_by_height_response.encode(field_get_blocks_by_height, writer);
-      writer.ldelim();
-    }
-
-    const field_add_block = message.add_block;
-    if (field_add_block !== null) {
-      writer.uint32(42);
-      writer.fork();
-      add_block_response.encode(field_add_block, writer);
-      writer.ldelim();
-    }
-
-    const field_get_highest_block = message.get_highest_block;
-    if (field_get_highest_block !== null) {
-      writer.uint32(50);
-      writer.fork();
-      get_highest_block_response.encode(field_get_highest_block, writer);
-      writer.ldelim();
-    }
-  }
-
-  static decode(reader: Reader, length: i32): block_store_response {
-    const end: usize = length < 0 ? reader.end : reader.ptr + length;
-    const message = new block_store_response();
-
-    while (reader.ptr < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.reserved = reserved_rpc.decode(reader, reader.uint32());
-          break;
-
-        case 2:
-          message.error = error_response.decode(reader, reader.uint32());
-          break;
-
-        case 3:
-          message.get_blocks_by_id = get_blocks_by_id_response.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        case 4:
-          message.get_blocks_by_height = get_blocks_by_height_response.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        case 5:
-          message.add_block = add_block_response.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        case 6:
-          message.get_highest_block = get_highest_block_response.decode(
-            reader,
-            reader.uint32()
-          );
-          break;
-
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-
-    return message;
-  }
-
-  reserved: reserved_rpc | null;
-  error: error_response | null;
-  get_blocks_by_id: get_blocks_by_id_response | null;
-  get_blocks_by_height: get_blocks_by_height_response | null;
-  add_block: add_block_response | null;
-  get_highest_block: get_highest_block_response | null;
-
-  constructor(
-    reserved: reserved_rpc | null = null,
-    error: error_response | null = null,
-    get_blocks_by_id: get_blocks_by_id_response | null = null,
-    get_blocks_by_height: get_blocks_by_height_response | null = null,
-    add_block: add_block_response | null = null,
-    get_highest_block: get_highest_block_response | null = null
-  ) {
-    this.reserved = reserved;
-    this.error = error;
-    this.get_blocks_by_id = get_blocks_by_id;
-    this.get_blocks_by_height = get_blocks_by_height;
-    this.add_block = add_block;
-    this.get_highest_block = get_highest_block;
   }
 }
