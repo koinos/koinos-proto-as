@@ -7,7 +7,7 @@ touch index.ts
 
 echo "export { Protobuf } from 'as-proto';" >> index.ts
 echo "" >> index.ts
-echo "export * from './google/protobuf/any';" >> index.ts
+echo "export { any } from './google/protobuf/any';" >> index.ts
 echo "" >> index.ts
 
 for file in $(find koinos -name "*.ts" -type f); do
@@ -15,7 +15,7 @@ for file in $(find koinos -name "*.ts" -type f); do
    filename=${file##*/}
    noext=${filename%.*}
 
-   echo "export * from './$dirname/$noext';" >> index.ts
+   echo "export { $noext } from './$dirname/$noext';" >> index.ts
 done
 
 popd
