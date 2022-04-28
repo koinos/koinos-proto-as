@@ -104,9 +104,16 @@ export namespace system_calls {
     }
   }
 
-  @unmanaged
   export class apply_block_result {
-    static encode(message: apply_block_result, writer: Writer): void {}
+    static encode(message: apply_block_result, writer: Writer): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(reader: Reader, length: i32): apply_block_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -115,6 +122,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -124,7 +135,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   export class apply_transaction_arguments {
@@ -168,9 +183,16 @@ export namespace system_calls {
     }
   }
 
-  @unmanaged
   export class apply_transaction_result {
-    static encode(message: apply_transaction_result, writer: Writer): void {}
+    static encode(message: apply_transaction_result, writer: Writer): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(reader: Reader, length: i32): apply_transaction_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -179,6 +201,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -188,7 +214,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   export class apply_upload_contract_operation_arguments {
@@ -238,12 +268,19 @@ export namespace system_calls {
     }
   }
 
-  @unmanaged
   export class apply_upload_contract_operation_result {
     static encode(
       message: apply_upload_contract_operation_result,
       writer: Writer
-    ): void {}
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(
       reader: Reader,
@@ -255,6 +292,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -264,7 +305,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   export class apply_call_contract_operation_arguments {
@@ -314,12 +359,19 @@ export namespace system_calls {
     }
   }
 
-  @unmanaged
   export class apply_call_contract_operation_result {
     static encode(
       message: apply_call_contract_operation_result,
       writer: Writer
-    ): void {}
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(
       reader: Reader,
@@ -331,6 +383,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -340,7 +396,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   export class apply_set_system_call_operation_arguments {
@@ -390,12 +450,19 @@ export namespace system_calls {
     }
   }
 
-  @unmanaged
   export class apply_set_system_call_operation_result {
     static encode(
       message: apply_set_system_call_operation_result,
       writer: Writer
-    ): void {}
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(
       reader: Reader,
@@ -407,6 +474,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -416,7 +487,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   export class apply_set_system_contract_operation_arguments {
@@ -466,12 +541,19 @@ export namespace system_calls {
     }
   }
 
-  @unmanaged
   export class apply_set_system_contract_operation_result {
     static encode(
       message: apply_set_system_contract_operation_result,
       writer: Writer
-    ): void {}
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(
       reader: Reader,
@@ -483,6 +565,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -492,7 +578,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   @unmanaged
@@ -521,9 +611,16 @@ export namespace system_calls {
     constructor() {}
   }
 
-  @unmanaged
   export class pre_block_callback_result {
-    static encode(message: pre_block_callback_result, writer: Writer): void {}
+    static encode(message: pre_block_callback_result, writer: Writer): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(reader: Reader, length: i32): pre_block_callback_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -532,6 +629,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -541,7 +642,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   @unmanaged
@@ -570,9 +675,16 @@ export namespace system_calls {
     constructor() {}
   }
 
-  @unmanaged
   export class post_block_callback_result {
-    static encode(message: post_block_callback_result, writer: Writer): void {}
+    static encode(message: post_block_callback_result, writer: Writer): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(reader: Reader, length: i32): post_block_callback_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -581,6 +693,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -590,7 +706,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   @unmanaged
@@ -622,12 +742,19 @@ export namespace system_calls {
     constructor() {}
   }
 
-  @unmanaged
   export class pre_transaction_callback_result {
     static encode(
       message: pre_transaction_callback_result,
       writer: Writer
-    ): void {}
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(
       reader: Reader,
@@ -639,6 +766,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -648,7 +779,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   @unmanaged
@@ -680,12 +815,19 @@ export namespace system_calls {
     constructor() {}
   }
 
-  @unmanaged
   export class post_transaction_callback_result {
     static encode(
       message: post_transaction_callback_result,
       writer: Writer
-    ): void {}
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(
       reader: Reader,
@@ -697,6 +839,10 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -706,7 +852,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
   }
 
   export class process_block_signature_arguments {
@@ -1404,9 +1554,9 @@ export namespace system_calls {
   }
 
   @unmanaged
-  export class require_system_authority_arguments {
+  export class check_system_authority_arguments {
     static encode(
-      message: require_system_authority_arguments,
+      message: check_system_authority_arguments,
       writer: Writer
     ): void {
       writer.uint32(8);
@@ -1416,9 +1566,9 @@ export namespace system_calls {
     static decode(
       reader: Reader,
       length: i32
-    ): require_system_authority_arguments {
+    ): check_system_authority_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new require_system_authority_arguments();
+      const message = new check_system_authority_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -1444,22 +1594,26 @@ export namespace system_calls {
   }
 
   @unmanaged
-  export class require_system_authority_result {
+  export class check_system_authority_result {
     static encode(
-      message: require_system_authority_result,
+      message: check_system_authority_result,
       writer: Writer
-    ): void {}
+    ): void {
+      writer.uint32(8);
+      writer.bool(message.value);
+    }
 
-    static decode(
-      reader: Reader,
-      length: i32
-    ): require_system_authority_result {
+    static decode(reader: Reader, length: i32): check_system_authority_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new require_system_authority_result();
+      const message = new check_system_authority_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = reader.bool();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1469,7 +1623,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: bool;
+
+    constructor(value: bool = false) {
+      this.value = value;
+    }
   }
 
   export class get_account_rc_arguments {
@@ -1856,10 +2014,7 @@ export namespace system_calls {
 
   @unmanaged
   export class put_object_result {
-    static encode(message: put_object_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.int32(message.value);
-    }
+    static encode(message: put_object_result, writer: Writer): void {}
 
     static decode(reader: Reader, length: i32): put_object_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -1868,10 +2023,6 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
-          case 1:
-            message.value = reader.int32();
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -1881,11 +2032,7 @@ export namespace system_calls {
       return message;
     }
 
-    value: i32;
-
-    constructor(value: i32 = 0) {
-      this.value = value;
-    }
+    constructor() {}
   }
 
   export class remove_object_arguments {
@@ -2949,8 +3096,8 @@ export namespace system_calls {
     }
   }
 
-  export class call_contract_arguments {
-    static encode(message: call_contract_arguments, writer: Writer): void {
+  export class call_arguments {
+    static encode(message: call_arguments, writer: Writer): void {
       const unique_name_contract_id = message.contract_id;
       if (unique_name_contract_id !== null) {
         writer.uint32(10);
@@ -2967,9 +3114,9 @@ export namespace system_calls {
       }
     }
 
-    static decode(reader: Reader, length: i32): call_contract_arguments {
+    static decode(reader: Reader, length: i32): call_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new call_contract_arguments();
+      const message = new call_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3010,24 +3157,26 @@ export namespace system_calls {
     }
   }
 
-  export class call_contract_result {
-    static encode(message: call_contract_result, writer: Writer): void {
+  export class call_result {
+    static encode(message: call_result, writer: Writer): void {
       const unique_name_value = message.value;
       if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
       }
     }
 
-    static decode(reader: Reader, length: i32): call_contract_result {
+    static decode(reader: Reader, length: i32): call_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new call_contract_result();
+      const message = new call_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.value = reader.bytes();
+            message.value = chain.result.decode(reader, reader.uint32());
             break;
 
           default:
@@ -3039,9 +3188,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: chain.result | null;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: chain.result | null = null) {
       this.value = value;
     }
   }
@@ -3104,18 +3253,12 @@ export namespace system_calls {
   }
 
   @unmanaged
-  export class get_contract_arguments_arguments {
-    static encode(
-      message: get_contract_arguments_arguments,
-      writer: Writer
-    ): void {}
+  export class get_arguments_arguments {
+    static encode(message: get_arguments_arguments, writer: Writer): void {}
 
-    static decode(
-      reader: Reader,
-      length: i32
-    ): get_contract_arguments_arguments {
+    static decode(reader: Reader, length: i32): get_arguments_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new get_contract_arguments_arguments();
+      const message = new get_arguments_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3132,11 +3275,8 @@ export namespace system_calls {
     constructor() {}
   }
 
-  export class get_contract_arguments_result {
-    static encode(
-      message: get_contract_arguments_result,
-      writer: Writer
-    ): void {
+  export class get_arguments_result {
+    static encode(message: get_arguments_result, writer: Writer): void {
       const unique_name_value = message.value;
       if (unique_name_value !== null) {
         writer.uint32(10);
@@ -3144,9 +3284,9 @@ export namespace system_calls {
       }
     }
 
-    static decode(reader: Reader, length: i32): get_contract_arguments_result {
+    static decode(reader: Reader, length: i32): get_arguments_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new get_contract_arguments_result();
+      const message = new get_arguments_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3171,27 +3311,26 @@ export namespace system_calls {
     }
   }
 
-  export class set_contract_result_arguments {
-    static encode(
-      message: set_contract_result_arguments,
-      writer: Writer
-    ): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+  export class exit_arguments {
+    static encode(message: exit_arguments, writer: Writer): void {
+      const unique_name_retval = message.retval;
+      if (unique_name_retval !== null) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.fork();
+        chain.result.encode(unique_name_retval, writer);
+        writer.ldelim();
       }
     }
 
-    static decode(reader: Reader, length: i32): set_contract_result_arguments {
+    static decode(reader: Reader, length: i32): exit_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new set_contract_result_arguments();
+      const message = new exit_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.value = reader.bytes();
+            message.retval = chain.result.decode(reader, reader.uint32());
             break;
 
           default:
@@ -3203,77 +3342,20 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    retval: chain.result | null;
 
-    constructor(value: Uint8Array | null = null) {
-      this.value = value;
+    constructor(retval: chain.result | null = null) {
+      this.retval = retval;
     }
   }
 
   @unmanaged
-  export class set_contract_result_result {
-    static encode(message: set_contract_result_result, writer: Writer): void {}
+  export class exit_result {
+    static encode(message: exit_result, writer: Writer): void {}
 
-    static decode(reader: Reader, length: i32): set_contract_result_result {
+    static decode(reader: Reader, length: i32): exit_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new set_contract_result_result();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    constructor() {}
-  }
-
-  @unmanaged
-  export class exit_contract_arguments {
-    static encode(message: exit_contract_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.exit_code);
-    }
-
-    static decode(reader: Reader, length: i32): exit_contract_arguments {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new exit_contract_arguments();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1:
-            message.exit_code = reader.uint32();
-            break;
-
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    exit_code: u32;
-
-    constructor(exit_code: u32 = 0) {
-      this.exit_code = exit_code;
-    }
-  }
-
-  @unmanaged
-  export class exit_contract_result {
-    static encode(message: exit_contract_result, writer: Writer): void {}
-
-    static decode(reader: Reader, length: i32): exit_contract_result {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new exit_contract_result();
+      const message = new exit_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3410,8 +3492,8 @@ export namespace system_calls {
     }
   }
 
-  export class require_authority_arguments {
-    static encode(message: require_authority_arguments, writer: Writer): void {
+  export class check_authority_arguments {
+    static encode(message: check_authority_arguments, writer: Writer): void {
       writer.uint32(8);
       writer.int32(message.type);
 
@@ -3422,9 +3504,9 @@ export namespace system_calls {
       }
     }
 
-    static decode(reader: Reader, length: i32): require_authority_arguments {
+    static decode(reader: Reader, length: i32): check_authority_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new require_authority_arguments();
+      const message = new check_authority_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3459,16 +3541,23 @@ export namespace system_calls {
   }
 
   @unmanaged
-  export class require_authority_result {
-    static encode(message: require_authority_result, writer: Writer): void {}
+  export class check_authority_result {
+    static encode(message: check_authority_result, writer: Writer): void {
+      writer.uint32(8);
+      writer.bool(message.value);
+    }
 
-    static decode(reader: Reader, length: i32): require_authority_result {
+    static decode(reader: Reader, length: i32): check_authority_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new require_authority_result();
+      const message = new check_authority_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = reader.bool();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -3478,7 +3567,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: bool;
+
+    constructor(value: bool = false) {
+      this.value = value;
+    }
   }
 
   export enum system_authorization_type {

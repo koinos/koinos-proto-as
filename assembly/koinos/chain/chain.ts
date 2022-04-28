@@ -2,6 +2,51 @@ import { Writer, Reader } from "as-proto";
 import { common } from "../common";
 
 export namespace chain {
+  export class result {
+    static encode(message: result, writer: Writer): void {
+      writer.uint32(8);
+      writer.int32(message.code);
+
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(18);
+        writer.bytes(unique_name_value);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.code = reader.int32();
+            break;
+
+          case 2:
+            message.value = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    code: i32;
+    value: Uint8Array | null;
+
+    constructor(code: i32 = 0, value: Uint8Array | null = null) {
+      this.code = code;
+      this.value = value;
+    }
+  }
+
   export class object_space {
     static encode(message: object_space, writer: Writer): void {
       writer.uint32(8);
