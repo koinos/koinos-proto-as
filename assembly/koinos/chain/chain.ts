@@ -2,6 +2,87 @@ import { Writer, Reader } from "as-proto";
 import { common } from "../common";
 
 export namespace chain {
+  export class result {
+    static encode(message: result, writer: Writer): void {
+      writer.uint32(8);
+      writer.int32(message.code);
+
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(18);
+        writer.bytes(unique_name_value);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.code = reader.int32();
+            break;
+
+          case 2:
+            message.value = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    code: i32;
+    value: Uint8Array | null;
+
+    constructor(code: i32 = 0, value: Uint8Array | null = null) {
+      this.code = code;
+      this.value = value;
+    }
+  }
+
+  export class error_info {
+    static encode(message: error_info, writer: Writer): void {
+      const unique_name_message_2 = message.message;
+      if (unique_name_message_2 !== null) {
+        writer.uint32(10);
+        writer.string(unique_name_message_2);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): error_info {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new error_info();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.message = reader.string();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    message: string | null;
+
+    constructor(message: string | null = null) {
+      this.message = message;
+    }
+  }
+
   export class object_space {
     static encode(message: object_space, writer: Writer): void {
       writer.uint32(8);
@@ -255,6 +336,51 @@ export namespace chain {
     ) {
       this.caller = caller;
       this.caller_privilege = caller_privilege;
+    }
+  }
+
+  export class argument_data {
+    static encode(message: argument_data, writer: Writer): void {
+      writer.uint32(8);
+      writer.uint32(message.entry_point);
+
+      const unique_name_arguments = message.arguments;
+      if (unique_name_arguments !== null) {
+        writer.uint32(18);
+        writer.bytes(unique_name_arguments);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): argument_data {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new argument_data();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.entry_point = reader.uint32();
+            break;
+
+          case 2:
+            message.arguments = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    entry_point: u32;
+    arguments: Uint8Array | null;
+
+    constructor(entry_point: u32 = 0, arguments: Uint8Array | null = null) {
+      this.entry_point = entry_point;
+      this.arguments = arguments;
     }
   }
 
