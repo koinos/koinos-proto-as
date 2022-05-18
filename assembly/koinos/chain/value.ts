@@ -2,6 +2,7 @@ import { Writer, Reader } from "as-proto";
 import { any } from "../../google/protobuf/any";
 
 export namespace value {
+  @unmanaged
   export class value_type {
     static encode(message: value_type, writer: Writer): void {
       const unique_name_message_value = message.message_value;
@@ -12,55 +13,79 @@ export namespace value {
         writer.ldelim();
       }
 
-      writer.uint32(17);
-      writer.double(message.double_value);
-
-      writer.uint32(29);
-      writer.float(message.float_value);
-
-      writer.uint32(32);
-      writer.int32(message.int32_value);
-
-      writer.uint32(40);
-      writer.int64(message.int64_value);
-
-      writer.uint32(48);
-      writer.uint32(message.uint32_value);
-
-      writer.uint32(56);
-      writer.uint64(message.uint64_value);
-
-      writer.uint32(64);
-      writer.sint32(message.sint32_value);
-
-      writer.uint32(72);
-      writer.sint64(message.sint64_value);
-
-      writer.uint32(85);
-      writer.fixed32(message.fixed32_value);
-
-      writer.uint32(89);
-      writer.fixed64(message.fixed64_value);
-
-      writer.uint32(101);
-      writer.sfixed32(message.sfixed32_value);
-
-      writer.uint32(105);
-      writer.sfixed64(message.sfixed64_value);
-
-      writer.uint32(112);
-      writer.bool(message.bool_value);
-
-      const unique_name_string_value = message.string_value;
-      if (unique_name_string_value !== null) {
-        writer.uint32(122);
-        writer.string(unique_name_string_value);
+      if (message.double_value != 0.0) {
+        writer.uint32(17);
+        writer.double(message.double_value);
       }
 
-      const unique_name_bytes_value = message.bytes_value;
-      if (unique_name_bytes_value !== null) {
+      if (message.float_value != 0.0) {
+        writer.uint32(29);
+        writer.float(message.float_value);
+      }
+
+      if (message.int32_value != 0) {
+        writer.uint32(32);
+        writer.int32(message.int32_value);
+      }
+
+      if (message.int64_value != 0) {
+        writer.uint32(40);
+        writer.int64(message.int64_value);
+      }
+
+      if (message.uint32_value != 0) {
+        writer.uint32(48);
+        writer.uint32(message.uint32_value);
+      }
+
+      if (message.uint64_value != 0) {
+        writer.uint32(56);
+        writer.uint64(message.uint64_value);
+      }
+
+      if (message.sint32_value != 0) {
+        writer.uint32(64);
+        writer.sint32(message.sint32_value);
+      }
+
+      if (message.sint64_value != 0) {
+        writer.uint32(72);
+        writer.sint64(message.sint64_value);
+      }
+
+      if (message.fixed32_value != 0) {
+        writer.uint32(85);
+        writer.fixed32(message.fixed32_value);
+      }
+
+      if (message.fixed64_value != 0) {
+        writer.uint32(89);
+        writer.fixed64(message.fixed64_value);
+      }
+
+      if (message.sfixed32_value != 0) {
+        writer.uint32(101);
+        writer.sfixed32(message.sfixed32_value);
+      }
+
+      if (message.sfixed64_value != 0) {
+        writer.uint32(105);
+        writer.sfixed64(message.sfixed64_value);
+      }
+
+      if (message.bool_value != false) {
+        writer.uint32(112);
+        writer.bool(message.bool_value);
+      }
+
+      if (message.string_value.length != 0) {
+        writer.uint32(122);
+        writer.string(message.string_value);
+      }
+
+      if (message.bytes_value.length != 0) {
         writer.uint32(130);
-        writer.bytes(unique_name_bytes_value);
+        writer.bytes(message.bytes_value);
       }
     }
 
@@ -158,8 +183,8 @@ export namespace value {
     sfixed32_value: i32;
     sfixed64_value: i64;
     bool_value: bool;
-    string_value: string | null;
-    bytes_value: Uint8Array | null;
+    string_value: string;
+    bytes_value: Uint8Array;
 
     constructor(
       message_value: any.Any | null = null,
@@ -176,8 +201,8 @@ export namespace value {
       sfixed32_value: i32 = 0,
       sfixed64_value: i64 = 0,
       bool_value: bool = false,
-      string_value: string | null = null,
-      bytes_value: Uint8Array | null = null
+      string_value: string = "",
+      bytes_value: Uint8Array = new Uint8Array(0)
     ) {
       this.message_value = message_value;
       this.double_value = double_value;
@@ -198,16 +223,18 @@ export namespace value {
     }
   }
 
+  @unmanaged
   export class enum_type {
     static encode(message: enum_type, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
 
-      writer.uint32(16);
-      writer.int32(message.number);
+      if (message.number != 0) {
+        writer.uint32(16);
+        writer.int32(message.number);
+      }
     }
 
     static decode(reader: Reader, length: i32): enum_type {
@@ -234,10 +261,10 @@ export namespace value {
       return message;
     }
 
-    name: string | null;
+    name: string;
     number: i32;
 
-    constructor(name: string | null = null, number: i32 = 0) {
+    constructor(name: string = "", number: i32 = 0) {
       this.name = name;
       this.number = number;
     }

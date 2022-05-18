@@ -21,8 +21,10 @@ export namespace broadcast {
         writer.ldelim();
       }
 
-      writer.uint32(24);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(24);
+        writer.uint64(message.height);
+      }
     }
 
     static decode(reader: Reader, length: i32): transaction_accepted {
@@ -74,12 +76,12 @@ export namespace broadcast {
     }
   }
 
+  @unmanaged
   export class transaction_failed {
     static encode(message: transaction_failed, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
     }
 
@@ -103,9 +105,9 @@ export namespace broadcast {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
 
-    constructor(id: Uint8Array | null = null) {
+    constructor(id: Uint8Array = new Uint8Array(0)) {
       this.id = id;
     }
   }
@@ -128,11 +130,15 @@ export namespace broadcast {
         writer.ldelim();
       }
 
-      writer.uint32(24);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(24);
+        writer.uint64(message.height);
+      }
 
-      writer.uint32(32);
-      writer.uint64(message.pending_rc_used);
+      if (message.pending_rc_used != 0) {
+        writer.uint32(32);
+        writer.uint64(message.pending_rc_used);
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_accepted {
@@ -209,8 +215,10 @@ export namespace broadcast {
         writer.ldelim();
       }
 
-      writer.uint32(24);
-      writer.bool(message.live);
+      if (message.live != false) {
+        writer.uint32(24);
+        writer.bool(message.live);
+      }
     }
 
     static decode(reader: Reader, length: i32): block_accepted {
@@ -259,6 +267,7 @@ export namespace broadcast {
     }
   }
 
+  @unmanaged
   export class block_irreversible {
     static encode(message: block_irreversible, writer: Writer): void {
       const unique_name_topology = message.topology;
@@ -367,8 +376,10 @@ export namespace broadcast {
   @unmanaged
   export class gossip_status {
     static encode(message: gossip_status, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.enabled);
+      if (message.enabled != false) {
+        writer.uint32(8);
+        writer.bool(message.enabled);
+      }
     }
 
     static decode(reader: Reader, length: i32): gossip_status {
@@ -400,19 +411,19 @@ export namespace broadcast {
 
   export class event_parcel {
     static encode(message: event_parcel, writer: Writer): void {
-      const unique_name_block_id = message.block_id;
-      if (unique_name_block_id !== null) {
+      if (message.block_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_block_id);
+        writer.bytes(message.block_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.height);
+      }
 
-      const unique_name_transaction_id = message.transaction_id;
-      if (unique_name_transaction_id !== null) {
+      if (message.transaction_id.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_transaction_id);
+        writer.bytes(message.transaction_id);
       }
 
       const unique_name_event = message.event;
@@ -456,15 +467,15 @@ export namespace broadcast {
       return message;
     }
 
-    block_id: Uint8Array | null;
+    block_id: Uint8Array;
     height: u64;
-    transaction_id: Uint8Array | null;
+    transaction_id: Uint8Array;
     event: protocol.event_data | null;
 
     constructor(
-      block_id: Uint8Array | null = null,
+      block_id: Uint8Array = new Uint8Array(0),
       height: u64 = 0,
-      transaction_id: Uint8Array | null = null,
+      transaction_id: Uint8Array = new Uint8Array(0),
       event: protocol.event_data | null = null
     ) {
       this.block_id = block_id;

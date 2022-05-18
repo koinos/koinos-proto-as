@@ -15,11 +15,15 @@ export namespace block_store_rpc {
         }
       }
 
-      writer.uint32(16);
-      writer.bool(message.return_block);
+      if (message.return_block != false) {
+        writer.uint32(16);
+        writer.bool(message.return_block);
+      }
 
-      writer.uint32(24);
-      writer.bool(message.return_receipt);
+      if (message.return_receipt != false) {
+        writer.uint32(24);
+        writer.bool(message.return_receipt);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_blocks_by_id_request {
@@ -105,25 +109,33 @@ export namespace block_store_rpc {
     }
   }
 
+  @unmanaged
   export class get_blocks_by_height_request {
     static encode(message: get_blocks_by_height_request, writer: Writer): void {
-      const unique_name_head_block_id = message.head_block_id;
-      if (unique_name_head_block_id !== null) {
+      if (message.head_block_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_head_block_id);
+        writer.bytes(message.head_block_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.ancestor_start_height);
+      if (message.ancestor_start_height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.ancestor_start_height);
+      }
 
-      writer.uint32(24);
-      writer.uint32(message.num_blocks);
+      if (message.num_blocks != 0) {
+        writer.uint32(24);
+        writer.uint32(message.num_blocks);
+      }
 
-      writer.uint32(32);
-      writer.bool(message.return_block);
+      if (message.return_block != false) {
+        writer.uint32(32);
+        writer.bool(message.return_block);
+      }
 
-      writer.uint32(40);
-      writer.bool(message.return_receipt);
+      if (message.return_receipt != false) {
+        writer.uint32(40);
+        writer.bool(message.return_receipt);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_blocks_by_height_request {
@@ -162,14 +174,14 @@ export namespace block_store_rpc {
       return message;
     }
 
-    head_block_id: Uint8Array | null;
+    head_block_id: Uint8Array;
     ancestor_start_height: u64;
     num_blocks: u32;
     return_block: bool;
     return_receipt: bool;
 
     constructor(
-      head_block_id: Uint8Array | null = null,
+      head_block_id: Uint8Array = new Uint8Array(0),
       ancestor_start_height: u64 = 0,
       num_blocks: u32 = 0,
       return_block: bool = false,
@@ -333,6 +345,7 @@ export namespace block_store_rpc {
     constructor() {}
   }
 
+  @unmanaged
   export class get_highest_block_response {
     static encode(message: get_highest_block_response, writer: Writer): void {
       const unique_name_topology = message.topology;

@@ -24,12 +24,12 @@ export namespace token {
     constructor() {}
   }
 
+  @unmanaged
   export class name_result {
     static encode(message: name_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_value);
+        writer.string(message.value);
       }
     }
 
@@ -53,9 +53,9 @@ export namespace token {
       return message;
     }
 
-    value: string | null;
+    value: string;
 
-    constructor(value: string | null = null) {
+    constructor(value: string = "") {
       this.value = value;
     }
   }
@@ -83,12 +83,12 @@ export namespace token {
     constructor() {}
   }
 
+  @unmanaged
   export class symbol_result {
     static encode(message: symbol_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_value);
+        writer.string(message.value);
       }
     }
 
@@ -112,9 +112,9 @@ export namespace token {
       return message;
     }
 
-    value: string | null;
+    value: string;
 
-    constructor(value: string | null = null) {
+    constructor(value: string = "") {
       this.value = value;
     }
   }
@@ -145,8 +145,10 @@ export namespace token {
   @unmanaged
   export class decimals_result {
     static encode(message: decimals_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint32(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): decimals_result {
@@ -202,8 +204,10 @@ export namespace token {
   @unmanaged
   export class total_supply_result {
     static encode(message: total_supply_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): total_supply_result {
@@ -233,12 +237,12 @@ export namespace token {
     }
   }
 
+  @unmanaged
   export class balance_of_arguments {
     static encode(message: balance_of_arguments, writer: Writer): void {
-      const unique_name_owner = message.owner;
-      if (unique_name_owner !== null) {
+      if (message.owner.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_owner);
+        writer.bytes(message.owner);
       }
     }
 
@@ -262,9 +266,9 @@ export namespace token {
       return message;
     }
 
-    owner: Uint8Array | null;
+    owner: Uint8Array;
 
-    constructor(owner: Uint8Array | null = null) {
+    constructor(owner: Uint8Array = new Uint8Array(0)) {
       this.owner = owner;
     }
   }
@@ -272,8 +276,10 @@ export namespace token {
   @unmanaged
   export class balance_of_result {
     static encode(message: balance_of_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): balance_of_result {
@@ -303,22 +309,23 @@ export namespace token {
     }
   }
 
+  @unmanaged
   export class transfer_arguments {
     static encode(message: transfer_arguments, writer: Writer): void {
-      const unique_name_from = message.from;
-      if (unique_name_from !== null) {
+      if (message.from.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_from);
+        writer.bytes(message.from);
       }
 
-      const unique_name_to = message.to;
-      if (unique_name_to !== null) {
+      if (message.to.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_to);
+        writer.bytes(message.to);
       }
 
-      writer.uint32(24);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(24);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): transfer_arguments {
@@ -349,13 +356,13 @@ export namespace token {
       return message;
     }
 
-    from: Uint8Array | null;
-    to: Uint8Array | null;
+    from: Uint8Array;
+    to: Uint8Array;
     value: u64;
 
     constructor(
-      from: Uint8Array | null = null,
-      to: Uint8Array | null = null,
+      from: Uint8Array = new Uint8Array(0),
+      to: Uint8Array = new Uint8Array(0),
       value: u64 = 0
     ) {
       this.from = from;
@@ -367,8 +374,10 @@ export namespace token {
   @unmanaged
   export class transfer_result {
     static encode(message: transfer_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): transfer_result {
@@ -398,16 +407,18 @@ export namespace token {
     }
   }
 
+  @unmanaged
   export class mint_arguments {
     static encode(message: mint_arguments, writer: Writer): void {
-      const unique_name_to = message.to;
-      if (unique_name_to !== null) {
+      if (message.to.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_to);
+        writer.bytes(message.to);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): mint_arguments {
@@ -434,10 +445,10 @@ export namespace token {
       return message;
     }
 
-    to: Uint8Array | null;
+    to: Uint8Array;
     value: u64;
 
-    constructor(to: Uint8Array | null = null, value: u64 = 0) {
+    constructor(to: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.to = to;
       this.value = value;
     }
@@ -446,8 +457,10 @@ export namespace token {
   @unmanaged
   export class mint_result {
     static encode(message: mint_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): mint_result {
@@ -477,16 +490,18 @@ export namespace token {
     }
   }
 
+  @unmanaged
   export class burn_arguments {
     static encode(message: burn_arguments, writer: Writer): void {
-      const unique_name_from = message.from;
-      if (unique_name_from !== null) {
+      if (message.from.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_from);
+        writer.bytes(message.from);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): burn_arguments {
@@ -513,10 +528,10 @@ export namespace token {
       return message;
     }
 
-    from: Uint8Array | null;
+    from: Uint8Array;
     value: u64;
 
-    constructor(from: Uint8Array | null = null, value: u64 = 0) {
+    constructor(from: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.from = from;
       this.value = value;
     }
@@ -525,8 +540,10 @@ export namespace token {
   @unmanaged
   export class burn_result {
     static encode(message: burn_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): burn_result {
@@ -559,8 +576,10 @@ export namespace token {
   @unmanaged
   export class balance_object {
     static encode(message: balance_object, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): balance_object {
@@ -593,14 +612,20 @@ export namespace token {
   @unmanaged
   export class mana_balance_object {
     static encode(message: mana_balance_object, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.balance);
+      if (message.balance != 0) {
+        writer.uint32(8);
+        writer.uint64(message.balance);
+      }
 
-      writer.uint32(16);
-      writer.uint64(message.mana);
+      if (message.mana != 0) {
+        writer.uint32(16);
+        writer.uint64(message.mana);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.last_mana_update);
+      if (message.last_mana_update != 0) {
+        writer.uint32(24);
+        writer.uint64(message.last_mana_update);
+      }
     }
 
     static decode(reader: Reader, length: i32): mana_balance_object {
@@ -642,16 +667,18 @@ export namespace token {
     }
   }
 
+  @unmanaged
   export class burn_event {
     static encode(message: burn_event, writer: Writer): void {
-      const unique_name_from = message.from;
-      if (unique_name_from !== null) {
+      if (message.from.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_from);
+        writer.bytes(message.from);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): burn_event {
@@ -678,25 +705,27 @@ export namespace token {
       return message;
     }
 
-    from: Uint8Array | null;
+    from: Uint8Array;
     value: u64;
 
-    constructor(from: Uint8Array | null = null, value: u64 = 0) {
+    constructor(from: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.from = from;
       this.value = value;
     }
   }
 
+  @unmanaged
   export class mint_event {
     static encode(message: mint_event, writer: Writer): void {
-      const unique_name_to = message.to;
-      if (unique_name_to !== null) {
+      if (message.to.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_to);
+        writer.bytes(message.to);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): mint_event {
@@ -723,31 +752,32 @@ export namespace token {
       return message;
     }
 
-    to: Uint8Array | null;
+    to: Uint8Array;
     value: u64;
 
-    constructor(to: Uint8Array | null = null, value: u64 = 0) {
+    constructor(to: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.to = to;
       this.value = value;
     }
   }
 
+  @unmanaged
   export class transfer_event {
     static encode(message: transfer_event, writer: Writer): void {
-      const unique_name_from = message.from;
-      if (unique_name_from !== null) {
+      if (message.from.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_from);
+        writer.bytes(message.from);
       }
 
-      const unique_name_to = message.to;
-      if (unique_name_to !== null) {
+      if (message.to.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_to);
+        writer.bytes(message.to);
       }
 
-      writer.uint32(24);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(24);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): transfer_event {
@@ -778,13 +808,13 @@ export namespace token {
       return message;
     }
 
-    from: Uint8Array | null;
-    to: Uint8Array | null;
+    from: Uint8Array;
+    to: Uint8Array;
     value: u64;
 
     constructor(
-      from: Uint8Array | null = null,
-      to: Uint8Array | null = null,
+      from: Uint8Array = new Uint8Array(0),
+      to: Uint8Array = new Uint8Array(0),
       value: u64 = 0
     ) {
       this.from = from;

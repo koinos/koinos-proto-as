@@ -28,8 +28,10 @@ export namespace p2p_rpc {
   @unmanaged
   export class get_gossip_status_response {
     static encode(message: get_gossip_status_response, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.enabled);
+      if (message.enabled != false) {
+        writer.uint32(8);
+        writer.bool(message.enabled);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_gossip_status_response {
@@ -118,6 +120,7 @@ export namespace p2p_rpc {
     }
   }
 
+  @unmanaged
   export class p2p_response {
     static encode(message: p2p_response, writer: Writer): void {
       const unique_name_reserved = message.reserved;

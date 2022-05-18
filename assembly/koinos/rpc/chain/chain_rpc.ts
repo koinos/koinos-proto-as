@@ -189,6 +189,7 @@ export namespace chain_rpc {
     constructor() {}
   }
 
+  @unmanaged
   export class get_head_info_response {
     static encode(message: get_head_info_response, writer: Writer): void {
       const unique_name_head_topology = message.head_topology;
@@ -199,13 +200,14 @@ export namespace chain_rpc {
         writer.ldelim();
       }
 
-      writer.uint32(16);
-      writer.uint64(message.last_irreversible_block);
+      if (message.last_irreversible_block != 0) {
+        writer.uint32(16);
+        writer.uint64(message.last_irreversible_block);
+      }
 
-      const unique_name_head_state_merkle_root = message.head_state_merkle_root;
-      if (unique_name_head_state_merkle_root !== null) {
+      if (message.head_state_merkle_root.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_head_state_merkle_root);
+        writer.bytes(message.head_state_merkle_root);
       }
     }
 
@@ -242,12 +244,12 @@ export namespace chain_rpc {
 
     head_topology: common.block_topology | null;
     last_irreversible_block: u64;
-    head_state_merkle_root: Uint8Array | null;
+    head_state_merkle_root: Uint8Array;
 
     constructor(
       head_topology: common.block_topology | null = null,
       last_irreversible_block: u64 = 0,
-      head_state_merkle_root: Uint8Array | null = null
+      head_state_merkle_root: Uint8Array = new Uint8Array(0)
     ) {
       this.head_topology = head_topology;
       this.last_irreversible_block = last_irreversible_block;
@@ -278,12 +280,12 @@ export namespace chain_rpc {
     constructor() {}
   }
 
+  @unmanaged
   export class get_chain_id_response {
     static encode(message: get_chain_id_response, writer: Writer): void {
-      const unique_name_chain_id = message.chain_id;
-      if (unique_name_chain_id !== null) {
+      if (message.chain_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_chain_id);
+        writer.bytes(message.chain_id);
       }
     }
 
@@ -307,9 +309,9 @@ export namespace chain_rpc {
       return message;
     }
 
-    chain_id: Uint8Array | null;
+    chain_id: Uint8Array;
 
-    constructor(chain_id: Uint8Array | null = null) {
+    constructor(chain_id: Uint8Array = new Uint8Array(0)) {
       this.chain_id = chain_id;
     }
   }
@@ -401,21 +403,22 @@ export namespace chain_rpc {
     }
   }
 
+  @unmanaged
   export class read_contract_request {
     static encode(message: read_contract_request, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
-      writer.uint32(16);
-      writer.uint32(message.entry_point);
+      if (message.entry_point != 0) {
+        writer.uint32(16);
+        writer.uint32(message.entry_point);
+      }
 
-      const unique_name_args = message.args;
-      if (unique_name_args !== null) {
+      if (message.args.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_args);
+        writer.bytes(message.args);
       }
     }
 
@@ -447,14 +450,14 @@ export namespace chain_rpc {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     entry_point: u32;
-    args: Uint8Array | null;
+    args: Uint8Array;
 
     constructor(
-      contract_id: Uint8Array | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
       entry_point: u32 = 0,
-      args: Uint8Array | null = null
+      args: Uint8Array = new Uint8Array(0)
     ) {
       this.contract_id = contract_id;
       this.entry_point = entry_point;
@@ -464,10 +467,9 @@ export namespace chain_rpc {
 
   export class read_contract_response {
     static encode(message: read_contract_response, writer: Writer): void {
-      const unique_name_result = message.result;
-      if (unique_name_result !== null) {
+      if (message.result.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_result);
+        writer.bytes(message.result);
       }
 
       const unique_name_logs = message.logs;
@@ -503,21 +505,24 @@ export namespace chain_rpc {
       return message;
     }
 
-    result: Uint8Array | null;
+    result: Uint8Array;
     logs: Array<string>;
 
-    constructor(result: Uint8Array | null = null, logs: Array<string> = []) {
+    constructor(
+      result: Uint8Array = new Uint8Array(0),
+      logs: Array<string> = []
+    ) {
       this.result = result;
       this.logs = logs;
     }
   }
 
+  @unmanaged
   export class get_account_nonce_request {
     static encode(message: get_account_nonce_request, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
     }
 
@@ -541,19 +546,19 @@ export namespace chain_rpc {
       return message;
     }
 
-    account: Uint8Array | null;
+    account: Uint8Array;
 
-    constructor(account: Uint8Array | null = null) {
+    constructor(account: Uint8Array = new Uint8Array(0)) {
       this.account = account;
     }
   }
 
+  @unmanaged
   export class get_account_nonce_response {
     static encode(message: get_account_nonce_response, writer: Writer): void {
-      const unique_name_nonce = message.nonce;
-      if (unique_name_nonce !== null) {
+      if (message.nonce.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_nonce);
+        writer.bytes(message.nonce);
       }
     }
 
@@ -577,19 +582,19 @@ export namespace chain_rpc {
       return message;
     }
 
-    nonce: Uint8Array | null;
+    nonce: Uint8Array;
 
-    constructor(nonce: Uint8Array | null = null) {
+    constructor(nonce: Uint8Array = new Uint8Array(0)) {
       this.nonce = nonce;
     }
   }
 
+  @unmanaged
   export class get_account_rc_request {
     static encode(message: get_account_rc_request, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
     }
 
@@ -613,9 +618,9 @@ export namespace chain_rpc {
       return message;
     }
 
-    account: Uint8Array | null;
+    account: Uint8Array;
 
-    constructor(account: Uint8Array | null = null) {
+    constructor(account: Uint8Array = new Uint8Array(0)) {
       this.account = account;
     }
   }
@@ -623,8 +628,10 @@ export namespace chain_rpc {
   @unmanaged
   export class get_account_rc_response {
     static encode(message: get_account_rc_response, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.rc);
+      if (message.rc != 0) {
+        writer.uint32(8);
+        writer.uint64(message.rc);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_account_rc_response {

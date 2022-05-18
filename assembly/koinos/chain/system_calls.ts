@@ -28,6 +28,7 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class get_head_info_result {
     static encode(message: get_head_info_result, writer: Writer): void {
       const unique_name_value = message.value;
@@ -191,6 +192,7 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class apply_upload_contract_operation_arguments {
     static encode(
       message: apply_upload_contract_operation_arguments,
@@ -267,6 +269,7 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class apply_call_contract_operation_arguments {
     static encode(
       message: apply_call_contract_operation_arguments,
@@ -343,6 +346,7 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class apply_set_system_call_operation_arguments {
     static encode(
       message: apply_set_system_call_operation_arguments,
@@ -419,6 +423,7 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class apply_set_system_contract_operation_arguments {
     static encode(
       message: apply_set_system_contract_operation_arguments,
@@ -685,7 +690,15 @@ export namespace system_calls {
     static encode(
       message: post_transaction_callback_result,
       writer: Writer
-    ): void {}
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
 
     static decode(
       reader: Reader,
@@ -693,6 +706,37 @@ export namespace system_calls {
     ): post_transaction_callback_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
       const message = new post_transaction_callback_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = chain.result.decode(reader, reader.uint32());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: chain.result | null;
+
+    constructor(value: chain.result | null = null) {
+      this.value = value;
+    }
+  }
+
+  @unmanaged
+  export class get_chain_id_arguments {
+    static encode(message: get_chain_id_arguments, writer: Writer): void {}
+
+    static decode(reader: Reader, length: i32): get_chain_id_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_chain_id_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -709,15 +753,50 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
+  export class get_chain_id_result {
+    static encode(message: get_chain_id_result, writer: Writer): void {
+      if (message.value.length != 0) {
+        writer.uint32(10);
+        writer.bytes(message.value);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): get_chain_id_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_chain_id_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: Uint8Array;
+
+    constructor(value: Uint8Array = new Uint8Array(0)) {
+      this.value = value;
+    }
+  }
+
   export class process_block_signature_arguments {
     static encode(
       message: process_block_signature_arguments,
       writer: Writer
     ): void {
-      const unique_name_digest = message.digest;
-      if (unique_name_digest !== null) {
+      if (message.digest.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_digest);
+        writer.bytes(message.digest);
       }
 
       const unique_name_header = message.header;
@@ -728,10 +807,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
+      if (message.signature.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_signature);
+        writer.bytes(message.signature);
       }
     }
 
@@ -769,14 +847,14 @@ export namespace system_calls {
       return message;
     }
 
-    digest: Uint8Array | null;
+    digest: Uint8Array;
     header: protocol.block_header | null;
-    signature: Uint8Array | null;
+    signature: Uint8Array;
 
     constructor(
-      digest: Uint8Array | null = null,
+      digest: Uint8Array = new Uint8Array(0),
       header: protocol.block_header | null = null,
-      signature: Uint8Array | null = null
+      signature: Uint8Array = new Uint8Array(0)
     ) {
       this.digest = digest;
       this.header = header;
@@ -790,8 +868,10 @@ export namespace system_calls {
       message: process_block_signature_result,
       writer: Writer
     ): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): process_block_signature_result {
@@ -885,15 +965,15 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class get_transaction_field_arguments {
     static encode(
       message: get_transaction_field_arguments,
       writer: Writer
     ): void {
-      const unique_name_field = message.field;
-      if (unique_name_field !== null) {
+      if (message.field.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_field);
+        writer.string(message.field);
       }
     }
 
@@ -920,13 +1000,14 @@ export namespace system_calls {
       return message;
     }
 
-    field: string | null;
+    field: string;
 
-    constructor(field: string | null = null) {
+    constructor(field: string = "") {
       this.field = field;
     }
   }
 
+  @unmanaged
   export class get_transaction_field_result {
     static encode(message: get_transaction_field_result, writer: Writer): void {
       const unique_name_value = message.value;
@@ -1026,12 +1107,12 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class get_block_field_arguments {
     static encode(message: get_block_field_arguments, writer: Writer): void {
-      const unique_name_field = message.field;
-      if (unique_name_field !== null) {
+      if (message.field.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_field);
+        writer.string(message.field);
       }
     }
 
@@ -1055,13 +1136,14 @@ export namespace system_calls {
       return message;
     }
 
-    field: string | null;
+    field: string;
 
-    constructor(field: string | null = null) {
+    constructor(field: string = "") {
       this.field = field;
     }
   }
 
+  @unmanaged
   export class get_block_field_result {
     static encode(message: get_block_field_result, writer: Writer): void {
       const unique_name_value = message.value;
@@ -1135,8 +1217,10 @@ export namespace system_calls {
       message: get_last_irreversible_block_result,
       writer: Writer
     ): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(
@@ -1169,12 +1253,12 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class get_account_nonce_arguments {
     static encode(message: get_account_nonce_arguments, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
     }
 
@@ -1198,19 +1282,19 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
+    account: Uint8Array;
 
-    constructor(account: Uint8Array | null = null) {
+    constructor(account: Uint8Array = new Uint8Array(0)) {
       this.account = account;
     }
   }
 
+  @unmanaged
   export class get_account_nonce_result {
     static encode(message: get_account_nonce_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -1234,28 +1318,27 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
 
+  @unmanaged
   export class verify_account_nonce_arguments {
     static encode(
       message: verify_account_nonce_arguments,
       writer: Writer
     ): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
 
-      const unique_name_nonce = message.nonce;
-      if (unique_name_nonce !== null) {
+      if (message.nonce.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_nonce);
+        writer.bytes(message.nonce);
       }
     }
 
@@ -1283,12 +1366,12 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
-    nonce: Uint8Array | null;
+    account: Uint8Array;
+    nonce: Uint8Array;
 
     constructor(
-      account: Uint8Array | null = null,
-      nonce: Uint8Array | null = null
+      account: Uint8Array = new Uint8Array(0),
+      nonce: Uint8Array = new Uint8Array(0)
     ) {
       this.account = account;
       this.nonce = nonce;
@@ -1298,8 +1381,10 @@ export namespace system_calls {
   @unmanaged
   export class verify_account_nonce_result {
     static encode(message: verify_account_nonce_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): verify_account_nonce_result {
@@ -1329,18 +1414,17 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class set_account_nonce_arguments {
     static encode(message: set_account_nonce_arguments, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
 
-      const unique_name_nonce = message.nonce;
-      if (unique_name_nonce !== null) {
+      if (message.nonce.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_nonce);
+        writer.bytes(message.nonce);
       }
     }
 
@@ -1368,12 +1452,12 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
-    nonce: Uint8Array | null;
+    account: Uint8Array;
+    nonce: Uint8Array;
 
     constructor(
-      account: Uint8Array | null = null,
-      nonce: Uint8Array | null = null
+      account: Uint8Array = new Uint8Array(0),
+      nonce: Uint8Array = new Uint8Array(0)
     ) {
       this.account = account;
       this.nonce = nonce;
@@ -1404,21 +1488,23 @@ export namespace system_calls {
   }
 
   @unmanaged
-  export class require_system_authority_arguments {
+  export class check_system_authority_arguments {
     static encode(
-      message: require_system_authority_arguments,
+      message: check_system_authority_arguments,
       writer: Writer
     ): void {
-      writer.uint32(8);
-      writer.int32(message.type);
+      if (message.type != 0) {
+        writer.uint32(8);
+        writer.int32(message.type);
+      }
     }
 
     static decode(
       reader: Reader,
       length: i32
-    ): require_system_authority_arguments {
+    ): check_system_authority_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new require_system_authority_arguments();
+      const message = new check_system_authority_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -1444,22 +1530,28 @@ export namespace system_calls {
   }
 
   @unmanaged
-  export class require_system_authority_result {
+  export class check_system_authority_result {
     static encode(
-      message: require_system_authority_result,
+      message: check_system_authority_result,
       writer: Writer
-    ): void {}
+    ): void {
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
+    }
 
-    static decode(
-      reader: Reader,
-      length: i32
-    ): require_system_authority_result {
+    static decode(reader: Reader, length: i32): check_system_authority_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new require_system_authority_result();
+      const message = new check_system_authority_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = reader.bool();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1469,15 +1561,19 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: bool;
+
+    constructor(value: bool = false) {
+      this.value = value;
+    }
   }
 
+  @unmanaged
   export class get_account_rc_arguments {
     static encode(message: get_account_rc_arguments, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
     }
 
@@ -1501,9 +1597,9 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
+    account: Uint8Array;
 
-    constructor(account: Uint8Array | null = null) {
+    constructor(account: Uint8Array = new Uint8Array(0)) {
       this.account = account;
     }
   }
@@ -1511,8 +1607,10 @@ export namespace system_calls {
   @unmanaged
   export class get_account_rc_result {
     static encode(message: get_account_rc_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_account_rc_result {
@@ -1542,16 +1640,18 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class consume_account_rc_arguments {
     static encode(message: consume_account_rc_arguments, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): consume_account_rc_arguments {
@@ -1578,10 +1678,10 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
+    account: Uint8Array;
     value: u64;
 
-    constructor(account: Uint8Array | null = null, value: u64 = 0) {
+    constructor(account: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.account = account;
       this.value = value;
     }
@@ -1590,8 +1690,10 @@ export namespace system_calls {
   @unmanaged
   export class consume_account_rc_result {
     static encode(message: consume_account_rc_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): consume_account_rc_result {
@@ -1695,14 +1797,20 @@ export namespace system_calls {
       message: consume_block_resources_arguments,
       writer: Writer
     ): void {
-      writer.uint32(8);
-      writer.uint64(message.disk_storage_consumed);
+      if (message.disk_storage_consumed != 0) {
+        writer.uint32(8);
+        writer.uint64(message.disk_storage_consumed);
+      }
 
-      writer.uint32(16);
-      writer.uint64(message.network_bandwidth_consumed);
+      if (message.network_bandwidth_consumed != 0) {
+        writer.uint32(16);
+        writer.uint64(message.network_bandwidth_consumed);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.compute_bandwidth_consumed);
+      if (message.compute_bandwidth_consumed != 0) {
+        writer.uint32(24);
+        writer.uint64(message.compute_bandwidth_consumed);
+      }
     }
 
     static decode(
@@ -1757,8 +1865,10 @@ export namespace system_calls {
       message: consume_block_resources_result,
       writer: Writer
     ): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): consume_block_resources_result {
@@ -1788,6 +1898,7 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class put_object_arguments {
     static encode(message: put_object_arguments, writer: Writer): void {
       const unique_name_space = message.space;
@@ -1798,16 +1909,14 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
 
-      const unique_name_obj = message.obj;
-      if (unique_name_obj !== null) {
+      if (message.obj.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_obj);
+        writer.bytes(message.obj);
       }
     }
 
@@ -1840,13 +1949,13 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
-    obj: Uint8Array | null;
+    key: Uint8Array;
+    obj: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null,
-      obj: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0),
+      obj: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
@@ -1856,10 +1965,7 @@ export namespace system_calls {
 
   @unmanaged
   export class put_object_result {
-    static encode(message: put_object_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.int32(message.value);
-    }
+    static encode(message: put_object_result, writer: Writer): void {}
 
     static decode(reader: Reader, length: i32): put_object_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -1868,10 +1974,6 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
-          case 1:
-            message.value = reader.int32();
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -1881,13 +1983,10 @@ export namespace system_calls {
       return message;
     }
 
-    value: i32;
-
-    constructor(value: i32 = 0) {
-      this.value = value;
-    }
+    constructor() {}
   }
 
+  @unmanaged
   export class remove_object_arguments {
     static encode(message: remove_object_arguments, writer: Writer): void {
       const unique_name_space = message.space;
@@ -1898,10 +1997,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -1930,11 +2028,11 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
@@ -1964,6 +2062,7 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class get_object_arguments {
     static encode(message: get_object_arguments, writer: Writer): void {
       const unique_name_space = message.space;
@@ -1974,10 +2073,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2006,32 +2104,33 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
     }
   }
 
+  @unmanaged
   export class database_object {
     static encode(message: database_object, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.exists);
-
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
-        writer.uint32(18);
-        writer.bytes(unique_name_value);
+      if (message.exists != false) {
+        writer.uint32(8);
+        writer.bool(message.exists);
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.value.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.value);
+      }
+
+      if (message.key.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2064,13 +2163,13 @@ export namespace system_calls {
     }
 
     exists: bool;
-    value: Uint8Array | null;
-    key: Uint8Array | null;
+    value: Uint8Array;
+    key: Uint8Array;
 
     constructor(
       exists: bool = false,
-      value: Uint8Array | null = null,
-      key: Uint8Array | null = null
+      value: Uint8Array = new Uint8Array(0),
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.exists = exists;
       this.value = value;
@@ -2078,6 +2177,7 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class get_object_result {
     static encode(message: get_object_result, writer: Writer): void {
       const unique_name_value = message.value;
@@ -2116,6 +2216,7 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class get_next_object_arguments {
     static encode(message: get_next_object_arguments, writer: Writer): void {
       const unique_name_space = message.space;
@@ -2126,10 +2227,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2158,17 +2258,18 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
     }
   }
 
+  @unmanaged
   export class get_next_object_result {
     static encode(message: get_next_object_result, writer: Writer): void {
       const unique_name_value = message.value;
@@ -2207,6 +2308,7 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class get_prev_object_arguments {
     static encode(message: get_prev_object_arguments, writer: Writer): void {
       const unique_name_space = message.space;
@@ -2217,10 +2319,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2249,17 +2350,18 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
     }
   }
 
+  @unmanaged
   export class get_prev_object_result {
     static encode(message: get_prev_object_result, writer: Writer): void {
       const unique_name_value = message.value;
@@ -2298,12 +2400,12 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class log_arguments {
     static encode(message: log_arguments, writer: Writer): void {
-      const unique_name_message_2 = message.message;
-      if (unique_name_message_2 !== null) {
+      if (message.message.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_message_2);
+        writer.string(message.message);
       }
     }
 
@@ -2327,9 +2429,9 @@ export namespace system_calls {
       return message;
     }
 
-    message: string | null;
+    message: string;
 
-    constructor(message: string | null = null) {
+    constructor(message: string = "") {
       this.message = message;
     }
   }
@@ -2359,16 +2461,14 @@ export namespace system_calls {
 
   export class event_arguments {
     static encode(message: event_arguments, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
 
-      const unique_name_data = message.data;
-      if (unique_name_data !== null) {
+      if (message.data.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_data);
+        writer.bytes(message.data);
       }
 
       const unique_name_impacted = message.impacted;
@@ -2408,13 +2508,13 @@ export namespace system_calls {
       return message;
     }
 
-    name: string | null;
-    data: Uint8Array | null;
+    name: string;
+    data: Uint8Array;
     impacted: Array<Uint8Array>;
 
     constructor(
-      name: string | null = null,
-      data: Uint8Array | null = null,
+      name: string = "",
+      data: Uint8Array = new Uint8Array(0),
       impacted: Array<Uint8Array> = []
     ) {
       this.name = name;
@@ -2446,19 +2546,23 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class hash_arguments {
     static encode(message: hash_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.code);
-
-      const unique_name_obj = message.obj;
-      if (unique_name_obj !== null) {
-        writer.uint32(18);
-        writer.bytes(unique_name_obj);
+      if (message.code != 0) {
+        writer.uint32(8);
+        writer.uint64(message.code);
       }
 
-      writer.uint32(24);
-      writer.uint64(message.size);
+      if (message.obj.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.obj);
+      }
+
+      if (message.size != 0) {
+        writer.uint32(24);
+        writer.uint64(message.size);
+      }
     }
 
     static decode(reader: Reader, length: i32): hash_arguments {
@@ -2490,22 +2594,26 @@ export namespace system_calls {
     }
 
     code: u64;
-    obj: Uint8Array | null;
+    obj: Uint8Array;
     size: u64;
 
-    constructor(code: u64 = 0, obj: Uint8Array | null = null, size: u64 = 0) {
+    constructor(
+      code: u64 = 0,
+      obj: Uint8Array = new Uint8Array(0),
+      size: u64 = 0
+    ) {
       this.code = code;
       this.obj = obj;
       this.size = size;
     }
   }
 
+  @unmanaged
   export class hash_result {
     static encode(message: hash_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -2529,28 +2637,29 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
 
+  @unmanaged
   export class recover_public_key_arguments {
     static encode(message: recover_public_key_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.int32(message.type);
-
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
-        writer.uint32(18);
-        writer.bytes(unique_name_signature);
+      if (message.type != 0) {
+        writer.uint32(8);
+        writer.int32(message.type);
       }
 
-      const unique_name_digest = message.digest;
-      if (unique_name_digest !== null) {
+      if (message.signature.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.signature);
+      }
+
+      if (message.digest.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_digest);
+        writer.bytes(message.digest);
       }
     }
 
@@ -2583,13 +2692,13 @@ export namespace system_calls {
     }
 
     type: chain.dsa;
-    signature: Uint8Array | null;
-    digest: Uint8Array | null;
+    signature: Uint8Array;
+    digest: Uint8Array;
 
     constructor(
       type: chain.dsa = 0,
-      signature: Uint8Array | null = null,
-      digest: Uint8Array | null = null
+      signature: Uint8Array = new Uint8Array(0),
+      digest: Uint8Array = new Uint8Array(0)
     ) {
       this.type = type;
       this.signature = signature;
@@ -2597,12 +2706,12 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class recover_public_key_result {
     static encode(message: recover_public_key_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -2626,19 +2735,18 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
 
   export class verify_merkle_root_arguments {
     static encode(message: verify_merkle_root_arguments, writer: Writer): void {
-      const unique_name_root = message.root;
-      if (unique_name_root !== null) {
+      if (message.root.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_root);
+        writer.bytes(message.root);
       }
 
       const unique_name_hashes = message.hashes;
@@ -2674,11 +2782,11 @@ export namespace system_calls {
       return message;
     }
 
-    root: Uint8Array | null;
+    root: Uint8Array;
     hashes: Array<Uint8Array>;
 
     constructor(
-      root: Uint8Array | null = null,
+      root: Uint8Array = new Uint8Array(0),
       hashes: Array<Uint8Array> = []
     ) {
       this.root = root;
@@ -2689,8 +2797,10 @@ export namespace system_calls {
   @unmanaged
   export class verify_merkle_root_result {
     static encode(message: verify_merkle_root_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): verify_merkle_root_result {
@@ -2720,27 +2830,27 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class verify_signature_arguments {
     static encode(message: verify_signature_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.int32(message.type);
+      if (message.type != 0) {
+        writer.uint32(8);
+        writer.int32(message.type);
+      }
 
-      const unique_name_public_key = message.public_key;
-      if (unique_name_public_key !== null) {
+      if (message.public_key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_public_key);
+        writer.bytes(message.public_key);
       }
 
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
+      if (message.signature.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_signature);
+        writer.bytes(message.signature);
       }
 
-      const unique_name_digest = message.digest;
-      if (unique_name_digest !== null) {
+      if (message.digest.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_digest);
+        writer.bytes(message.digest);
       }
     }
 
@@ -2777,15 +2887,15 @@ export namespace system_calls {
     }
 
     type: chain.dsa;
-    public_key: Uint8Array | null;
-    signature: Uint8Array | null;
-    digest: Uint8Array | null;
+    public_key: Uint8Array;
+    signature: Uint8Array;
+    digest: Uint8Array;
 
     constructor(
       type: chain.dsa = 0,
-      public_key: Uint8Array | null = null,
-      signature: Uint8Array | null = null,
-      digest: Uint8Array | null = null
+      public_key: Uint8Array = new Uint8Array(0),
+      signature: Uint8Array = new Uint8Array(0),
+      digest: Uint8Array = new Uint8Array(0)
     ) {
       this.type = type;
       this.public_key = public_key;
@@ -2797,8 +2907,10 @@ export namespace system_calls {
   @unmanaged
   export class verify_signature_result {
     static encode(message: verify_signature_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): verify_signature_result {
@@ -2828,33 +2940,32 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
   export class verify_vrf_proof_arguments {
     static encode(message: verify_vrf_proof_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.int32(message.type);
+      if (message.type != 0) {
+        writer.uint32(8);
+        writer.int32(message.type);
+      }
 
-      const unique_name_public_key = message.public_key;
-      if (unique_name_public_key !== null) {
+      if (message.public_key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_public_key);
+        writer.bytes(message.public_key);
       }
 
-      const unique_name_proof = message.proof;
-      if (unique_name_proof !== null) {
+      if (message.proof.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_proof);
+        writer.bytes(message.proof);
       }
 
-      const unique_name_hash = message.hash;
-      if (unique_name_hash !== null) {
+      if (message.hash.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_hash);
+        writer.bytes(message.hash);
       }
 
-      const unique_name_message_2 = message.message;
-      if (unique_name_message_2 !== null) {
+      if (message.message.length != 0) {
         writer.uint32(42);
-        writer.bytes(unique_name_message_2);
+        writer.bytes(message.message);
       }
     }
 
@@ -2895,17 +3006,17 @@ export namespace system_calls {
     }
 
     type: chain.dsa;
-    public_key: Uint8Array | null;
-    proof: Uint8Array | null;
-    hash: Uint8Array | null;
-    message: Uint8Array | null;
+    public_key: Uint8Array;
+    proof: Uint8Array;
+    hash: Uint8Array;
+    message: Uint8Array;
 
     constructor(
       type: chain.dsa = 0,
-      public_key: Uint8Array | null = null,
-      proof: Uint8Array | null = null,
-      hash: Uint8Array | null = null,
-      message: Uint8Array | null = null
+      public_key: Uint8Array = new Uint8Array(0),
+      proof: Uint8Array = new Uint8Array(0),
+      hash: Uint8Array = new Uint8Array(0),
+      message: Uint8Array = new Uint8Array(0)
     ) {
       this.type = type;
       this.public_key = public_key;
@@ -2918,8 +3029,10 @@ export namespace system_calls {
   @unmanaged
   export class verify_vrf_proof_result {
     static encode(message: verify_vrf_proof_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): verify_vrf_proof_result {
@@ -2949,27 +3062,28 @@ export namespace system_calls {
     }
   }
 
-  export class call_contract_arguments {
-    static encode(message: call_contract_arguments, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+  @unmanaged
+  export class call_arguments {
+    static encode(message: call_arguments, writer: Writer): void {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
-      writer.uint32(16);
-      writer.uint32(message.entry_point);
+      if (message.entry_point != 0) {
+        writer.uint32(16);
+        writer.uint32(message.entry_point);
+      }
 
-      const unique_name_args = message.args;
-      if (unique_name_args !== null) {
+      if (message.args.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_args);
+        writer.bytes(message.args);
       }
     }
 
-    static decode(reader: Reader, length: i32): call_contract_arguments {
+    static decode(reader: Reader, length: i32): call_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new call_contract_arguments();
+      const message = new call_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -2995,14 +3109,14 @@ export namespace system_calls {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     entry_point: u32;
-    args: Uint8Array | null;
+    args: Uint8Array;
 
     constructor(
-      contract_id: Uint8Array | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
       entry_point: u32 = 0,
-      args: Uint8Array | null = null
+      args: Uint8Array = new Uint8Array(0)
     ) {
       this.contract_id = contract_id;
       this.entry_point = entry_point;
@@ -3010,18 +3124,18 @@ export namespace system_calls {
     }
   }
 
-  export class call_contract_result {
-    static encode(message: call_contract_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+  @unmanaged
+  export class call_result {
+    static encode(message: call_result, writer: Writer): void {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
-    static decode(reader: Reader, length: i32): call_contract_result {
+    static decode(reader: Reader, length: i32): call_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new call_contract_result();
+      const message = new call_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3039,20 +3153,20 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
 
   @unmanaged
-  export class get_entry_point_arguments {
-    static encode(message: get_entry_point_arguments, writer: Writer): void {}
+  export class get_arguments_arguments {
+    static encode(message: get_arguments_arguments, writer: Writer): void {}
 
-    static decode(reader: Reader, length: i32): get_entry_point_arguments {
+    static decode(reader: Reader, length: i32): get_arguments_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new get_entry_point_arguments();
+      const message = new get_arguments_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3070,89 +3184,26 @@ export namespace system_calls {
   }
 
   @unmanaged
-  export class get_entry_point_result {
-    static encode(message: get_entry_point_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.value);
-    }
-
-    static decode(reader: Reader, length: i32): get_entry_point_result {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new get_entry_point_result();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1:
-            message.value = reader.uint32();
-            break;
-
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    value: u32;
-
-    constructor(value: u32 = 0) {
-      this.value = value;
-    }
-  }
-
-  @unmanaged
-  export class get_contract_arguments_arguments {
-    static encode(
-      message: get_contract_arguments_arguments,
-      writer: Writer
-    ): void {}
-
-    static decode(
-      reader: Reader,
-      length: i32
-    ): get_contract_arguments_arguments {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new get_contract_arguments_arguments();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    constructor() {}
-  }
-
-  export class get_contract_arguments_result {
-    static encode(
-      message: get_contract_arguments_result,
-      writer: Writer
-    ): void {
+  export class get_arguments_result {
+    static encode(message: get_arguments_result, writer: Writer): void {
       const unique_name_value = message.value;
       if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.fork();
+        chain.argument_data.encode(unique_name_value, writer);
+        writer.ldelim();
       }
     }
 
-    static decode(reader: Reader, length: i32): get_contract_arguments_result {
+    static decode(reader: Reader, length: i32): get_arguments_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new get_contract_arguments_result();
+      const message = new get_arguments_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.value = reader.bytes();
+            message.value = chain.argument_data.decode(reader, reader.uint32());
             break;
 
           default:
@@ -3164,34 +3215,34 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: chain.argument_data | null;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: chain.argument_data | null = null) {
       this.value = value;
     }
   }
 
-  export class set_contract_result_arguments {
-    static encode(
-      message: set_contract_result_arguments,
-      writer: Writer
-    ): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+  @unmanaged
+  export class exit_arguments {
+    static encode(message: exit_arguments, writer: Writer): void {
+      const unique_name_retval = message.retval;
+      if (unique_name_retval !== null) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.fork();
+        chain.result.encode(unique_name_retval, writer);
+        writer.ldelim();
       }
     }
 
-    static decode(reader: Reader, length: i32): set_contract_result_arguments {
+    static decode(reader: Reader, length: i32): exit_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new set_contract_result_arguments();
+      const message = new exit_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.value = reader.bytes();
+            message.retval = chain.result.decode(reader, reader.uint32());
             break;
 
           default:
@@ -3203,77 +3254,20 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    retval: chain.result | null;
 
-    constructor(value: Uint8Array | null = null) {
-      this.value = value;
+    constructor(retval: chain.result | null = null) {
+      this.retval = retval;
     }
   }
 
   @unmanaged
-  export class set_contract_result_result {
-    static encode(message: set_contract_result_result, writer: Writer): void {}
+  export class exit_result {
+    static encode(message: exit_result, writer: Writer): void {}
 
-    static decode(reader: Reader, length: i32): set_contract_result_result {
+    static decode(reader: Reader, length: i32): exit_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new set_contract_result_result();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    constructor() {}
-  }
-
-  @unmanaged
-  export class exit_contract_arguments {
-    static encode(message: exit_contract_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.exit_code);
-    }
-
-    static decode(reader: Reader, length: i32): exit_contract_arguments {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new exit_contract_arguments();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1:
-            message.exit_code = reader.uint32();
-            break;
-
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    exit_code: u32;
-
-    constructor(exit_code: u32 = 0) {
-      this.exit_code = exit_code;
-    }
-  }
-
-  @unmanaged
-  export class exit_contract_result {
-    static encode(message: exit_contract_result, writer: Writer): void {}
-
-    static decode(reader: Reader, length: i32): exit_contract_result {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new exit_contract_result();
+      const message = new exit_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3313,12 +3307,12 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class get_contract_id_result {
     static encode(message: get_contract_id_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -3342,9 +3336,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
@@ -3372,6 +3366,7 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class get_caller_result {
     static encode(message: get_caller_result, writer: Writer): void {
       const unique_name_value = message.value;
@@ -3410,21 +3405,23 @@ export namespace system_calls {
     }
   }
 
-  export class require_authority_arguments {
-    static encode(message: require_authority_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.int32(message.type);
+  @unmanaged
+  export class check_authority_arguments {
+    static encode(message: check_authority_arguments, writer: Writer): void {
+      if (message.type != 0) {
+        writer.uint32(8);
+        writer.int32(message.type);
+      }
 
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
     }
 
-    static decode(reader: Reader, length: i32): require_authority_arguments {
+    static decode(reader: Reader, length: i32): check_authority_arguments {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new require_authority_arguments();
+      const message = new check_authority_arguments();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -3447,11 +3444,11 @@ export namespace system_calls {
     }
 
     type: authority.authorization_type;
-    account: Uint8Array | null;
+    account: Uint8Array;
 
     constructor(
       type: authority.authorization_type = 0,
-      account: Uint8Array | null = null
+      account: Uint8Array = new Uint8Array(0)
     ) {
       this.type = type;
       this.account = account;
@@ -3459,16 +3456,25 @@ export namespace system_calls {
   }
 
   @unmanaged
-  export class require_authority_result {
-    static encode(message: require_authority_result, writer: Writer): void {}
+  export class check_authority_result {
+    static encode(message: check_authority_result, writer: Writer): void {
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
+    }
 
-    static decode(reader: Reader, length: i32): require_authority_result {
+    static decode(reader: Reader, length: i32): check_authority_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new require_authority_result();
+      const message = new check_authority_result();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
+          case 1:
+            message.value = reader.bool();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -3478,7 +3484,11 @@ export namespace system_calls {
       return message;
     }
 
-    constructor() {}
+    value: bool;
+
+    constructor(value: bool = false) {
+      this.value = value;
+    }
   }
 
   export enum system_authorization_type {

@@ -2,10 +2,13 @@ import { Writer, Reader } from "as-proto";
 import { protocol } from "../protocol/protocol";
 
 export namespace events {
+  @unmanaged
   export class set_system_call_event {
     static encode(message: set_system_call_event, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.call_id);
+      if (message.call_id != 0) {
+        writer.uint32(8);
+        writer.uint32(message.call_id);
+      }
 
       const unique_name_target = message.target;
       if (unique_name_target !== null) {
@@ -55,16 +58,18 @@ export namespace events {
     }
   }
 
+  @unmanaged
   export class set_system_contract_event {
     static encode(message: set_system_contract_event, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
-      writer.uint32(16);
-      writer.bool(message.system_contract);
+      if (message.system_contract != false) {
+        writer.uint32(16);
+        writer.bool(message.system_contract);
+      }
     }
 
     static decode(reader: Reader, length: i32): set_system_contract_event {
@@ -91,11 +96,11 @@ export namespace events {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     system_contract: bool;
 
     constructor(
-      contract_id: Uint8Array | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
       system_contract: bool = false
     ) {
       this.contract_id = contract_id;

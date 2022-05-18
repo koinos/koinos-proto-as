@@ -1,25 +1,28 @@
 import { Writer, Reader } from "as-proto";
 
 export namespace pow {
+  @unmanaged
   export class difficulty_metadata {
     static encode(message: difficulty_metadata, writer: Writer): void {
-      const unique_name_target = message.target;
-      if (unique_name_target !== null) {
+      if (message.target.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_target);
+        writer.bytes(message.target);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.last_block_time);
+      if (message.last_block_time != 0) {
+        writer.uint32(16);
+        writer.uint64(message.last_block_time);
+      }
 
-      const unique_name_difficulty = message.difficulty;
-      if (unique_name_difficulty !== null) {
+      if (message.difficulty.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_difficulty);
+        writer.bytes(message.difficulty);
       }
 
-      writer.uint32(32);
-      writer.uint64(message.target_block_interval);
+      if (message.target_block_interval != 0) {
+        writer.uint32(32);
+        writer.uint64(message.target_block_interval);
+      }
     }
 
     static decode(reader: Reader, length: i32): difficulty_metadata {
@@ -54,15 +57,15 @@ export namespace pow {
       return message;
     }
 
-    target: Uint8Array | null;
+    target: Uint8Array;
     last_block_time: u64;
-    difficulty: Uint8Array | null;
+    difficulty: Uint8Array;
     target_block_interval: u64;
 
     constructor(
-      target: Uint8Array | null = null,
+      target: Uint8Array = new Uint8Array(0),
       last_block_time: u64 = 0,
-      difficulty: Uint8Array | null = null,
+      difficulty: Uint8Array = new Uint8Array(0),
       target_block_interval: u64 = 0
     ) {
       this.target = target;
@@ -101,6 +104,7 @@ export namespace pow {
     constructor() {}
   }
 
+  @unmanaged
   export class get_difficulty_metadata_result {
     static encode(
       message: get_difficulty_metadata_result,
@@ -142,18 +146,17 @@ export namespace pow {
     }
   }
 
+  @unmanaged
   export class pow_signature_data {
     static encode(message: pow_signature_data, writer: Writer): void {
-      const unique_name_nonce = message.nonce;
-      if (unique_name_nonce !== null) {
+      if (message.nonce.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_nonce);
+        writer.bytes(message.nonce);
       }
 
-      const unique_name_recoverable_signature = message.recoverable_signature;
-      if (unique_name_recoverable_signature !== null) {
+      if (message.recoverable_signature.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_recoverable_signature);
+        writer.bytes(message.recoverable_signature);
       }
     }
 
@@ -181,12 +184,12 @@ export namespace pow {
       return message;
     }
 
-    nonce: Uint8Array | null;
-    recoverable_signature: Uint8Array | null;
+    nonce: Uint8Array;
+    recoverable_signature: Uint8Array;
 
     constructor(
-      nonce: Uint8Array | null = null,
-      recoverable_signature: Uint8Array | null = null
+      nonce: Uint8Array = new Uint8Array(0),
+      recoverable_signature: Uint8Array = new Uint8Array(0)
     ) {
       this.nonce = nonce;
       this.recoverable_signature = recoverable_signature;

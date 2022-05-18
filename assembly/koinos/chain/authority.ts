@@ -1,16 +1,18 @@
 import { Writer, Reader } from "as-proto";
 
 export namespace authority {
+  @unmanaged
   export class call_target {
     static encode(message: call_target, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
-      writer.uint32(16);
-      writer.uint32(message.entry_point);
+      if (message.entry_point != 0) {
+        writer.uint32(16);
+        writer.uint32(message.entry_point);
+      }
     }
 
     static decode(reader: Reader, length: i32): call_target {
@@ -37,19 +39,25 @@ export namespace authority {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     entry_point: u32;
 
-    constructor(contract_id: Uint8Array | null = null, entry_point: u32 = 0) {
+    constructor(
+      contract_id: Uint8Array = new Uint8Array(0),
+      entry_point: u32 = 0
+    ) {
       this.contract_id = contract_id;
       this.entry_point = entry_point;
     }
   }
 
+  @unmanaged
   export class authorize_arguments {
     static encode(message: authorize_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.int32(message.type);
+      if (message.type != 0) {
+        writer.uint32(8);
+        writer.int32(message.type);
+      }
 
       const unique_name_call = message.call;
       if (unique_name_call !== null) {
@@ -96,8 +104,10 @@ export namespace authority {
   @unmanaged
   export class authorize_result {
     static encode(message: authorize_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): authorize_result {

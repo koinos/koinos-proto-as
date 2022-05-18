@@ -12,23 +12,35 @@ export namespace governance {
         writer.ldelim();
       }
 
-      writer.uint32(16);
-      writer.uint64(message.vote_start_height);
+      if (message.vote_start_height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.vote_start_height);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.vote_tally);
+      if (message.vote_tally != 0) {
+        writer.uint32(24);
+        writer.uint64(message.vote_tally);
+      }
 
-      writer.uint32(32);
-      writer.uint64(message.vote_threshold);
+      if (message.vote_threshold != 0) {
+        writer.uint32(32);
+        writer.uint64(message.vote_threshold);
+      }
 
-      writer.uint32(40);
-      writer.bool(message.shall_authorize);
+      if (message.shall_authorize != false) {
+        writer.uint32(40);
+        writer.bool(message.shall_authorize);
+      }
 
-      writer.uint32(48);
-      writer.bool(message.updates_governance);
+      if (message.updates_governance != false) {
+        writer.uint32(48);
+        writer.bool(message.updates_governance);
+      }
 
-      writer.uint32(56);
-      writer.int32(message.status);
+      if (message.status != 0) {
+        writer.uint32(56);
+        writer.int32(message.status);
+      }
     }
 
     static decode(reader: Reader, length: i32): proposal_record {
@@ -115,8 +127,10 @@ export namespace governance {
         writer.ldelim();
       }
 
-      writer.uint32(16);
-      writer.uint64(message.fee);
+      if (message.fee != 0) {
+        writer.uint32(16);
+        writer.uint64(message.fee);
+      }
     }
 
     static decode(reader: Reader, length: i32): submit_proposal_arguments {
@@ -158,8 +172,10 @@ export namespace governance {
   @unmanaged
   export class submit_proposal_result {
     static encode(message: submit_proposal_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): submit_proposal_result {
@@ -189,12 +205,12 @@ export namespace governance {
     }
   }
 
+  @unmanaged
   export class get_proposal_by_id_arguments {
     static encode(message: get_proposal_by_id_arguments, writer: Writer): void {
-      const unique_name_proposal_id = message.proposal_id;
-      if (unique_name_proposal_id !== null) {
+      if (message.proposal_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_proposal_id);
+        writer.bytes(message.proposal_id);
       }
     }
 
@@ -218,9 +234,9 @@ export namespace governance {
       return message;
     }
 
-    proposal_id: Uint8Array | null;
+    proposal_id: Uint8Array;
 
-    constructor(proposal_id: Uint8Array | null = null) {
+    constructor(proposal_id: Uint8Array = new Uint8Array(0)) {
       this.proposal_id = proposal_id;
     }
   }
@@ -263,22 +279,26 @@ export namespace governance {
     }
   }
 
+  @unmanaged
   export class get_proposals_by_status_arguments {
     static encode(
       message: get_proposals_by_status_arguments,
       writer: Writer
     ): void {
-      const unique_name_start_proposal = message.start_proposal;
-      if (unique_name_start_proposal !== null) {
+      if (message.start_proposal.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_start_proposal);
+        writer.bytes(message.start_proposal);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.limit);
+      if (message.limit != 0) {
+        writer.uint32(16);
+        writer.uint64(message.limit);
+      }
 
-      writer.uint32(24);
-      writer.int32(message.status);
+      if (message.status != 0) {
+        writer.uint32(24);
+        writer.int32(message.status);
+      }
     }
 
     static decode(
@@ -312,12 +332,12 @@ export namespace governance {
       return message;
     }
 
-    start_proposal: Uint8Array | null;
+    start_proposal: Uint8Array;
     limit: u64;
     status: proposal_status;
 
     constructor(
-      start_proposal: Uint8Array | null = null,
+      start_proposal: Uint8Array = new Uint8Array(0),
       limit: u64 = 0,
       status: proposal_status = 0
     ) {
@@ -368,16 +388,18 @@ export namespace governance {
     }
   }
 
+  @unmanaged
   export class get_proposals_arguments {
     static encode(message: get_proposals_arguments, writer: Writer): void {
-      const unique_name_start_proposal = message.start_proposal;
-      if (unique_name_start_proposal !== null) {
+      if (message.start_proposal.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_start_proposal);
+        writer.bytes(message.start_proposal);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.limit);
+      if (message.limit != 0) {
+        writer.uint32(16);
+        writer.uint64(message.limit);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_proposals_arguments {
@@ -404,10 +426,13 @@ export namespace governance {
       return message;
     }
 
-    start_proposal: Uint8Array | null;
+    start_proposal: Uint8Array;
     limit: u64;
 
-    constructor(start_proposal: Uint8Array | null = null, limit: u64 = 0) {
+    constructor(
+      start_proposal: Uint8Array = new Uint8Array(0),
+      limit: u64 = 0
+    ) {
       this.start_proposal = start_proposal;
       this.limit = limit;
     }
@@ -489,16 +514,18 @@ export namespace governance {
     }
   }
 
+  @unmanaged
   export class proposal_status_event {
     static encode(message: proposal_status_event, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
-      writer.uint32(16);
-      writer.int32(message.status);
+      if (message.status != 0) {
+        writer.uint32(16);
+        writer.int32(message.status);
+      }
     }
 
     static decode(reader: Reader, length: i32): proposal_status_event {
@@ -525,28 +552,35 @@ export namespace governance {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
     status: proposal_status;
 
-    constructor(id: Uint8Array | null = null, status: proposal_status = 0) {
+    constructor(
+      id: Uint8Array = new Uint8Array(0),
+      status: proposal_status = 0
+    ) {
       this.id = id;
       this.status = status;
     }
   }
 
+  @unmanaged
   export class proposal_vote_event {
     static encode(message: proposal_vote_event, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.vote_tally);
+      if (message.vote_tally != 0) {
+        writer.uint32(16);
+        writer.uint64(message.vote_tally);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.vote_threshold);
+      if (message.vote_threshold != 0) {
+        writer.uint32(24);
+        writer.uint64(message.vote_threshold);
+      }
     }
 
     static decode(reader: Reader, length: i32): proposal_vote_event {
@@ -577,12 +611,12 @@ export namespace governance {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
     vote_tally: u64;
     vote_threshold: u64;
 
     constructor(
-      id: Uint8Array | null = null,
+      id: Uint8Array = new Uint8Array(0),
       vote_tally: u64 = 0,
       vote_threshold: u64 = 0
     ) {
