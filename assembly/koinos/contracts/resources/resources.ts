@@ -4,17 +4,25 @@ export namespace resources {
   @unmanaged
   export class market {
     static encode(message: market, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.resource_supply);
+      if (message.resource_supply != 0) {
+        writer.uint32(8);
+        writer.uint64(message.resource_supply);
+      }
 
-      writer.uint32(16);
-      writer.uint64(message.rc_reserve);
+      if (message.rc_reserve != 0) {
+        writer.uint32(16);
+        writer.uint64(message.rc_reserve);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.block_budget);
+      if (message.block_budget != 0) {
+        writer.uint32(24);
+        writer.uint64(message.block_budget);
+      }
 
-      writer.uint32(32);
-      writer.uint64(message.block_limit);
+      if (message.block_limit != 0) {
+        writer.uint32(32);
+        writer.uint64(message.block_limit);
+      }
     }
 
     static decode(reader: Reader, length: i32): market {

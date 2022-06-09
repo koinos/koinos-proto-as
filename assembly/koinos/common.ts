@@ -9,8 +9,10 @@ export namespace common {
         writer.bytes(unique_name_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.height);
+      }
 
       const unique_name_previous = message.previous;
       if (unique_name_previous !== null) {

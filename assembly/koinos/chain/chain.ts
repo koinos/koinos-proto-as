@@ -2,10 +2,95 @@ import { Writer, Reader } from "as-proto";
 import { common } from "../common";
 
 export namespace chain {
+  export class result {
+    static encode(message: result, writer: Writer): void {
+      if (message.code != 0) {
+        writer.uint32(8);
+        writer.int32(message.code);
+      }
+
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(18);
+        writer.bytes(unique_name_value);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.code = reader.int32();
+            break;
+
+          case 2:
+            message.value = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    code: i32;
+    value: Uint8Array | null;
+
+    constructor(code: i32 = 0, value: Uint8Array | null = null) {
+      this.code = code;
+      this.value = value;
+    }
+  }
+
+  export class error_info {
+    static encode(message: error_info, writer: Writer): void {
+      const unique_name_message_2 = message.message;
+      if (unique_name_message_2 !== null) {
+        writer.uint32(10);
+        writer.string(unique_name_message_2);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): error_info {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new error_info();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.message = reader.string();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    message: string | null;
+
+    constructor(message: string | null = null) {
+      this.message = message;
+    }
+  }
+
   export class object_space {
     static encode(message: object_space, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.system);
+      if (message.system != false) {
+        writer.uint32(8);
+        writer.bool(message.system);
+      }
 
       const unique_name_zone = message.zone;
       if (unique_name_zone !== null) {
@@ -13,8 +98,10 @@ export namespace chain {
         writer.bytes(unique_name_zone);
       }
 
-      writer.uint32(24);
-      writer.uint32(message.id);
+      if (message.id != 0) {
+        writer.uint32(24);
+        writer.uint32(message.id);
+      }
     }
 
     static decode(reader: Reader, length: i32): object_space {
@@ -116,8 +203,10 @@ export namespace chain {
   @unmanaged
   export class max_account_resources {
     static encode(message: max_account_resources, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): max_account_resources {
@@ -157,11 +246,15 @@ export namespace chain {
         writer.ldelim();
       }
 
-      writer.uint32(16);
-      writer.uint64(message.head_block_time);
+      if (message.head_block_time != 0) {
+        writer.uint32(16);
+        writer.uint64(message.head_block_time);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.last_irreversible_block);
+      if (message.last_irreversible_block != 0) {
+        writer.uint32(24);
+        writer.uint64(message.last_irreversible_block);
+      }
     }
 
     static decode(reader: Reader, length: i32): head_info {
@@ -218,8 +311,10 @@ export namespace chain {
         writer.bytes(unique_name_caller);
       }
 
-      writer.uint32(16);
-      writer.int32(message.caller_privilege);
+      if (message.caller_privilege != 0) {
+        writer.uint32(16);
+        writer.int32(message.caller_privilege);
+      }
     }
 
     static decode(reader: Reader, length: i32): caller_data {
@@ -258,26 +353,85 @@ export namespace chain {
     }
   }
 
+  export class argument_data {
+    static encode(message: argument_data, writer: Writer): void {
+      if (message.entry_point != 0) {
+        writer.uint32(8);
+        writer.uint32(message.entry_point);
+      }
+
+      const unique_name_arguments = message.arguments;
+      if (unique_name_arguments !== null) {
+        writer.uint32(18);
+        writer.bytes(unique_name_arguments);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): argument_data {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new argument_data();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.entry_point = reader.uint32();
+            break;
+
+          case 2:
+            message.arguments = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    entry_point: u32;
+    arguments: Uint8Array | null;
+
+    constructor(entry_point: u32 = 0, arguments: Uint8Array | null = null) {
+      this.entry_point = entry_point;
+      this.arguments = arguments;
+    }
+  }
+
   @unmanaged
   export class resource_limit_data {
     static encode(message: resource_limit_data, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.disk_storage_limit);
+      if (message.disk_storage_limit != 0) {
+        writer.uint32(8);
+        writer.uint64(message.disk_storage_limit);
+      }
 
-      writer.uint32(16);
-      writer.uint64(message.disk_storage_cost);
+      if (message.disk_storage_cost != 0) {
+        writer.uint32(16);
+        writer.uint64(message.disk_storage_cost);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.network_bandwidth_limit);
+      if (message.network_bandwidth_limit != 0) {
+        writer.uint32(24);
+        writer.uint64(message.network_bandwidth_limit);
+      }
 
-      writer.uint32(32);
-      writer.uint64(message.network_bandwidth_cost);
+      if (message.network_bandwidth_cost != 0) {
+        writer.uint32(32);
+        writer.uint64(message.network_bandwidth_cost);
+      }
 
-      writer.uint32(40);
-      writer.uint64(message.compute_bandwidth_limit);
+      if (message.compute_bandwidth_limit != 0) {
+        writer.uint32(40);
+        writer.uint64(message.compute_bandwidth_limit);
+      }
 
-      writer.uint32(48);
-      writer.uint64(message.compute_bandwidth_cost);
+      if (message.compute_bandwidth_cost != 0) {
+        writer.uint32(48);
+        writer.uint64(message.compute_bandwidth_cost);
+      }
     }
 
     static decode(reader: Reader, length: i32): resource_limit_data {
@@ -352,17 +506,25 @@ export namespace chain {
         writer.bytes(unique_name_hash);
       }
 
-      writer.uint32(16);
-      writer.bool(message.system);
+      if (message.system != false) {
+        writer.uint32(16);
+        writer.bool(message.system);
+      }
 
-      writer.uint32(24);
-      writer.bool(message.authorizes_call_contract);
+      if (message.authorizes_call_contract != false) {
+        writer.uint32(24);
+        writer.bool(message.authorizes_call_contract);
+      }
 
-      writer.uint32(32);
-      writer.bool(message.authorizes_transaction_application);
+      if (message.authorizes_transaction_application != false) {
+        writer.uint32(32);
+        writer.bool(message.authorizes_transaction_application);
+      }
 
-      writer.uint32(40);
-      writer.bool(message.authorizes_upload_contract);
+      if (message.authorizes_upload_contract != false) {
+        writer.uint32(40);
+        writer.bool(message.authorizes_upload_contract);
+      }
     }
 
     static decode(reader: Reader, length: i32): contract_metadata_object {
@@ -431,8 +593,10 @@ export namespace chain {
         writer.string(unique_name_name);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.compute);
+      if (message.compute != 0) {
+        writer.uint32(16);
+        writer.uint64(message.compute);
+      }
     }
 
     static decode(reader: Reader, length: i32): compute_bandwidth_entry {

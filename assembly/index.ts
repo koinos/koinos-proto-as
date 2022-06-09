@@ -20,6 +20,7 @@ export { options } from './koinos/options';
 export { protocol } from './koinos/protocol/protocol';
 export { transaction_store } from './koinos/transaction_store/transaction_store';
 export { broadcast } from './koinos/broadcast/broadcast';
+export { error } from './koinos/chain/error';
 export { system_calls } from './koinos/chain/system_calls';
 export { authority } from './koinos/chain/authority';
 export { chain } from './koinos/chain/chain';

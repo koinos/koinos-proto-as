@@ -12,44 +12,70 @@ export namespace value {
         writer.ldelim();
       }
 
-      writer.uint32(17);
-      writer.double(message.double_value);
+      if (message.double_value != 0.0) {
+        writer.uint32(17);
+        writer.double(message.double_value);
+      }
 
-      writer.uint32(29);
-      writer.float(message.float_value);
+      if (message.float_value != 0.0) {
+        writer.uint32(29);
+        writer.float(message.float_value);
+      }
 
-      writer.uint32(32);
-      writer.int32(message.int32_value);
+      if (message.int32_value != 0) {
+        writer.uint32(32);
+        writer.int32(message.int32_value);
+      }
 
-      writer.uint32(40);
-      writer.int64(message.int64_value);
+      if (message.int64_value != 0) {
+        writer.uint32(40);
+        writer.int64(message.int64_value);
+      }
 
-      writer.uint32(48);
-      writer.uint32(message.uint32_value);
+      if (message.uint32_value != 0) {
+        writer.uint32(48);
+        writer.uint32(message.uint32_value);
+      }
 
-      writer.uint32(56);
-      writer.uint64(message.uint64_value);
+      if (message.uint64_value != 0) {
+        writer.uint32(56);
+        writer.uint64(message.uint64_value);
+      }
 
-      writer.uint32(64);
-      writer.sint32(message.sint32_value);
+      if (message.sint32_value != 0) {
+        writer.uint32(64);
+        writer.sint32(message.sint32_value);
+      }
 
-      writer.uint32(72);
-      writer.sint64(message.sint64_value);
+      if (message.sint64_value != 0) {
+        writer.uint32(72);
+        writer.sint64(message.sint64_value);
+      }
 
-      writer.uint32(85);
-      writer.fixed32(message.fixed32_value);
+      if (message.fixed32_value != 0) {
+        writer.uint32(85);
+        writer.fixed32(message.fixed32_value);
+      }
 
-      writer.uint32(89);
-      writer.fixed64(message.fixed64_value);
+      if (message.fixed64_value != 0) {
+        writer.uint32(89);
+        writer.fixed64(message.fixed64_value);
+      }
 
-      writer.uint32(101);
-      writer.sfixed32(message.sfixed32_value);
+      if (message.sfixed32_value != 0) {
+        writer.uint32(101);
+        writer.sfixed32(message.sfixed32_value);
+      }
 
-      writer.uint32(105);
-      writer.sfixed64(message.sfixed64_value);
+      if (message.sfixed64_value != 0) {
+        writer.uint32(105);
+        writer.sfixed64(message.sfixed64_value);
+      }
 
-      writer.uint32(112);
-      writer.bool(message.bool_value);
+      if (message.bool_value != false) {
+        writer.uint32(112);
+        writer.bool(message.bool_value);
+      }
 
       const unique_name_string_value = message.string_value;
       if (unique_name_string_value !== null) {
@@ -206,8 +232,10 @@ export namespace value {
         writer.string(unique_name_name);
       }
 
-      writer.uint32(16);
-      writer.int32(message.number);
+      if (message.number != 0) {
+        writer.uint32(16);
+        writer.int32(message.number);
+      }
     }
 
     static decode(reader: Reader, length: i32): enum_type {

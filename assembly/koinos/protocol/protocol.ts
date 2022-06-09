@@ -3,8 +3,10 @@ import { Writer, Reader } from "as-proto";
 export namespace protocol {
   export class event_data {
     static encode(message: event_data, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.sequence);
+      if (message.sequence != 0) {
+        writer.uint32(8);
+        writer.uint32(message.sequence);
+      }
 
       const unique_name_source = message.source;
       if (unique_name_source !== null) {
@@ -98,8 +100,10 @@ export namespace protocol {
         writer.bytes(unique_name_contract_id);
       }
 
-      writer.uint32(16);
-      writer.uint32(message.entry_point);
+      if (message.entry_point != 0) {
+        writer.uint32(16);
+        writer.uint32(message.entry_point);
+      }
     }
 
     static decode(reader: Reader, length: i32): contract_call_bundle {
@@ -137,8 +141,10 @@ export namespace protocol {
 
   export class system_call_target {
     static encode(message: system_call_target, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.thunk_id);
+      if (message.thunk_id != 0) {
+        writer.uint32(8);
+        writer.uint32(message.thunk_id);
+      }
 
       const unique_name_system_call_bundle = message.system_call_bundle;
       if (unique_name_system_call_bundle !== null) {
@@ -208,14 +214,20 @@ export namespace protocol {
         writer.string(unique_name_abi);
       }
 
-      writer.uint32(32);
-      writer.bool(message.authorizes_call_contract);
+      if (message.authorizes_call_contract != false) {
+        writer.uint32(32);
+        writer.bool(message.authorizes_call_contract);
+      }
 
-      writer.uint32(40);
-      writer.bool(message.authorizes_transaction_application);
+      if (message.authorizes_transaction_application != false) {
+        writer.uint32(40);
+        writer.bool(message.authorizes_transaction_application);
+      }
 
-      writer.uint32(48);
-      writer.bool(message.authorizes_upload_contract);
+      if (message.authorizes_upload_contract != false) {
+        writer.uint32(48);
+        writer.bool(message.authorizes_upload_contract);
+      }
     }
 
     static decode(reader: Reader, length: i32): upload_contract_operation {
@@ -291,8 +303,10 @@ export namespace protocol {
         writer.bytes(unique_name_contract_id);
       }
 
-      writer.uint32(16);
-      writer.uint32(message.entry_point);
+      if (message.entry_point != 0) {
+        writer.uint32(16);
+        writer.uint32(message.entry_point);
+      }
 
       const unique_name_args = message.args;
       if (unique_name_args !== null) {
@@ -346,8 +360,10 @@ export namespace protocol {
 
   export class set_system_call_operation {
     static encode(message: set_system_call_operation, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.call_id);
+      if (message.call_id != 0) {
+        writer.uint32(8);
+        writer.uint32(message.call_id);
+      }
 
       const unique_name_target = message.target;
       if (unique_name_target !== null) {
@@ -402,8 +418,10 @@ export namespace protocol {
         writer.bytes(unique_name_contract_id);
       }
 
-      writer.uint32(16);
-      writer.bool(message.system_contract);
+      if (message.system_contract != false) {
+        writer.uint32(16);
+        writer.bool(message.system_contract);
+      }
     }
 
     static decode(reader: Reader, length: i32): set_system_contract_operation {
@@ -550,8 +568,10 @@ export namespace protocol {
         writer.bytes(unique_name_chain_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.rc_limit);
+      if (message.rc_limit != 0) {
+        writer.uint32(16);
+        writer.uint64(message.rc_limit);
+      }
 
       const unique_name_nonce = message.nonce;
       if (unique_name_nonce !== null) {
@@ -739,26 +759,40 @@ export namespace protocol {
         writer.bytes(unique_name_payer);
       }
 
-      writer.uint32(24);
-      writer.uint64(message.max_payer_rc);
+      if (message.max_payer_rc != 0) {
+        writer.uint32(24);
+        writer.uint64(message.max_payer_rc);
+      }
 
-      writer.uint32(32);
-      writer.uint64(message.rc_limit);
+      if (message.rc_limit != 0) {
+        writer.uint32(32);
+        writer.uint64(message.rc_limit);
+      }
 
-      writer.uint32(40);
-      writer.uint64(message.rc_used);
+      if (message.rc_used != 0) {
+        writer.uint32(40);
+        writer.uint64(message.rc_used);
+      }
 
-      writer.uint32(48);
-      writer.uint64(message.disk_storage_used);
+      if (message.disk_storage_used != 0) {
+        writer.uint32(48);
+        writer.uint64(message.disk_storage_used);
+      }
 
-      writer.uint32(56);
-      writer.uint64(message.network_bandwidth_used);
+      if (message.network_bandwidth_used != 0) {
+        writer.uint32(56);
+        writer.uint64(message.network_bandwidth_used);
+      }
 
-      writer.uint32(64);
-      writer.uint64(message.compute_bandwidth_used);
+      if (message.compute_bandwidth_used != 0) {
+        writer.uint32(64);
+        writer.uint64(message.compute_bandwidth_used);
+      }
 
-      writer.uint32(72);
-      writer.bool(message.reverted);
+      if (message.reverted != false) {
+        writer.uint32(72);
+        writer.bool(message.reverted);
+      }
 
       const unique_name_events = message.events;
       for (let i = 0; i < unique_name_events.length; ++i) {
@@ -884,11 +918,15 @@ export namespace protocol {
         writer.bytes(unique_name_previous);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.height);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.timestamp);
+      if (message.timestamp != 0) {
+        writer.uint32(24);
+        writer.uint64(message.timestamp);
+      }
 
       const unique_name_previous_state_merkle_root =
         message.previous_state_merkle_root;
@@ -1081,17 +1119,25 @@ export namespace protocol {
         writer.bytes(unique_name_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.height);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.disk_storage_used);
+      if (message.disk_storage_used != 0) {
+        writer.uint32(24);
+        writer.uint64(message.disk_storage_used);
+      }
 
-      writer.uint32(32);
-      writer.uint64(message.network_bandwidth_used);
+      if (message.network_bandwidth_used != 0) {
+        writer.uint32(32);
+        writer.uint64(message.network_bandwidth_used);
+      }
 
-      writer.uint32(40);
-      writer.uint64(message.compute_bandwidth_used);
+      if (message.compute_bandwidth_used != 0) {
+        writer.uint32(40);
+        writer.uint64(message.compute_bandwidth_used);
+      }
 
       const unique_name_state_merkle_root = message.state_merkle_root;
       if (unique_name_state_merkle_root !== null) {

@@ -9,8 +9,10 @@ export namespace pow {
         writer.bytes(unique_name_target);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.last_block_time);
+      if (message.last_block_time != 0) {
+        writer.uint32(16);
+        writer.uint64(message.last_block_time);
+      }
 
       const unique_name_difficulty = message.difficulty;
       if (unique_name_difficulty !== null) {
@@ -18,8 +20,10 @@ export namespace pow {
         writer.bytes(unique_name_difficulty);
       }
 
-      writer.uint32(32);
-      writer.uint64(message.target_block_interval);
+      if (message.target_block_interval != 0) {
+        writer.uint32(32);
+        writer.uint64(message.target_block_interval);
+      }
     }
 
     static decode(reader: Reader, length: i32): difficulty_metadata {

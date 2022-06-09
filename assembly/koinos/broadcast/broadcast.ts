@@ -21,8 +21,10 @@ export namespace broadcast {
         writer.ldelim();
       }
 
-      writer.uint32(24);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(24);
+        writer.uint64(message.height);
+      }
     }
 
     static decode(reader: Reader, length: i32): transaction_accepted {
@@ -128,11 +130,15 @@ export namespace broadcast {
         writer.ldelim();
       }
 
-      writer.uint32(24);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(24);
+        writer.uint64(message.height);
+      }
 
-      writer.uint32(32);
-      writer.uint64(message.pending_rc_used);
+      if (message.pending_rc_used != 0) {
+        writer.uint32(32);
+        writer.uint64(message.pending_rc_used);
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_accepted {
@@ -209,8 +215,10 @@ export namespace broadcast {
         writer.ldelim();
       }
 
-      writer.uint32(24);
-      writer.bool(message.live);
+      if (message.live != false) {
+        writer.uint32(24);
+        writer.bool(message.live);
+      }
     }
 
     static decode(reader: Reader, length: i32): block_accepted {
@@ -367,8 +375,10 @@ export namespace broadcast {
   @unmanaged
   export class gossip_status {
     static encode(message: gossip_status, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.enabled);
+      if (message.enabled != false) {
+        writer.uint32(8);
+        writer.bool(message.enabled);
+      }
     }
 
     static decode(reader: Reader, length: i32): gossip_status {
@@ -406,8 +416,10 @@ export namespace broadcast {
         writer.bytes(unique_name_block_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.height);
+      if (message.height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.height);
+      }
 
       const unique_name_transaction_id = message.transaction_id;
       if (unique_name_transaction_id !== null) {

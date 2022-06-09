@@ -15,11 +15,15 @@ export namespace block_store_rpc {
         }
       }
 
-      writer.uint32(16);
-      writer.bool(message.return_block);
+      if (message.return_block != false) {
+        writer.uint32(16);
+        writer.bool(message.return_block);
+      }
 
-      writer.uint32(24);
-      writer.bool(message.return_receipt);
+      if (message.return_receipt != false) {
+        writer.uint32(24);
+        writer.bool(message.return_receipt);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_blocks_by_id_request {
@@ -113,17 +117,25 @@ export namespace block_store_rpc {
         writer.bytes(unique_name_head_block_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.ancestor_start_height);
+      if (message.ancestor_start_height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.ancestor_start_height);
+      }
 
-      writer.uint32(24);
-      writer.uint32(message.num_blocks);
+      if (message.num_blocks != 0) {
+        writer.uint32(24);
+        writer.uint32(message.num_blocks);
+      }
 
-      writer.uint32(32);
-      writer.bool(message.return_block);
+      if (message.return_block != false) {
+        writer.uint32(32);
+        writer.bool(message.return_block);
+      }
 
-      writer.uint32(40);
-      writer.bool(message.return_receipt);
+      if (message.return_receipt != false) {
+        writer.uint32(40);
+        writer.bool(message.return_receipt);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_blocks_by_height_request {

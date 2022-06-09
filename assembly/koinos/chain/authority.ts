@@ -9,8 +9,10 @@ export namespace authority {
         writer.bytes(unique_name_contract_id);
       }
 
-      writer.uint32(16);
-      writer.uint32(message.entry_point);
+      if (message.entry_point != 0) {
+        writer.uint32(16);
+        writer.uint32(message.entry_point);
+      }
     }
 
     static decode(reader: Reader, length: i32): call_target {
@@ -48,8 +50,10 @@ export namespace authority {
 
   export class authorize_arguments {
     static encode(message: authorize_arguments, writer: Writer): void {
-      writer.uint32(8);
-      writer.int32(message.type);
+      if (message.type != 0) {
+        writer.uint32(8);
+        writer.int32(message.type);
+      }
 
       const unique_name_call = message.call;
       if (unique_name_call !== null) {
@@ -96,8 +100,10 @@ export namespace authority {
   @unmanaged
   export class authorize_result {
     static encode(message: authorize_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): authorize_result {

@@ -10,8 +10,10 @@ export namespace block_store {
         writer.bytes(unique_name_block_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.block_height);
+      if (message.block_height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.block_height);
+      }
 
       const unique_name_block = message.block;
       if (unique_name_block !== null) {
@@ -91,8 +93,10 @@ export namespace block_store {
         writer.bytes(unique_name_block_id);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.block_height);
+      if (message.block_height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.block_height);
+      }
 
       const unique_name_block = message.block;
       if (unique_name_block !== null) {

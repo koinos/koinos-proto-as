@@ -13,14 +13,20 @@ export namespace mempool_rpc {
         writer.ldelim();
       }
 
-      writer.uint32(16);
-      writer.uint64(message.disk_storage_used);
+      if (message.disk_storage_used != 0) {
+        writer.uint32(16);
+        writer.uint64(message.disk_storage_used);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.network_bandwidth_used);
+      if (message.network_bandwidth_used != 0) {
+        writer.uint32(24);
+        writer.uint64(message.network_bandwidth_used);
+      }
 
-      writer.uint32(32);
-      writer.uint64(message.compute_bandwidth_used);
+      if (message.compute_bandwidth_used != 0) {
+        writer.uint32(32);
+        writer.uint64(message.compute_bandwidth_used);
+      }
     }
 
     static decode(reader: Reader, length: i32): pending_transaction {
@@ -87,11 +93,15 @@ export namespace mempool_rpc {
         writer.bytes(unique_name_payer);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.max_payer_rc);
+      if (message.max_payer_rc != 0) {
+        writer.uint32(16);
+        writer.uint64(message.max_payer_rc);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.rc_limit);
+      if (message.rc_limit != 0) {
+        writer.uint32(24);
+        writer.uint64(message.rc_limit);
+      }
     }
 
     static decode(
@@ -146,8 +156,10 @@ export namespace mempool_rpc {
       message: check_pending_account_resources_response,
       writer: Writer
     ): void {
-      writer.uint32(8);
-      writer.bool(message.success);
+      if (message.success != false) {
+        writer.uint32(8);
+        writer.bool(message.success);
+      }
     }
 
     static decode(
@@ -186,8 +198,10 @@ export namespace mempool_rpc {
       message: get_pending_transactions_request,
       writer: Writer
     ): void {
-      writer.uint32(8);
-      writer.uint64(message.limit);
+      if (message.limit != 0) {
+        writer.uint32(8);
+        writer.uint64(message.limit);
+      }
     }
 
     static decode(

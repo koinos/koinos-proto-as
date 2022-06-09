@@ -199,8 +199,10 @@ export namespace chain_rpc {
         writer.ldelim();
       }
 
-      writer.uint32(16);
-      writer.uint64(message.last_irreversible_block);
+      if (message.last_irreversible_block != 0) {
+        writer.uint32(16);
+        writer.uint64(message.last_irreversible_block);
+      }
 
       const unique_name_head_state_merkle_root = message.head_state_merkle_root;
       if (unique_name_head_state_merkle_root !== null) {
@@ -409,8 +411,10 @@ export namespace chain_rpc {
         writer.bytes(unique_name_contract_id);
       }
 
-      writer.uint32(16);
-      writer.uint32(message.entry_point);
+      if (message.entry_point != 0) {
+        writer.uint32(16);
+        writer.uint32(message.entry_point);
+      }
 
       const unique_name_args = message.args;
       if (unique_name_args !== null) {
@@ -623,8 +627,10 @@ export namespace chain_rpc {
   @unmanaged
   export class get_account_rc_response {
     static encode(message: get_account_rc_response, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.rc);
+      if (message.rc != 0) {
+        writer.uint32(8);
+        writer.uint64(message.rc);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_account_rc_response {

@@ -145,8 +145,10 @@ export namespace token {
   @unmanaged
   export class decimals_result {
     static encode(message: decimals_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint32(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint32(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): decimals_result {
@@ -202,8 +204,10 @@ export namespace token {
   @unmanaged
   export class total_supply_result {
     static encode(message: total_supply_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): total_supply_result {
@@ -272,8 +276,10 @@ export namespace token {
   @unmanaged
   export class balance_of_result {
     static encode(message: balance_of_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): balance_of_result {
@@ -317,8 +323,10 @@ export namespace token {
         writer.bytes(unique_name_to);
       }
 
-      writer.uint32(24);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(24);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): transfer_arguments {
@@ -367,8 +375,10 @@ export namespace token {
   @unmanaged
   export class transfer_result {
     static encode(message: transfer_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): transfer_result {
@@ -406,8 +416,10 @@ export namespace token {
         writer.bytes(unique_name_to);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): mint_arguments {
@@ -446,8 +458,10 @@ export namespace token {
   @unmanaged
   export class mint_result {
     static encode(message: mint_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): mint_result {
@@ -485,8 +499,10 @@ export namespace token {
         writer.bytes(unique_name_from);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): burn_arguments {
@@ -525,8 +541,10 @@ export namespace token {
   @unmanaged
   export class burn_result {
     static encode(message: burn_result, writer: Writer): void {
-      writer.uint32(8);
-      writer.bool(message.value);
+      if (message.value != false) {
+        writer.uint32(8);
+        writer.bool(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): burn_result {
@@ -559,8 +577,10 @@ export namespace token {
   @unmanaged
   export class balance_object {
     static encode(message: balance_object, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): balance_object {
@@ -593,14 +613,20 @@ export namespace token {
   @unmanaged
   export class mana_balance_object {
     static encode(message: mana_balance_object, writer: Writer): void {
-      writer.uint32(8);
-      writer.uint64(message.balance);
+      if (message.balance != 0) {
+        writer.uint32(8);
+        writer.uint64(message.balance);
+      }
 
-      writer.uint32(16);
-      writer.uint64(message.mana);
+      if (message.mana != 0) {
+        writer.uint32(16);
+        writer.uint64(message.mana);
+      }
 
-      writer.uint32(24);
-      writer.uint64(message.last_mana_update);
+      if (message.last_mana_update != 0) {
+        writer.uint32(24);
+        writer.uint64(message.last_mana_update);
+      }
     }
 
     static decode(reader: Reader, length: i32): mana_balance_object {
@@ -650,8 +676,10 @@ export namespace token {
         writer.bytes(unique_name_from);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): burn_event {
@@ -695,8 +723,10 @@ export namespace token {
         writer.bytes(unique_name_to);
       }
 
-      writer.uint32(16);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(16);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): mint_event {
@@ -746,8 +776,10 @@ export namespace token {
         writer.bytes(unique_name_to);
       }
 
-      writer.uint32(24);
-      writer.uint64(message.value);
+      if (message.value != 0) {
+        writer.uint32(24);
+        writer.uint64(message.value);
+      }
     }
 
     static decode(reader: Reader, length: i32): transfer_event {
