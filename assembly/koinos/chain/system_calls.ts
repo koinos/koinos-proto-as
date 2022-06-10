@@ -680,19 +680,12 @@ export namespace system_calls {
     constructor() {}
   }
 
+  @unmanaged
   export class post_transaction_callback_result {
     static encode(
       message: post_transaction_callback_result,
       writer: Writer
-    ): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
-        writer.uint32(10);
-        writer.fork();
-        chain.result.encode(unique_name_value, writer);
-        writer.ldelim();
-      }
-    }
+    ): void {}
 
     static decode(
       reader: Reader,
@@ -704,10 +697,6 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
-          case 1:
-            message.value = chain.result.decode(reader, reader.uint32());
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -717,11 +706,7 @@ export namespace system_calls {
       return message;
     }
 
-    value: chain.result | null;
-
-    constructor(value: chain.result | null = null) {
-      this.value = value;
-    }
+    constructor() {}
   }
 
   @unmanaged
@@ -3130,7 +3115,9 @@ export namespace system_calls {
       const unique_name_value = message.value;
       if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.fork();
+        chain.result.encode(unique_name_value, writer);
+        writer.ldelim();
       }
     }
 
@@ -3142,7 +3129,7 @@ export namespace system_calls {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.value = reader.bytes();
+            message.value = chain.result.decode(reader, reader.uint32());
             break;
 
           default:
@@ -3154,9 +3141,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: chain.result | null;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: chain.result | null = null) {
       this.value = value;
     }
   }
@@ -3224,11 +3211,16 @@ export namespace system_calls {
 
   export class exit_arguments {
     static encode(message: exit_arguments, writer: Writer): void {
-      const unique_name_retval = message.retval;
-      if (unique_name_retval !== null) {
-        writer.uint32(10);
+      if (message.code != 0) {
+        writer.uint32(8);
+        writer.int32(message.code);
+      }
+
+      const unique_name_res = message.res;
+      if (unique_name_res !== null) {
+        writer.uint32(18);
         writer.fork();
-        chain.result.encode(unique_name_retval, writer);
+        chain.result.encode(unique_name_res, writer);
         writer.ldelim();
       }
     }
@@ -3241,7 +3233,11 @@ export namespace system_calls {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.retval = chain.result.decode(reader, reader.uint32());
+            message.code = reader.int32();
+            break;
+
+          case 2:
+            message.res = chain.result.decode(reader, reader.uint32());
             break;
 
           default:
@@ -3253,10 +3249,12 @@ export namespace system_calls {
       return message;
     }
 
-    retval: chain.result | null;
+    code: i32;
+    res: chain.result | null;
 
-    constructor(retval: chain.result | null = null) {
-      this.retval = retval;
+    constructor(code: i32 = 0, res: chain.result | null = null) {
+      this.code = code;
+      this.res = res;
     }
   }
 

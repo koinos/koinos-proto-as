@@ -2,55 +2,8 @@ import { Writer, Reader } from "as-proto";
 import { common } from "../common";
 
 export namespace chain {
-  export class result {
-    static encode(message: result, writer: Writer): void {
-      if (message.code != 0) {
-        writer.uint32(8);
-        writer.int32(message.code);
-      }
-
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
-        writer.uint32(18);
-        writer.bytes(unique_name_value);
-      }
-    }
-
-    static decode(reader: Reader, length: i32): result {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new result();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1:
-            message.code = reader.int32();
-            break;
-
-          case 2:
-            message.value = reader.bytes();
-            break;
-
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    code: i32;
-    value: Uint8Array | null;
-
-    constructor(code: i32 = 0, value: Uint8Array | null = null) {
-      this.code = code;
-      this.value = value;
-    }
-  }
-
-  export class error_info {
-    static encode(message: error_info, writer: Writer): void {
+  export class error_data {
+    static encode(message: error_data, writer: Writer): void {
       const unique_name_message_2 = message.message;
       if (unique_name_message_2 !== null) {
         writer.uint32(10);
@@ -58,9 +11,9 @@ export namespace chain {
       }
     }
 
-    static decode(reader: Reader, length: i32): error_info {
+    static decode(reader: Reader, length: i32): error_data {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new error_info();
+      const message = new error_data();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -82,6 +35,59 @@ export namespace chain {
 
     constructor(message: string | null = null) {
       this.message = message;
+    }
+  }
+
+  export class result {
+    static encode(message: result, writer: Writer): void {
+      const unique_name_object = message.object;
+      if (unique_name_object !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_object);
+      }
+
+      const unique_name_error = message.error;
+      if (unique_name_error !== null) {
+        writer.uint32(18);
+        writer.fork();
+        error_data.encode(unique_name_error, writer);
+        writer.ldelim();
+      }
+    }
+
+    static decode(reader: Reader, length: i32): result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.object = reader.bytes();
+            break;
+
+          case 2:
+            message.error = error_data.decode(reader, reader.uint32());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    object: Uint8Array | null;
+    error: error_data | null;
+
+    constructor(
+      object: Uint8Array | null = null,
+      error: error_data | null = null
+    ) {
+      this.object = object;
+      this.error = error;
     }
   }
 
