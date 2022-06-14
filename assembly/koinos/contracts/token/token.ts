@@ -374,12 +374,7 @@ export namespace token {
 
   @unmanaged
   export class transfer_result {
-    static encode(message: transfer_result, writer: Writer): void {
-      if (message.value != false) {
-        writer.uint32(8);
-        writer.bool(message.value);
-      }
-    }
+    static encode(message: transfer_result, writer: Writer): void {}
 
     static decode(reader: Reader, length: i32): transfer_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -388,10 +383,6 @@ export namespace token {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
-          case 1:
-            message.value = reader.bool();
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -401,11 +392,7 @@ export namespace token {
       return message;
     }
 
-    value: bool;
-
-    constructor(value: bool = false) {
-      this.value = value;
-    }
+    constructor() {}
   }
 
   export class mint_arguments {
@@ -457,12 +444,7 @@ export namespace token {
 
   @unmanaged
   export class mint_result {
-    static encode(message: mint_result, writer: Writer): void {
-      if (message.value != false) {
-        writer.uint32(8);
-        writer.bool(message.value);
-      }
-    }
+    static encode(message: mint_result, writer: Writer): void {}
 
     static decode(reader: Reader, length: i32): mint_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -471,10 +453,6 @@ export namespace token {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
-          case 1:
-            message.value = reader.bool();
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -484,11 +462,7 @@ export namespace token {
       return message;
     }
 
-    value: bool;
-
-    constructor(value: bool = false) {
-      this.value = value;
-    }
+    constructor() {}
   }
 
   export class burn_arguments {
@@ -540,12 +514,7 @@ export namespace token {
 
   @unmanaged
   export class burn_result {
-    static encode(message: burn_result, writer: Writer): void {
-      if (message.value != false) {
-        writer.uint32(8);
-        writer.bool(message.value);
-      }
-    }
+    static encode(message: burn_result, writer: Writer): void {}
 
     static decode(reader: Reader, length: i32): burn_result {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
@@ -554,10 +523,6 @@ export namespace token {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
-          case 1:
-            message.value = reader.bool();
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -567,11 +532,7 @@ export namespace token {
       return message;
     }
 
-    value: bool;
-
-    constructor(value: bool = false) {
-      this.value = value;
-    }
+    constructor() {}
   }
 
   @unmanaged
