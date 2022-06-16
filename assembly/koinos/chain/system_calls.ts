@@ -3176,9 +3176,7 @@ export namespace system_calls {
       const unique_name_value = message.value;
       if (unique_name_value !== null) {
         writer.uint32(10);
-        writer.fork();
-        chain.result.encode(unique_name_value, writer);
-        writer.ldelim();
+        writer.bytes(unique_name_value);
       }
     }
 
@@ -3190,7 +3188,7 @@ export namespace system_calls {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.value = chain.result.decode(reader, reader.uint32());
+            message.value = reader.bytes();
             break;
 
           default:
@@ -3202,9 +3200,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: chain.result | null;
+    value: Uint8Array | null;
 
-    constructor(value: chain.result | null = null) {
+    constructor(value: Uint8Array | null = null) {
       this.value = value;
     }
   }
