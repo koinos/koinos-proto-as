@@ -1549,6 +1549,67 @@ export namespace system_calls {
     }
   }
 
+  @unmanaged
+  export class get_operation_arguments {
+    static encode(message: get_operation_arguments, writer: Writer): void {}
+
+    static decode(reader: Reader, length: i32): get_operation_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_operation_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    constructor() {}
+  }
+
+  export class get_operation_result {
+    static encode(message: get_operation_result, writer: Writer): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        protocol.operation.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
+
+    static decode(reader: Reader, length: i32): get_operation_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_operation_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = protocol.operation.decode(reader, reader.uint32());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: protocol.operation | null;
+
+    constructor(value: protocol.operation | null = null) {
+      this.value = value;
+    }
+  }
+
   export class get_account_rc_arguments {
     static encode(message: get_account_rc_arguments, writer: Writer): void {
       const unique_name_account = message.account;

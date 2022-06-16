@@ -23,6 +23,7 @@ export namespace system_call_ids {
     verify_account_nonce = 108,
     set_account_nonce = 109,
     check_system_authority = 110,
+    get_operation = 111,
     get_account_rc = 201,
     consume_account_rc = 202,
     get_resource_limits = 203,
