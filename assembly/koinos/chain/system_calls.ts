@@ -3472,6 +3472,12 @@ export namespace system_calls {
         writer.uint32(18);
         writer.bytes(unique_name_account);
       }
+
+      const unique_name_data = message.data;
+      if (unique_name_data !== null) {
+        writer.uint32(26);
+        writer.bytes(unique_name_data);
+      }
     }
 
     static decode(reader: Reader, length: i32): check_authority_arguments {
@@ -3489,6 +3495,10 @@ export namespace system_calls {
             message.account = reader.bytes();
             break;
 
+          case 3:
+            message.data = reader.bytes();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -3500,13 +3510,16 @@ export namespace system_calls {
 
     type: authority.authorization_type;
     account: Uint8Array | null;
+    data: Uint8Array | null;
 
     constructor(
       type: authority.authorization_type = 0,
-      account: Uint8Array | null = null
+      account: Uint8Array | null = null,
+      data: Uint8Array | null = null
     ) {
       this.type = type;
       this.account = account;
+      this.data = data;
     }
   }
 

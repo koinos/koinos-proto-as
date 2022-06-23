@@ -1,8 +1,8 @@
 import { Writer, Reader } from "as-proto";
 
 export namespace authority {
-  export class call_target {
-    static encode(message: call_target, writer: Writer): void {
+  export class call_data {
+    static encode(message: call_data, writer: Writer): void {
       const unique_name_contract_id = message.contract_id;
       if (unique_name_contract_id !== null) {
         writer.uint32(10);
@@ -13,11 +13,23 @@ export namespace authority {
         writer.uint32(16);
         writer.uint32(message.entry_point);
       }
+
+      const unique_name_caller = message.caller;
+      if (unique_name_caller !== null) {
+        writer.uint32(26);
+        writer.bytes(unique_name_caller);
+      }
+
+      const unique_name_data = message.data;
+      if (unique_name_data !== null) {
+        writer.uint32(34);
+        writer.bytes(unique_name_data);
+      }
     }
 
-    static decode(reader: Reader, length: i32): call_target {
+    static decode(reader: Reader, length: i32): call_data {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new call_target();
+      const message = new call_data();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
@@ -28,6 +40,14 @@ export namespace authority {
 
           case 2:
             message.entry_point = reader.uint32();
+            break;
+
+          case 3:
+            message.caller = reader.bytes();
+            break;
+
+          case 4:
+            message.data = reader.bytes();
             break;
 
           default:
@@ -41,10 +61,19 @@ export namespace authority {
 
     contract_id: Uint8Array | null;
     entry_point: u32;
+    caller: Uint8Array | null;
+    data: Uint8Array | null;
 
-    constructor(contract_id: Uint8Array | null = null, entry_point: u32 = 0) {
+    constructor(
+      contract_id: Uint8Array | null = null,
+      entry_point: u32 = 0,
+      caller: Uint8Array | null = null,
+      data: Uint8Array | null = null
+    ) {
       this.contract_id = contract_id;
       this.entry_point = entry_point;
+      this.caller = caller;
+      this.data = data;
     }
   }
 
@@ -59,7 +88,7 @@ export namespace authority {
       if (unique_name_call !== null) {
         writer.uint32(18);
         writer.fork();
-        call_target.encode(unique_name_call, writer);
+        call_data.encode(unique_name_call, writer);
         writer.ldelim();
       }
     }
@@ -76,7 +105,7 @@ export namespace authority {
             break;
 
           case 2:
-            message.call = call_target.decode(reader, reader.uint32());
+            message.call = call_data.decode(reader, reader.uint32());
             break;
 
           default:
@@ -89,9 +118,9 @@ export namespace authority {
     }
 
     type: authorization_type;
-    call: call_target | null;
+    call: call_data | null;
 
-    constructor(type: authorization_type = 0, call: call_target | null = null) {
+    constructor(type: authorization_type = 0, call: call_data | null = null) {
       this.type = type;
       this.call = call;
     }
