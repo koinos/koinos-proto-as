@@ -2,6 +2,7 @@ export { Protobuf } from 'as-proto';
 
 export { any } from './google/protobuf/any';
 
+export { pob } from './koinos/contracts/pob/pob';
 export { resources } from './koinos/contracts/resources/resources';
 export { governance } from './koinos/contracts/governance/governance';
 export { pow } from './koinos/contracts/pow/pow';
