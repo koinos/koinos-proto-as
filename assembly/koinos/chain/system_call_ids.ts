@@ -1,6 +1,6 @@
 export namespace system_call_ids {
   export enum system_call_id {
-    reserved_id = 0,
+    nop = 0,
     get_head_info = 1,
     apply_block = 2,
     apply_transaction = 3,

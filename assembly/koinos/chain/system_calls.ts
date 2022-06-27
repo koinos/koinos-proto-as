@@ -6,6 +6,52 @@ import { authority } from "./authority";
 
 export namespace system_calls {
   @unmanaged
+  export class nop_arguments {
+    static encode(message: nop_arguments, writer: Writer): void {}
+
+    static decode(reader: Reader, length: i32): nop_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new nop_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    constructor() {}
+  }
+
+  @unmanaged
+  export class nop_result {
+    static encode(message: nop_result, writer: Writer): void {}
+
+    static decode(reader: Reader, length: i32): nop_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new nop_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    constructor() {}
+  }
+
+  @unmanaged
   export class get_head_info_arguments {
     static encode(message: get_head_info_arguments, writer: Writer): void {}
 
