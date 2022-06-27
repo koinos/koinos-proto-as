@@ -396,11 +396,11 @@ export namespace pob {
 
   export class get_metadata_result {
     static encode(message: get_metadata_result, writer: Writer): void {
-      const unique_name_metadata = message.metadata;
-      if (unique_name_metadata !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        metadata.encode(unique_name_metadata, writer);
+        metadata.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -413,7 +413,7 @@ export namespace pob {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.metadata = metadata.decode(reader, reader.uint32());
+            message.value = metadata.decode(reader, reader.uint32());
             break;
 
           default:
@@ -425,10 +425,10 @@ export namespace pob {
       return message;
     }
 
-    metadata: metadata | null;
+    value: metadata | null;
 
-    constructor(metadata: metadata | null = null) {
-      this.metadata = metadata;
+    constructor(value: metadata | null = null) {
+      this.value = value;
     }
   }
 
