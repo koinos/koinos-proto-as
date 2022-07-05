@@ -1,6 +1,68 @@
 import { Writer, Reader } from "as-proto";
 
 export namespace pob {
+  @unmanaged
+  export class consensus_parameters {
+    static encode(message: consensus_parameters, writer: Writer): void {
+      if (message.target_annual_inflation_rate != 0) {
+        writer.uint32(8);
+        writer.uint64(message.target_annual_inflation_rate);
+      }
+
+      if (message.target_burn_percent != 0) {
+        writer.uint32(16);
+        writer.uint64(message.target_burn_percent);
+      }
+
+      if (message.target_block_interval != 0) {
+        writer.uint32(24);
+        writer.uint64(message.target_block_interval);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): consensus_parameters {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new consensus_parameters();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.target_annual_inflation_rate = reader.uint64();
+            break;
+
+          case 2:
+            message.target_burn_percent = reader.uint64();
+            break;
+
+          case 3:
+            message.target_block_interval = reader.uint64();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    target_annual_inflation_rate: u64;
+    target_burn_percent: u64;
+    target_block_interval: u64;
+
+    constructor(
+      target_annual_inflation_rate: u64 = 0,
+      target_burn_percent: u64 = 0,
+      target_block_interval: u64 = 0
+    ) {
+      this.target_annual_inflation_rate = target_annual_inflation_rate;
+      this.target_burn_percent = target_burn_percent;
+      this.target_block_interval = target_block_interval;
+    }
+  }
+
   export class public_key_record {
     static encode(message: public_key_record, writer: Writer): void {
       const unique_name_public_key = message.public_key;
@@ -55,11 +117,6 @@ export namespace pob {
         writer.uint32(24);
         writer.uint64(message.last_block_time);
       }
-
-      if (message.target_block_interval != 0) {
-        writer.uint32(32);
-        writer.uint64(message.target_block_interval);
-      }
     }
 
     static decode(reader: Reader, length: i32): metadata {
@@ -81,10 +138,6 @@ export namespace pob {
             message.last_block_time = reader.uint64();
             break;
 
-          case 4:
-            message.target_block_interval = reader.uint64();
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -97,18 +150,15 @@ export namespace pob {
     seed: Uint8Array | null;
     difficulty: Uint8Array | null;
     last_block_time: u64;
-    target_block_interval: u64;
 
     constructor(
       seed: Uint8Array | null = null,
       difficulty: Uint8Array | null = null,
-      last_block_time: u64 = 0,
-      target_block_interval: u64 = 0
+      last_block_time: u64 = 0
     ) {
       this.seed = seed;
       this.difficulty = difficulty;
       this.last_block_time = last_block_time;
-      this.target_block_interval = target_block_interval;
     }
   }
 
@@ -369,6 +419,83 @@ export namespace pob {
     }
 
     constructor() {}
+  }
+
+  @unmanaged
+  export class get_consensus_parameters_arguments {
+    static encode(
+      message: get_consensus_parameters_arguments,
+      writer: Writer
+    ): void {}
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): get_consensus_parameters_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_consensus_parameters_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    constructor() {}
+  }
+
+  @unmanaged
+  export class get_consensus_parameters_result {
+    static encode(
+      message: get_consensus_parameters_result,
+      writer: Writer
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        consensus_parameters.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): get_consensus_parameters_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_consensus_parameters_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = consensus_parameters.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: consensus_parameters | null;
+
+    constructor(value: consensus_parameters | null = null) {
+      this.value = value;
+    }
   }
 
   @unmanaged
