@@ -219,6 +219,11 @@ export namespace broadcast {
         writer.uint32(24);
         writer.bool(message.live);
       }
+
+      if (message.head != false) {
+        writer.uint32(32);
+        writer.bool(message.head);
+      }
     }
 
     static decode(reader: Reader, length: i32): block_accepted {
@@ -243,6 +248,10 @@ export namespace broadcast {
             message.live = reader.bool();
             break;
 
+          case 4:
+            message.head = reader.bool();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -255,15 +264,18 @@ export namespace broadcast {
     block: protocol.block | null;
     receipt: protocol.block_receipt | null;
     live: bool;
+    head: bool;
 
     constructor(
       block: protocol.block | null = null,
       receipt: protocol.block_receipt | null = null,
-      live: bool = false
+      live: bool = false,
+      head: bool = false
     ) {
       this.block = block;
       this.receipt = receipt;
       this.live = live;
+      this.head = head;
     }
   }
 
