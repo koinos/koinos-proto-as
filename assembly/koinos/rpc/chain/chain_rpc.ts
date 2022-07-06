@@ -209,6 +209,11 @@ export namespace chain_rpc {
         writer.uint32(26);
         writer.bytes(unique_name_head_state_merkle_root);
       }
+
+      if (message.head_block_time != 0) {
+        writer.uint32(32);
+        writer.uint64(message.head_block_time);
+      }
     }
 
     static decode(reader: Reader, length: i32): get_head_info_response {
@@ -233,6 +238,10 @@ export namespace chain_rpc {
             message.head_state_merkle_root = reader.bytes();
             break;
 
+          case 4:
+            message.head_block_time = reader.uint64();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -245,15 +254,18 @@ export namespace chain_rpc {
     head_topology: common.block_topology | null;
     last_irreversible_block: u64;
     head_state_merkle_root: Uint8Array | null;
+    head_block_time: u64;
 
     constructor(
       head_topology: common.block_topology | null = null,
       last_irreversible_block: u64 = 0,
-      head_state_merkle_root: Uint8Array | null = null
+      head_state_merkle_root: Uint8Array | null = null,
+      head_block_time: u64 = 0
     ) {
       this.head_topology = head_topology;
       this.last_irreversible_block = last_irreversible_block;
       this.head_state_merkle_root = head_state_merkle_root;
+      this.head_block_time = head_block_time;
     }
   }
 
