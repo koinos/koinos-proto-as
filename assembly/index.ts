@@ -1,4 +1,4 @@
-export { Protobuf } from 'as-proto';
+export { Protobuf } from '@roaminroe/as-proto';
 
 export { any } from './google/protobuf/any';
 
