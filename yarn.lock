@@ -11,15 +11,15 @@
     prettier "^2.5.0"
     ts-poet "^4.9.0"
 
-"@roaminroe/as-proto@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@roaminroe/as-proto/-/as-proto-0.2.3.tgz#931ff8f805d1ba4726037465d46fb0d9ac5a4f04"
-  integrity sha512-x+fDDY5fvfd1VHqJnD6ITh88m913uDuKQPCTnwi6TFwbCRIqmC9lfIst/pmPFx96rNVlNp8UBLXFKgZg9l6rYA==
-
 "@roaminroe/protoc@^2.4.0":
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/@roaminroe/protoc/-/protoc-2.4.0.tgz#9f50b727af5bdf7a06e20ae38a2f9c80ef24a2d0"
   integrity sha512-M2H/EaGYyNd4Zcskyf8PrtpMi7q7ewT+A7fPu3kIB3pN0y/8mXIuGRvqp8pO7LsKSCkGA+coCGTYeFLx7dC2lg==
+
+"as-proto@npm:@roaminroe/as-proto":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@roaminroe/as-proto/-/as-proto-0.2.3.tgz#931ff8f805d1ba4726037465d46fb0d9ac5a4f04"
+  integrity sha512-x+fDDY5fvfd1VHqJnD6ITh88m913uDuKQPCTnwi6TFwbCRIqmC9lfIst/pmPFx96rNVlNp8UBLXFKgZg9l6rYA==
 
 google-protobuf@^3.19.2:
   version "3.20.1"
