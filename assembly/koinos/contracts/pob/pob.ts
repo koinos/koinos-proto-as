@@ -6,17 +6,22 @@ export namespace pob {
     static encode(message: consensus_parameters, writer: Writer): void {
       if (message.target_annual_inflation_rate != 0) {
         writer.uint32(8);
-        writer.uint64(message.target_annual_inflation_rate);
+        writer.uint32(message.target_annual_inflation_rate);
       }
 
       if (message.target_burn_percent != 0) {
         writer.uint32(16);
-        writer.uint64(message.target_burn_percent);
+        writer.uint32(message.target_burn_percent);
       }
 
       if (message.target_block_interval != 0) {
         writer.uint32(24);
-        writer.uint64(message.target_block_interval);
+        writer.uint32(message.target_block_interval);
+      }
+
+      if (message.quantum_length != 0) {
+        writer.uint32(32);
+        writer.uint32(message.quantum_length);
       }
     }
 
@@ -28,15 +33,19 @@ export namespace pob {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.target_annual_inflation_rate = reader.uint64();
+            message.target_annual_inflation_rate = reader.uint32();
             break;
 
           case 2:
-            message.target_burn_percent = reader.uint64();
+            message.target_burn_percent = reader.uint32();
             break;
 
           case 3:
-            message.target_block_interval = reader.uint64();
+            message.target_block_interval = reader.uint32();
+            break;
+
+          case 4:
+            message.quantum_length = reader.uint32();
             break;
 
           default:
@@ -48,18 +57,21 @@ export namespace pob {
       return message;
     }
 
-    target_annual_inflation_rate: u64;
-    target_burn_percent: u64;
-    target_block_interval: u64;
+    target_annual_inflation_rate: u32;
+    target_burn_percent: u32;
+    target_block_interval: u32;
+    quantum_length: u32;
 
     constructor(
-      target_annual_inflation_rate: u64 = 0,
-      target_burn_percent: u64 = 0,
-      target_block_interval: u64 = 0
+      target_annual_inflation_rate: u32 = 0,
+      target_burn_percent: u32 = 0,
+      target_block_interval: u32 = 0,
+      quantum_length: u32 = 0
     ) {
       this.target_annual_inflation_rate = target_annual_inflation_rate;
       this.target_burn_percent = target_burn_percent;
       this.target_block_interval = target_block_interval;
+      this.quantum_length = quantum_length;
     }
   }
 
