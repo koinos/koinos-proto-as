@@ -290,9 +290,15 @@ export namespace pob {
       message: register_public_key_arguments,
       writer: Writer
     ): void {
+      const unique_name_producer = message.producer;
+      if (unique_name_producer !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_producer);
+      }
+
       const unique_name_public_key = message.public_key;
       if (unique_name_public_key !== null) {
-        writer.uint32(10);
+        writer.uint32(18);
         writer.bytes(unique_name_public_key);
       }
     }
@@ -305,6 +311,10 @@ export namespace pob {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
+            message.producer = reader.bytes();
+            break;
+
+          case 2:
             message.public_key = reader.bytes();
             break;
 
@@ -317,9 +327,14 @@ export namespace pob {
       return message;
     }
 
+    producer: Uint8Array | null;
     public_key: Uint8Array | null;
 
-    constructor(public_key: Uint8Array | null = null) {
+    constructor(
+      producer: Uint8Array | null = null,
+      public_key: Uint8Array | null = null
+    ) {
+      this.producer = producer;
       this.public_key = public_key;
     }
   }
