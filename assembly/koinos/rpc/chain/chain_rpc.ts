@@ -93,6 +93,11 @@ export namespace chain_rpc {
         protocol.transaction.encode(unique_name_transaction, writer);
         writer.ldelim();
       }
+
+      if (message.broadcast != false) {
+        writer.uint32(16);
+        writer.bool(message.broadcast);
+      }
     }
 
     static decode(reader: Reader, length: i32): submit_transaction_request {
@@ -109,6 +114,10 @@ export namespace chain_rpc {
             );
             break;
 
+          case 2:
+            message.broadcast = reader.bool();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -119,9 +128,14 @@ export namespace chain_rpc {
     }
 
     transaction: protocol.transaction | null;
+    broadcast: bool;
 
-    constructor(transaction: protocol.transaction | null = null) {
+    constructor(
+      transaction: protocol.transaction | null = null,
+      broadcast: bool = false
+    ) {
       this.transaction = transaction;
+      this.broadcast = broadcast;
     }
   }
 
