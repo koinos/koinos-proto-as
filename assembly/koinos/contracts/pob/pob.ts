@@ -636,4 +636,76 @@ export namespace pob {
       this.address = address;
     }
   }
+
+  export class get_public_key_arguments {
+    static encode(message: get_public_key_arguments, writer: Writer): void {
+      const unique_name_producer = message.producer;
+      if (unique_name_producer !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_producer);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): get_public_key_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_public_key_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.producer = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    producer: Uint8Array | null;
+
+    constructor(producer: Uint8Array | null = null) {
+      this.producer = producer;
+    }
+  }
+
+  export class get_public_key_result {
+    static encode(message: get_public_key_result, writer: Writer): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_value);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): get_public_key_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_public_key_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: Uint8Array | null;
+
+    constructor(value: Uint8Array | null = null) {
+      this.value = value;
+    }
+  }
 }
