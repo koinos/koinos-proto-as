@@ -12,80 +12,70 @@ export namespace value {
         writer.ldelim();
       }
 
-      if (message.double_value != 0.0) {
-        writer.uint32(17);
-        writer.double(message.double_value);
-      }
-
-      if (message.float_value != 0.0) {
-        writer.uint32(29);
-        writer.float(message.float_value);
-      }
-
       if (message.int32_value != 0) {
-        writer.uint32(32);
+        writer.uint32(16);
         writer.int32(message.int32_value);
       }
 
       if (message.int64_value != 0) {
-        writer.uint32(40);
+        writer.uint32(24);
         writer.int64(message.int64_value);
       }
 
       if (message.uint32_value != 0) {
-        writer.uint32(48);
+        writer.uint32(32);
         writer.uint32(message.uint32_value);
       }
 
       if (message.uint64_value != 0) {
-        writer.uint32(56);
+        writer.uint32(40);
         writer.uint64(message.uint64_value);
       }
 
       if (message.sint32_value != 0) {
-        writer.uint32(64);
+        writer.uint32(48);
         writer.sint32(message.sint32_value);
       }
 
       if (message.sint64_value != 0) {
-        writer.uint32(72);
+        writer.uint32(56);
         writer.sint64(message.sint64_value);
       }
 
       if (message.fixed32_value != 0) {
-        writer.uint32(85);
+        writer.uint32(69);
         writer.fixed32(message.fixed32_value);
       }
 
       if (message.fixed64_value != 0) {
-        writer.uint32(89);
+        writer.uint32(73);
         writer.fixed64(message.fixed64_value);
       }
 
       if (message.sfixed32_value != 0) {
-        writer.uint32(101);
+        writer.uint32(85);
         writer.sfixed32(message.sfixed32_value);
       }
 
       if (message.sfixed64_value != 0) {
-        writer.uint32(105);
+        writer.uint32(89);
         writer.sfixed64(message.sfixed64_value);
       }
 
       if (message.bool_value != false) {
-        writer.uint32(112);
+        writer.uint32(96);
         writer.bool(message.bool_value);
       }
 
       const unique_name_string_value = message.string_value;
       if (unique_name_string_value !== null) {
-        writer.uint32(122);
+        writer.uint32(106);
         writer.string(unique_name_string_value);
       }
 
       const unique_name_bytes_value = message.bytes_value;
       if (unique_name_bytes_value !== null) {
-        writer.uint32(130);
+        writer.uint32(114);
         writer.bytes(unique_name_bytes_value);
       }
     }
@@ -102,62 +92,54 @@ export namespace value {
             break;
 
           case 2:
-            message.double_value = reader.double();
-            break;
-
-          case 3:
-            message.float_value = reader.float();
-            break;
-
-          case 4:
             message.int32_value = reader.int32();
             break;
 
-          case 5:
+          case 3:
             message.int64_value = reader.int64();
             break;
 
-          case 6:
+          case 4:
             message.uint32_value = reader.uint32();
             break;
 
-          case 7:
+          case 5:
             message.uint64_value = reader.uint64();
             break;
 
-          case 8:
+          case 6:
             message.sint32_value = reader.sint32();
             break;
 
-          case 9:
+          case 7:
             message.sint64_value = reader.sint64();
             break;
 
-          case 10:
+          case 8:
             message.fixed32_value = reader.fixed32();
             break;
 
-          case 11:
+          case 9:
             message.fixed64_value = reader.fixed64();
             break;
 
-          case 12:
+          case 10:
             message.sfixed32_value = reader.sfixed32();
             break;
 
-          case 13:
+          case 11:
             message.sfixed64_value = reader.sfixed64();
             break;
 
-          case 14:
+          case 12:
             message.bool_value = reader.bool();
             break;
 
-          case 15:
+          case 13:
             message.string_value = reader.string();
             break;
 
-          case 16:
+          case 14:
             message.bytes_value = reader.bytes();
             break;
 
@@ -171,8 +153,6 @@ export namespace value {
     }
 
     message_value: any.Any | null;
-    double_value: f64;
-    float_value: f32;
     int32_value: i32;
     int64_value: i64;
     uint32_value: u32;
@@ -189,8 +169,6 @@ export namespace value {
 
     constructor(
       message_value: any.Any | null = null,
-      double_value: f64 = 0.0,
-      float_value: f32 = 0.0,
       int32_value: i32 = 0,
       int64_value: i64 = 0,
       uint32_value: u32 = 0,
@@ -206,8 +184,6 @@ export namespace value {
       bytes_value: Uint8Array | null = null
     ) {
       this.message_value = message_value;
-      this.double_value = double_value;
-      this.float_value = float_value;
       this.int32_value = int32_value;
       this.int64_value = int64_value;
       this.uint32_value = uint32_value;
