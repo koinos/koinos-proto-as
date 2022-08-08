@@ -135,6 +135,12 @@ export namespace claim {
         writer.uint32(18);
         writer.bytes(unique_name_koin_address);
       }
+
+      const unique_name_signature = message.signature;
+      if (unique_name_signature !== null) {
+        writer.uint32(26);
+        writer.bytes(unique_name_signature);
+      }
     }
 
     static decode(reader: Reader, length: i32): claim_arguments {
@@ -152,6 +158,10 @@ export namespace claim {
             message.koin_address = reader.bytes();
             break;
 
+          case 3:
+            message.signature = reader.bytes();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -163,13 +173,16 @@ export namespace claim {
 
     eth_address: Uint8Array | null;
     koin_address: Uint8Array | null;
+    signature: Uint8Array | null;
 
     constructor(
       eth_address: Uint8Array | null = null,
-      koin_address: Uint8Array | null = null
+      koin_address: Uint8Array | null = null,
+      signature: Uint8Array | null = null
     ) {
       this.eth_address = eth_address;
       this.koin_address = koin_address;
+      this.signature = signature;
     }
   }
 
