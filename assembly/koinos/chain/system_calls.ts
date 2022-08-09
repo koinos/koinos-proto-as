@@ -2747,6 +2747,11 @@ export namespace system_calls {
         writer.uint32(26);
         writer.bytes(unique_name_digest);
       }
+
+      if (message.compressed != false) {
+        writer.uint32(32);
+        writer.bool(message.compressed);
+      }
     }
 
     static decode(reader: Reader, length: i32): recover_public_key_arguments {
@@ -2768,6 +2773,10 @@ export namespace system_calls {
             message.digest = reader.bytes();
             break;
 
+          case 4:
+            message.compressed = reader.bool();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -2780,15 +2789,18 @@ export namespace system_calls {
     type: chain.dsa;
     signature: Uint8Array | null;
     digest: Uint8Array | null;
+    compressed: bool;
 
     constructor(
       type: chain.dsa = 0,
       signature: Uint8Array | null = null,
-      digest: Uint8Array | null = null
+      digest: Uint8Array | null = null,
+      compressed: bool = false
     ) {
       this.type = type;
       this.signature = signature;
       this.digest = digest;
+      this.compressed = compressed;
     }
   }
 
@@ -2941,6 +2953,11 @@ export namespace system_calls {
         writer.uint32(34);
         writer.bytes(unique_name_digest);
       }
+
+      if (message.compressed != false) {
+        writer.uint32(40);
+        writer.bool(message.compressed);
+      }
     }
 
     static decode(reader: Reader, length: i32): verify_signature_arguments {
@@ -2966,6 +2983,10 @@ export namespace system_calls {
             message.digest = reader.bytes();
             break;
 
+          case 5:
+            message.compressed = reader.bool();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -2979,17 +3000,20 @@ export namespace system_calls {
     public_key: Uint8Array | null;
     signature: Uint8Array | null;
     digest: Uint8Array | null;
+    compressed: bool;
 
     constructor(
       type: chain.dsa = 0,
       public_key: Uint8Array | null = null,
       signature: Uint8Array | null = null,
-      digest: Uint8Array | null = null
+      digest: Uint8Array | null = null,
+      compressed: bool = false
     ) {
       this.type = type;
       this.public_key = public_key;
       this.signature = signature;
       this.digest = digest;
+      this.compressed = compressed;
     }
   }
 
