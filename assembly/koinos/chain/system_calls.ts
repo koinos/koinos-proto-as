@@ -1519,12 +1519,7 @@ export namespace system_calls {
     static encode(
       message: check_system_authority_arguments,
       writer: Writer
-    ): void {
-      if (message.type != 0) {
-        writer.uint32(8);
-        writer.int32(message.type);
-      }
-    }
+    ): void {}
 
     static decode(
       reader: Reader,
@@ -1536,10 +1531,6 @@ export namespace system_calls {
       while (reader.ptr < end) {
         const tag = reader.uint32();
         switch (tag >>> 3) {
-          case 1:
-            message.type = reader.int32();
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -1549,11 +1540,7 @@ export namespace system_calls {
       return message;
     }
 
-    type: system_authorization_type;
-
-    constructor(type: system_authorization_type = 0) {
-      this.type = type;
-    }
+    constructor() {}
   }
 
   @unmanaged
@@ -3627,10 +3614,5 @@ export namespace system_calls {
     constructor(value: bool = false) {
       this.value = value;
     }
-  }
-
-  export enum system_authorization_type {
-    set_system_contract = 0,
-    set_system_call = 1,
   }
 }
