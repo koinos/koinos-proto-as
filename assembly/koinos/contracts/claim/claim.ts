@@ -270,4 +270,79 @@ export namespace claim {
       this.value = value;
     }
   }
+
+  export class check_claim_arguments {
+    static encode(message: check_claim_arguments, writer: Writer): void {
+      const unique_name_eth_address = message.eth_address;
+      if (unique_name_eth_address !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_eth_address);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): check_claim_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new check_claim_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.eth_address = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    eth_address: Uint8Array | null;
+
+    constructor(eth_address: Uint8Array | null = null) {
+      this.eth_address = eth_address;
+    }
+  }
+
+  @unmanaged
+  export class check_claim_result {
+    static encode(message: check_claim_result, writer: Writer): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        claim_status.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
+
+    static decode(reader: Reader, length: i32): check_claim_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new check_claim_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = claim_status.decode(reader, reader.uint32());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: claim_status | null;
+
+    constructor(value: claim_status | null = null) {
+      this.value = value;
+    }
+  }
 }
