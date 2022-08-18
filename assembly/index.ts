@@ -1,4 +1,4 @@
-export { Protobuf } from 'as-proto';
+export { Protobuf, Reader, Writer } from '@koinos/as-proto';
 
 export { any } from './google/protobuf/any';
 

@@ -9,10 +9,10 @@
     "generateGoogleProtoFiles": "yarn protoc --plugin=protoc-gen-as=./node_modules/.bin/as-proto-gen --as_out=. ./google/protobuf/any.proto"
   },
   "devDependencies": {
-    "@roaminroe/as-proto-gen": "^0.4.2",
+    "@koinos/as-proto-gen": "^0.4.3",
     "@roaminroe/protoc": "^2.4.0"
   },
   "dependencies": {
-    "as-proto": "npm:@roaminroe/as-proto"
+    "as-proto": "npm:@koinos/as-proto"
   }
 }
