@@ -309,6 +309,81 @@ export namespace token {
     }
   }
 
+  export class effective_balance_of_arguments {
+    static encode(
+      message: effective_balance_of_arguments,
+      writer: Writer
+    ): void {
+      const unique_name_owner = message.owner;
+      if (unique_name_owner !== null) {
+        writer.uint32(10);
+        writer.bytes(unique_name_owner);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): effective_balance_of_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new effective_balance_of_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.owner = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    owner: Uint8Array | null;
+
+    constructor(owner: Uint8Array | null = null) {
+      this.owner = owner;
+    }
+  }
+
+  @unmanaged
+  export class effective_balance_of_result {
+    static encode(message: effective_balance_of_result, writer: Writer): void {
+      if (message.value != 0) {
+        writer.uint32(8);
+        writer.uint64(message.value);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): effective_balance_of_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new effective_balance_of_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = reader.uint64();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: u64;
+
+    constructor(value: u64 = 0) {
+      this.value = value;
+    }
+  }
+
   export class transfer_arguments {
     static encode(message: transfer_arguments, writer: Writer): void {
       const unique_name_from = message.from;
@@ -628,6 +703,62 @@ export namespace token {
       this.last_mana_update = last_mana_update;
     }
   }
+
+  export class effective_balance_object {
+    static encode(message: effective_balance_object, writer: Writer): void {
+      if (message.current_balance != 0) {
+        writer.uint32(8);
+        writer.uint64(message.current_balance);
+      }
+
+      const unique_name_past_balances = message.past_balances;
+      for (let i = 0; i < unique_name_past_balances.length; ++i) {
+        writer.uint32(18);
+        writer.fork();
+        PastBalancesEntry.encode(unique_name_past_balances[i], writer);
+        writer.ldelim();
+      }
+    }
+
+    static decode(reader: Reader, length: i32): effective_balance_object {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new effective_balance_object();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.current_balance = reader.uint64();
+            break;
+
+          case 2:
+            message.past_balances.push(
+              PastBalancesEntry.decode(reader, reader.uint32())
+            );
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    current_balance: u64;
+    past_balances: Array<PastBalancesEntry>;
+
+    constructor(
+      current_balance: u64 = 0,
+      past_balances: Array<PastBalancesEntry> = []
+    ) {
+      this.current_balance = current_balance;
+      this.past_balances = past_balances;
+    }
+  }
+
+  export namespace effective_balance_object {}
 
   export class burn_event {
     static encode(message: burn_event, writer: Writer): void {

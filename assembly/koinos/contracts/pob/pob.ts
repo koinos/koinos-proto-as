@@ -82,6 +82,11 @@ export namespace pob {
         writer.uint32(10);
         writer.bytes(unique_name_public_key);
       }
+
+      if (message.set_block_height != 0) {
+        writer.uint32(16);
+        writer.uint64(message.set_block_height);
+      }
     }
 
     static decode(reader: Reader, length: i32): public_key_record {
@@ -95,6 +100,10 @@ export namespace pob {
             message.public_key = reader.bytes();
             break;
 
+          case 2:
+            message.set_block_height = reader.uint64();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -105,9 +114,14 @@ export namespace pob {
     }
 
     public_key: Uint8Array | null;
+    set_block_height: u64;
 
-    constructor(public_key: Uint8Array | null = null) {
+    constructor(
+      public_key: Uint8Array | null = null,
+      set_block_height: u64 = 0
+    ) {
       this.public_key = public_key;
+      this.set_block_height = set_block_height;
     }
   }
 
