@@ -734,4 +734,81 @@ export namespace pob {
       this.value = value;
     }
   }
+
+  @unmanaged
+  export class update_consensus_parameters_arguments {
+    static encode(
+      message: update_consensus_parameters_arguments,
+      writer: Writer
+    ): void {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
+        writer.uint32(10);
+        writer.fork();
+        consensus_parameters.encode(unique_name_value, writer);
+        writer.ldelim();
+      }
+    }
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): update_consensus_parameters_arguments {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new update_consensus_parameters_arguments();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = consensus_parameters.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: consensus_parameters | null;
+
+    constructor(value: consensus_parameters | null = null) {
+      this.value = value;
+    }
+  }
+
+  @unmanaged
+  export class update_consensus_parameters_result {
+    static encode(
+      message: update_consensus_parameters_result,
+      writer: Writer
+    ): void {}
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): update_consensus_parameters_result {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new update_consensus_parameters_result();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    constructor() {}
+  }
 }
