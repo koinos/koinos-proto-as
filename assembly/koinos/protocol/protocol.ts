@@ -1168,6 +1168,21 @@ export namespace protocol {
           writer.string(unique_name_logs[i]);
         }
       }
+
+      if (message.disk_storage_charged != 0) {
+        writer.uint32(80);
+        writer.uint64(message.disk_storage_charged);
+      }
+
+      if (message.network_bandwidth_charged != 0) {
+        writer.uint32(88);
+        writer.uint64(message.network_bandwidth_charged);
+      }
+
+      if (message.compute_bandwidth_charged != 0) {
+        writer.uint32(96);
+        writer.uint64(message.compute_bandwidth_charged);
+      }
     }
 
     static decode(reader: Reader, length: i32): block_receipt {
@@ -1215,6 +1230,18 @@ export namespace protocol {
             message.logs.push(reader.string());
             break;
 
+          case 10:
+            message.disk_storage_charged = reader.uint64();
+            break;
+
+          case 11:
+            message.network_bandwidth_charged = reader.uint64();
+            break;
+
+          case 12:
+            message.compute_bandwidth_charged = reader.uint64();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1233,6 +1260,9 @@ export namespace protocol {
     events: Array<event_data>;
     transaction_receipts: Array<transaction_receipt>;
     logs: Array<string>;
+    disk_storage_charged: u64;
+    network_bandwidth_charged: u64;
+    compute_bandwidth_charged: u64;
 
     constructor(
       id: Uint8Array | null = null,
@@ -1243,7 +1273,10 @@ export namespace protocol {
       state_merkle_root: Uint8Array | null = null,
       events: Array<event_data> = [],
       transaction_receipts: Array<transaction_receipt> = [],
-      logs: Array<string> = []
+      logs: Array<string> = [],
+      disk_storage_charged: u64 = 0,
+      network_bandwidth_charged: u64 = 0,
+      compute_bandwidth_charged: u64 = 0
     ) {
       this.id = id;
       this.height = height;
@@ -1254,6 +1287,9 @@ export namespace protocol {
       this.events = events;
       this.transaction_receipts = transaction_receipts;
       this.logs = logs;
+      this.disk_storage_charged = disk_storage_charged;
+      this.network_bandwidth_charged = network_bandwidth_charged;
+      this.compute_bandwidth_charged = compute_bandwidth_charged;
     }
   }
 }
