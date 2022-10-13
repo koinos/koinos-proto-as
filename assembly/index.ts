@@ -7,6 +7,7 @@ export { contract_meta_store } from './koinos/contract_meta_store/contract_meta_
 export { transaction_store } from './koinos/transaction_store/transaction_store';
 export { koin } from './koinos/contracts/koin/koin';
 export { resources } from './koinos/contracts/resources/resources';
+export { name_service } from './koinos/contracts/name_service/name_service';
 export { token } from './koinos/contracts/token/token';
 export { claim } from './koinos/contracts/claim/claim';
 export { pow } from './koinos/contracts/pow/pow';
