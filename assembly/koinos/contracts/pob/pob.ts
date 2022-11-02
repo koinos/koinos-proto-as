@@ -23,11 +23,6 @@ export namespace pob {
         writer.uint32(32);
         writer.uint32(message.quantum_length);
       }
-
-      if (message.minimum_block_time != 0) {
-        writer.uint32(40);
-        writer.uint64(message.minimum_block_time);
-      }
     }
 
     static decode(reader: Reader, length: i32): consensus_parameters {
@@ -53,10 +48,6 @@ export namespace pob {
             message.quantum_length = reader.uint32();
             break;
 
-          case 5:
-            message.minimum_block_time = reader.uint64();
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -70,20 +61,17 @@ export namespace pob {
     target_burn_percent: u32;
     target_block_interval: u32;
     quantum_length: u32;
-    minimum_block_time: u64;
 
     constructor(
       target_annual_inflation_rate: u32 = 0,
       target_burn_percent: u32 = 0,
       target_block_interval: u32 = 0,
-      quantum_length: u32 = 0,
-      minimum_block_time: u64 = 0
+      quantum_length: u32 = 0
     ) {
       this.target_annual_inflation_rate = target_annual_inflation_rate;
       this.target_burn_percent = target_burn_percent;
       this.target_block_interval = target_block_interval;
       this.quantum_length = quantum_length;
-      this.minimum_block_time = minimum_block_time;
     }
   }
 
