@@ -77,10 +77,9 @@ export namespace pob {
 
   export class public_key_record {
     static encode(message: public_key_record, writer: Writer): void {
-      const unique_name_public_key = message.public_key;
-      if (unique_name_public_key !== null) {
+      if (message.public_key.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_public_key);
+        writer.bytes(message.public_key);
       }
 
       if (message.set_block_height != 0) {
@@ -113,11 +112,11 @@ export namespace pob {
       return message;
     }
 
-    public_key: Uint8Array | null;
+    public_key: Uint8Array;
     set_block_height: u64;
 
     constructor(
-      public_key: Uint8Array | null = null,
+      public_key: Uint8Array = new Uint8Array(0),
       set_block_height: u64 = 0
     ) {
       this.public_key = public_key;
@@ -127,16 +126,14 @@ export namespace pob {
 
   export class metadata {
     static encode(message: metadata, writer: Writer): void {
-      const unique_name_seed = message.seed;
-      if (unique_name_seed !== null) {
+      if (message.seed.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_seed);
+        writer.bytes(message.seed);
       }
 
-      const unique_name_difficulty = message.difficulty;
-      if (unique_name_difficulty !== null) {
+      if (message.difficulty.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_difficulty);
+        writer.bytes(message.difficulty);
       }
 
       if (message.last_block_time != 0) {
@@ -173,13 +170,13 @@ export namespace pob {
       return message;
     }
 
-    seed: Uint8Array | null;
-    difficulty: Uint8Array | null;
+    seed: Uint8Array;
+    difficulty: Uint8Array;
     last_block_time: u64;
 
     constructor(
-      seed: Uint8Array | null = null,
-      difficulty: Uint8Array | null = null,
+      seed: Uint8Array = new Uint8Array(0),
+      difficulty: Uint8Array = new Uint8Array(0),
       last_block_time: u64 = 0
     ) {
       this.seed = seed;
@@ -190,22 +187,19 @@ export namespace pob {
 
   export class signature_data {
     static encode(message: signature_data, writer: Writer): void {
-      const unique_name_vrf_proof = message.vrf_proof;
-      if (unique_name_vrf_proof !== null) {
+      if (message.vrf_proof.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_vrf_proof);
+        writer.bytes(message.vrf_proof);
       }
 
-      const unique_name_vrf_hash = message.vrf_hash;
-      if (unique_name_vrf_hash !== null) {
+      if (message.vrf_hash.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_vrf_hash);
+        writer.bytes(message.vrf_hash);
       }
 
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
+      if (message.signature.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_signature);
+        writer.bytes(message.signature);
       }
     }
 
@@ -237,14 +231,14 @@ export namespace pob {
       return message;
     }
 
-    vrf_proof: Uint8Array | null;
-    vrf_hash: Uint8Array | null;
-    signature: Uint8Array | null;
+    vrf_proof: Uint8Array;
+    vrf_hash: Uint8Array;
+    signature: Uint8Array;
 
     constructor(
-      vrf_proof: Uint8Array | null = null,
-      vrf_hash: Uint8Array | null = null,
-      signature: Uint8Array | null = null
+      vrf_proof: Uint8Array = new Uint8Array(0),
+      vrf_hash: Uint8Array = new Uint8Array(0),
+      signature: Uint8Array = new Uint8Array(0)
     ) {
       this.vrf_proof = vrf_proof;
       this.vrf_hash = vrf_hash;
@@ -254,10 +248,9 @@ export namespace pob {
 
   export class vrf_payload {
     static encode(message: vrf_payload, writer: Writer): void {
-      const unique_name_seed = message.seed;
-      if (unique_name_seed !== null) {
+      if (message.seed.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_seed);
+        writer.bytes(message.seed);
       }
 
       if (message.block_time != 0) {
@@ -290,10 +283,10 @@ export namespace pob {
       return message;
     }
 
-    seed: Uint8Array | null;
+    seed: Uint8Array;
     block_time: u64;
 
-    constructor(seed: Uint8Array | null = null, block_time: u64 = 0) {
+    constructor(seed: Uint8Array = new Uint8Array(0), block_time: u64 = 0) {
       this.seed = seed;
       this.block_time = block_time;
     }
@@ -304,16 +297,14 @@ export namespace pob {
       message: register_public_key_arguments,
       writer: Writer
     ): void {
-      const unique_name_producer = message.producer;
-      if (unique_name_producer !== null) {
+      if (message.producer.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_producer);
+        writer.bytes(message.producer);
       }
 
-      const unique_name_public_key = message.public_key;
-      if (unique_name_public_key !== null) {
+      if (message.public_key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_public_key);
+        writer.bytes(message.public_key);
       }
     }
 
@@ -341,12 +332,12 @@ export namespace pob {
       return message;
     }
 
-    producer: Uint8Array | null;
-    public_key: Uint8Array | null;
+    producer: Uint8Array;
+    public_key: Uint8Array;
 
     constructor(
-      producer: Uint8Array | null = null,
-      public_key: Uint8Array | null = null
+      producer: Uint8Array = new Uint8Array(0),
+      public_key: Uint8Array = new Uint8Array(0)
     ) {
       this.producer = producer;
       this.public_key = public_key;
@@ -383,16 +374,14 @@ export namespace pob {
         writer.uint64(message.token_amount);
       }
 
-      const unique_name_burn_address = message.burn_address;
-      if (unique_name_burn_address !== null) {
+      if (message.burn_address.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_burn_address);
+        writer.bytes(message.burn_address);
       }
 
-      const unique_name_vhp_address = message.vhp_address;
-      if (unique_name_vhp_address !== null) {
+      if (message.vhp_address.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_vhp_address);
+        writer.bytes(message.vhp_address);
       }
     }
 
@@ -425,13 +414,13 @@ export namespace pob {
     }
 
     token_amount: u64;
-    burn_address: Uint8Array | null;
-    vhp_address: Uint8Array | null;
+    burn_address: Uint8Array;
+    vhp_address: Uint8Array;
 
     constructor(
       token_amount: u64 = 0,
-      burn_address: Uint8Array | null = null,
-      vhp_address: Uint8Array | null = null
+      burn_address: Uint8Array = new Uint8Array(0),
+      vhp_address: Uint8Array = new Uint8Array(0)
     ) {
       this.token_amount = token_amount;
       this.burn_address = burn_address;
@@ -602,16 +591,14 @@ export namespace pob {
 
   export class register_public_key_event {
     static encode(message: register_public_key_event, writer: Writer): void {
-      const unique_name_public_key = message.public_key;
-      if (unique_name_public_key !== null) {
+      if (message.public_key.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_public_key);
+        writer.bytes(message.public_key);
       }
 
-      const unique_name_address = message.address;
-      if (unique_name_address !== null) {
+      if (message.address.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_address);
+        writer.bytes(message.address);
       }
     }
 
@@ -639,12 +626,12 @@ export namespace pob {
       return message;
     }
 
-    public_key: Uint8Array | null;
-    address: Uint8Array | null;
+    public_key: Uint8Array;
+    address: Uint8Array;
 
     constructor(
-      public_key: Uint8Array | null = null,
-      address: Uint8Array | null = null
+      public_key: Uint8Array = new Uint8Array(0),
+      address: Uint8Array = new Uint8Array(0)
     ) {
       this.public_key = public_key;
       this.address = address;
@@ -653,10 +640,9 @@ export namespace pob {
 
   export class get_public_key_arguments {
     static encode(message: get_public_key_arguments, writer: Writer): void {
-      const unique_name_producer = message.producer;
-      if (unique_name_producer !== null) {
+      if (message.producer.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_producer);
+        writer.bytes(message.producer);
       }
     }
 
@@ -680,19 +666,18 @@ export namespace pob {
       return message;
     }
 
-    producer: Uint8Array | null;
+    producer: Uint8Array;
 
-    constructor(producer: Uint8Array | null = null) {
+    constructor(producer: Uint8Array = new Uint8Array(0)) {
       this.producer = producer;
     }
   }
 
   export class get_public_key_result {
     static encode(message: get_public_key_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -716,9 +701,9 @@ export namespace pob {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }

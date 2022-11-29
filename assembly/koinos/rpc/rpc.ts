@@ -26,16 +26,14 @@ export namespace rpc {
 
   export class error_response {
     static encode(message: error_response, writer: Writer): void {
-      const unique_name_message_2 = message.message;
-      if (unique_name_message_2 !== null) {
+      if (message.message.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_message_2);
+        writer.string(message.message);
       }
 
-      const unique_name_data = message.data;
-      if (unique_name_data !== null) {
+      if (message.data.length != 0) {
         writer.uint32(18);
-        writer.string(unique_name_data);
+        writer.string(message.data);
       }
     }
 
@@ -63,10 +61,10 @@ export namespace rpc {
       return message;
     }
 
-    message: string | null;
-    data: string | null;
+    message: string;
+    data: string;
 
-    constructor(message: string | null = null, data: string | null = null) {
+    constructor(message: string = "", data: string = "") {
       this.message = message;
       this.data = data;
     }

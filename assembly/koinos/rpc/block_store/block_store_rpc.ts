@@ -111,10 +111,9 @@ export namespace block_store_rpc {
 
   export class get_blocks_by_height_request {
     static encode(message: get_blocks_by_height_request, writer: Writer): void {
-      const unique_name_head_block_id = message.head_block_id;
-      if (unique_name_head_block_id !== null) {
+      if (message.head_block_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_head_block_id);
+        writer.bytes(message.head_block_id);
       }
 
       if (message.ancestor_start_height != 0) {
@@ -174,14 +173,14 @@ export namespace block_store_rpc {
       return message;
     }
 
-    head_block_id: Uint8Array | null;
+    head_block_id: Uint8Array;
     ancestor_start_height: u64;
     num_blocks: u32;
     return_block: bool;
     return_receipt: bool;
 
     constructor(
-      head_block_id: Uint8Array | null = null,
+      head_block_id: Uint8Array = new Uint8Array(0),
       ancestor_start_height: u64 = 0,
       num_blocks: u32 = 0,
       return_block: bool = false,

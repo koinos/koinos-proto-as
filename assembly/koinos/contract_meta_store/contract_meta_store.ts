@@ -3,10 +3,9 @@ import { Writer, Reader } from "as-proto";
 export namespace contract_meta_store {
   export class contract_meta_item {
     static encode(message: contract_meta_item, writer: Writer): void {
-      const unique_name_abi = message.abi;
-      if (unique_name_abi !== null) {
+      if (message.abi.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_abi);
+        writer.string(message.abi);
       }
     }
 
@@ -30,9 +29,9 @@ export namespace contract_meta_store {
       return message;
     }
 
-    abi: string | null;
+    abi: string;
 
-    constructor(abi: string | null = null) {
+    constructor(abi: string = "") {
       this.abi = abi;
     }
   }

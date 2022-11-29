@@ -78,10 +78,9 @@ export namespace account_history_rpc {
 
   export class get_account_history_request {
     static encode(message: get_account_history_request, writer: Writer): void {
-      const unique_name_address = message.address;
-      if (unique_name_address !== null) {
+      if (message.address.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_address);
+        writer.bytes(message.address);
       }
 
       if (message.seq_num != 0) {
@@ -141,14 +140,14 @@ export namespace account_history_rpc {
       return message;
     }
 
-    address: Uint8Array | null;
+    address: Uint8Array;
     seq_num: u64;
     limit: u64;
     ascending: bool;
     irreversible: bool;
 
     constructor(
-      address: Uint8Array | null = null,
+      address: Uint8Array = new Uint8Array(0),
       seq_num: u64 = 0,
       limit: u64 = 0,
       ascending: bool = false,

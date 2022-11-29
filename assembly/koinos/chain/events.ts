@@ -59,10 +59,9 @@ export namespace events {
 
   export class set_system_contract_event {
     static encode(message: set_system_contract_event, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
       if (message.system_contract != false) {
@@ -95,11 +94,11 @@ export namespace events {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     system_contract: bool;
 
     constructor(
-      contract_id: Uint8Array | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
       system_contract: bool = false
     ) {
       this.contract_id = contract_id;

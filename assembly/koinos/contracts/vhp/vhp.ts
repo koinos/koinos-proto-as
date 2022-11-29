@@ -6,10 +6,9 @@ export namespace vhp {
       message: effective_balance_of_arguments,
       writer: Writer
     ): void {
-      const unique_name_owner = message.owner;
-      if (unique_name_owner !== null) {
+      if (message.owner.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_owner);
+        writer.bytes(message.owner);
       }
     }
 
@@ -33,9 +32,9 @@ export namespace vhp {
       return message;
     }
 
-    owner: Uint8Array | null;
+    owner: Uint8Array;
 
-    constructor(owner: Uint8Array | null = null) {
+    constructor(owner: Uint8Array = new Uint8Array(0)) {
       this.owner = owner;
     }
   }

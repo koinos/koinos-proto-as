@@ -12,10 +12,9 @@ export namespace governance {
         writer.ldelim();
       }
 
-      const unique_name_operation_merkle_root = message.operation_merkle_root;
-      if (unique_name_operation_merkle_root !== null) {
+      if (message.operation_merkle_root.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_operation_merkle_root);
+        writer.bytes(message.operation_merkle_root);
       }
 
       if (message.vote_start_height != 0) {
@@ -109,7 +108,7 @@ export namespace governance {
     }
 
     operations: Array<protocol.operation>;
-    operation_merkle_root: Uint8Array | null;
+    operation_merkle_root: Uint8Array;
     vote_start_height: u64;
     vote_tally: u64;
     vote_threshold: u64;
@@ -120,7 +119,7 @@ export namespace governance {
 
     constructor(
       operations: Array<protocol.operation> = [],
-      operation_merkle_root: Uint8Array | null = null,
+      operation_merkle_root: Uint8Array = new Uint8Array(0),
       vote_start_height: u64 = 0,
       vote_tally: u64 = 0,
       vote_threshold: u64 = 0,
@@ -151,10 +150,9 @@ export namespace governance {
         writer.ldelim();
       }
 
-      const unique_name_operation_merkle_root = message.operation_merkle_root;
-      if (unique_name_operation_merkle_root !== null) {
+      if (message.operation_merkle_root.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_operation_merkle_root);
+        writer.bytes(message.operation_merkle_root);
       }
 
       if (message.fee != 0) {
@@ -194,12 +192,12 @@ export namespace governance {
     }
 
     operations: Array<protocol.operation>;
-    operation_merkle_root: Uint8Array | null;
+    operation_merkle_root: Uint8Array;
     fee: u64;
 
     constructor(
       operations: Array<protocol.operation> = [],
-      operation_merkle_root: Uint8Array | null = null,
+      operation_merkle_root: Uint8Array = new Uint8Array(0),
       fee: u64 = 0
     ) {
       this.operations = operations;
@@ -233,10 +231,9 @@ export namespace governance {
 
   export class get_proposal_by_id_arguments {
     static encode(message: get_proposal_by_id_arguments, writer: Writer): void {
-      const unique_name_proposal_id = message.proposal_id;
-      if (unique_name_proposal_id !== null) {
+      if (message.proposal_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_proposal_id);
+        writer.bytes(message.proposal_id);
       }
     }
 
@@ -260,9 +257,9 @@ export namespace governance {
       return message;
     }
 
-    proposal_id: Uint8Array | null;
+    proposal_id: Uint8Array;
 
-    constructor(proposal_id: Uint8Array | null = null) {
+    constructor(proposal_id: Uint8Array = new Uint8Array(0)) {
       this.proposal_id = proposal_id;
     }
   }
@@ -310,10 +307,9 @@ export namespace governance {
       message: get_proposals_by_status_arguments,
       writer: Writer
     ): void {
-      const unique_name_start_proposal = message.start_proposal;
-      if (unique_name_start_proposal !== null) {
+      if (message.start_proposal.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_start_proposal);
+        writer.bytes(message.start_proposal);
       }
 
       if (message.limit != 0) {
@@ -358,12 +354,12 @@ export namespace governance {
       return message;
     }
 
-    start_proposal: Uint8Array | null;
+    start_proposal: Uint8Array;
     limit: u64;
     status: proposal_status;
 
     constructor(
-      start_proposal: Uint8Array | null = null,
+      start_proposal: Uint8Array = new Uint8Array(0),
       limit: u64 = 0,
       status: proposal_status = 0
     ) {
@@ -416,10 +412,9 @@ export namespace governance {
 
   export class get_proposals_arguments {
     static encode(message: get_proposals_arguments, writer: Writer): void {
-      const unique_name_start_proposal = message.start_proposal;
-      if (unique_name_start_proposal !== null) {
+      if (message.start_proposal.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_start_proposal);
+        writer.bytes(message.start_proposal);
       }
 
       if (message.limit != 0) {
@@ -452,10 +447,13 @@ export namespace governance {
       return message;
     }
 
-    start_proposal: Uint8Array | null;
+    start_proposal: Uint8Array;
     limit: u64;
 
-    constructor(start_proposal: Uint8Array | null = null, limit: u64 = 0) {
+    constructor(
+      start_proposal: Uint8Array = new Uint8Array(0),
+      limit: u64 = 0
+    ) {
       this.start_proposal = start_proposal;
       this.limit = limit;
     }
@@ -539,10 +537,9 @@ export namespace governance {
 
   export class proposal_status_event {
     static encode(message: proposal_status_event, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
       if (message.status != 0) {
@@ -575,10 +572,13 @@ export namespace governance {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
     status: proposal_status;
 
-    constructor(id: Uint8Array | null = null, status: proposal_status = 0) {
+    constructor(
+      id: Uint8Array = new Uint8Array(0),
+      status: proposal_status = 0
+    ) {
       this.id = id;
       this.status = status;
     }
@@ -586,10 +586,9 @@ export namespace governance {
 
   export class proposal_vote_event {
     static encode(message: proposal_vote_event, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
       if (message.vote_tally != 0) {
@@ -631,12 +630,12 @@ export namespace governance {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
     vote_tally: u64;
     vote_threshold: u64;
 
     constructor(
-      id: Uint8Array | null = null,
+      id: Uint8Array = new Uint8Array(0),
       vote_tally: u64 = 0,
       vote_threshold: u64 = 0
     ) {

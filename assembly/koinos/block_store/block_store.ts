@@ -4,10 +4,9 @@ import { protocol } from "../protocol/protocol";
 export namespace block_store {
   export class block_item {
     static encode(message: block_item, writer: Writer): void {
-      const unique_name_block_id = message.block_id;
-      if (unique_name_block_id !== null) {
+      if (message.block_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_block_id);
+        writer.bytes(message.block_id);
       }
 
       if (message.block_height != 0) {
@@ -67,13 +66,13 @@ export namespace block_store {
       return message;
     }
 
-    block_id: Uint8Array | null;
+    block_id: Uint8Array;
     block_height: u64;
     block: protocol.block | null;
     receipt: protocol.block_receipt | null;
 
     constructor(
-      block_id: Uint8Array | null = null,
+      block_id: Uint8Array = new Uint8Array(0),
       block_height: u64 = 0,
       block: protocol.block | null = null,
       receipt: protocol.block_receipt | null = null
@@ -87,10 +86,9 @@ export namespace block_store {
 
   export class block_record {
     static encode(message: block_record, writer: Writer): void {
-      const unique_name_block_id = message.block_id;
-      if (unique_name_block_id !== null) {
+      if (message.block_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_block_id);
+        writer.bytes(message.block_id);
       }
 
       if (message.block_height != 0) {
@@ -162,14 +160,14 @@ export namespace block_store {
       return message;
     }
 
-    block_id: Uint8Array | null;
+    block_id: Uint8Array;
     block_height: u64;
     block: protocol.block | null;
     receipt: protocol.block_receipt | null;
     previous_block_ids: Array<Uint8Array>;
 
     constructor(
-      block_id: Uint8Array | null = null,
+      block_id: Uint8Array = new Uint8Array(0),
       block_height: u64 = 0,
       block: protocol.block | null = null,
       receipt: protocol.block_receipt | null = null,

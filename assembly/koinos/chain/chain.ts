@@ -4,10 +4,9 @@ import { common } from "../common";
 export namespace chain {
   export class error_data {
     static encode(message: error_data, writer: Writer): void {
-      const unique_name_message_2 = message.message;
-      if (unique_name_message_2 !== null) {
+      if (message.message.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_message_2);
+        writer.string(message.message);
       }
     }
 
@@ -31,19 +30,18 @@ export namespace chain {
       return message;
     }
 
-    message: string | null;
+    message: string;
 
-    constructor(message: string | null = null) {
+    constructor(message: string = "") {
       this.message = message;
     }
   }
 
   export class result {
     static encode(message: result, writer: Writer): void {
-      const unique_name_object = message.object;
-      if (unique_name_object !== null) {
+      if (message.object.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_object);
+        writer.bytes(message.object);
       }
 
       const unique_name_error = message.error;
@@ -79,11 +77,11 @@ export namespace chain {
       return message;
     }
 
-    object: Uint8Array | null;
+    object: Uint8Array;
     error: error_data | null;
 
     constructor(
-      object: Uint8Array | null = null,
+      object: Uint8Array = new Uint8Array(0),
       error: error_data | null = null
     ) {
       this.object = object;
@@ -98,10 +96,9 @@ export namespace chain {
         writer.bool(message.system);
       }
 
-      const unique_name_zone = message.zone;
-      if (unique_name_zone !== null) {
+      if (message.zone.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_zone);
+        writer.bytes(message.zone);
       }
 
       if (message.id != 0) {
@@ -139,12 +136,12 @@ export namespace chain {
     }
 
     system: bool;
-    zone: Uint8Array | null;
+    zone: Uint8Array;
     id: u32;
 
     constructor(
       system: bool = false,
-      zone: Uint8Array | null = null,
+      zone: Uint8Array = new Uint8Array(0),
       id: u32 = 0
     ) {
       this.system = system;
@@ -163,10 +160,9 @@ export namespace chain {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -195,11 +191,11 @@ export namespace chain {
     }
 
     space: object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
@@ -311,10 +307,9 @@ export namespace chain {
 
   export class caller_data {
     static encode(message: caller_data, writer: Writer): void {
-      const unique_name_caller = message.caller;
-      if (unique_name_caller !== null) {
+      if (message.caller.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_caller);
+        writer.bytes(message.caller);
       }
 
       if (message.caller_privilege != 0) {
@@ -347,11 +342,11 @@ export namespace chain {
       return message;
     }
 
-    caller: Uint8Array | null;
+    caller: Uint8Array;
     caller_privilege: privilege;
 
     constructor(
-      caller: Uint8Array | null = null,
+      caller: Uint8Array = new Uint8Array(0),
       caller_privilege: privilege = 0
     ) {
       this.caller = caller;
@@ -366,10 +361,9 @@ export namespace chain {
         writer.uint32(message.entry_point);
       }
 
-      const unique_name_arguments = message.arguments;
-      if (unique_name_arguments !== null) {
+      if (message.arguments.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_arguments);
+        writer.bytes(message.arguments);
       }
     }
 
@@ -398,9 +392,12 @@ export namespace chain {
     }
 
     entry_point: u32;
-    arguments: Uint8Array | null;
+    arguments: Uint8Array;
 
-    constructor(entry_point: u32 = 0, arguments: Uint8Array | null = null) {
+    constructor(
+      entry_point: u32 = 0,
+      arguments: Uint8Array = new Uint8Array(0)
+    ) {
       this.entry_point = entry_point;
       this.arguments = arguments;
     }
@@ -506,10 +503,9 @@ export namespace chain {
 
   export class contract_metadata_object {
     static encode(message: contract_metadata_object, writer: Writer): void {
-      const unique_name_hash = message.hash;
-      if (unique_name_hash !== null) {
+      if (message.hash.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_hash);
+        writer.bytes(message.hash);
       }
 
       if (message.system != false) {
@@ -569,14 +565,14 @@ export namespace chain {
       return message;
     }
 
-    hash: Uint8Array | null;
+    hash: Uint8Array;
     system: bool;
     authorizes_call_contract: bool;
     authorizes_transaction_application: bool;
     authorizes_upload_contract: bool;
 
     constructor(
-      hash: Uint8Array | null = null,
+      hash: Uint8Array = new Uint8Array(0),
       system: bool = false,
       authorizes_call_contract: bool = false,
       authorizes_transaction_application: bool = false,
@@ -593,10 +589,9 @@ export namespace chain {
 
   export class compute_bandwidth_entry {
     static encode(message: compute_bandwidth_entry, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
 
       if (message.compute != 0) {
@@ -629,10 +624,10 @@ export namespace chain {
       return message;
     }
 
-    name: string | null;
+    name: string;
     compute: u64;
 
-    constructor(name: string | null = null, compute: u64 = 0) {
+    constructor(name: string = "", compute: u64 = 0) {
       this.name = name;
       this.compute = compute;
     }
@@ -688,16 +683,14 @@ export namespace chain {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
 
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -730,13 +723,13 @@ export namespace chain {
     }
 
     space: object_space | null;
-    key: Uint8Array | null;
-    value: Uint8Array | null;
+    key: Uint8Array;
+    value: Uint8Array;
 
     constructor(
       space: object_space | null = null,
-      key: Uint8Array | null = null,
-      value: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0),
+      value: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;

@@ -3,10 +3,9 @@ import { Writer, Reader } from "as-proto";
 export namespace name_service {
   export class name_record {
     static encode(message: name_record, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
     }
 
@@ -30,19 +29,18 @@ export namespace name_service {
       return message;
     }
 
-    name: string | null;
+    name: string;
 
-    constructor(name: string | null = null) {
+    constructor(name: string = "") {
       this.name = name;
     }
   }
 
   export class address_record {
     static encode(message: address_record, writer: Writer): void {
-      const unique_name_address = message.address;
-      if (unique_name_address !== null) {
+      if (message.address.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_address);
+        writer.bytes(message.address);
       }
     }
 
@@ -66,19 +64,18 @@ export namespace name_service {
       return message;
     }
 
-    address: Uint8Array | null;
+    address: Uint8Array;
 
-    constructor(address: Uint8Array | null = null) {
+    constructor(address: Uint8Array = new Uint8Array(0)) {
       this.address = address;
     }
   }
 
   export class get_address_arguments {
     static encode(message: get_address_arguments, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
     }
 
@@ -102,9 +99,9 @@ export namespace name_service {
       return message;
     }
 
-    name: string | null;
+    name: string;
 
-    constructor(name: string | null = null) {
+    constructor(name: string = "") {
       this.name = name;
     }
   }
@@ -149,10 +146,9 @@ export namespace name_service {
 
   export class get_name_arguments {
     static encode(message: get_name_arguments, writer: Writer): void {
-      const unique_name_address = message.address;
-      if (unique_name_address !== null) {
+      if (message.address.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_address);
+        writer.bytes(message.address);
       }
     }
 
@@ -176,9 +172,9 @@ export namespace name_service {
       return message;
     }
 
-    address: Uint8Array | null;
+    address: Uint8Array;
 
-    constructor(address: Uint8Array | null = null) {
+    constructor(address: Uint8Array = new Uint8Array(0)) {
       this.address = address;
     }
   }
@@ -223,16 +219,14 @@ export namespace name_service {
 
   export class set_record_arguments {
     static encode(message: set_record_arguments, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
 
-      const unique_name_address = message.address;
-      if (unique_name_address !== null) {
+      if (message.address.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_address);
+        writer.bytes(message.address);
       }
     }
 
@@ -260,10 +254,10 @@ export namespace name_service {
       return message;
     }
 
-    name: string | null;
-    address: Uint8Array | null;
+    name: string;
+    address: Uint8Array;
 
-    constructor(name: string | null = null, address: Uint8Array | null = null) {
+    constructor(name: string = "", address: Uint8Array = new Uint8Array(0)) {
       this.name = name;
       this.address = address;
     }
@@ -294,16 +288,14 @@ export namespace name_service {
 
   export class record_update_event {
     static encode(message: record_update_event, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
 
-      const unique_name_address = message.address;
-      if (unique_name_address !== null) {
+      if (message.address.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_address);
+        writer.bytes(message.address);
       }
     }
 
@@ -331,10 +323,10 @@ export namespace name_service {
       return message;
     }
 
-    name: string | null;
-    address: Uint8Array | null;
+    name: string;
+    address: Uint8Array;
 
-    constructor(name: string | null = null, address: Uint8Array | null = null) {
+    constructor(name: string = "", address: Uint8Array = new Uint8Array(0)) {
       this.name = name;
       this.address = address;
     }

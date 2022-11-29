@@ -67,16 +67,14 @@ export namespace value {
         writer.bool(message.bool_value);
       }
 
-      const unique_name_string_value = message.string_value;
-      if (unique_name_string_value !== null) {
+      if (message.string_value.length != 0) {
         writer.uint32(106);
-        writer.string(unique_name_string_value);
+        writer.string(message.string_value);
       }
 
-      const unique_name_bytes_value = message.bytes_value;
-      if (unique_name_bytes_value !== null) {
+      if (message.bytes_value.length != 0) {
         writer.uint32(114);
-        writer.bytes(unique_name_bytes_value);
+        writer.bytes(message.bytes_value);
       }
     }
 
@@ -164,8 +162,8 @@ export namespace value {
     sfixed32_value: i32;
     sfixed64_value: i64;
     bool_value: bool;
-    string_value: string | null;
-    bytes_value: Uint8Array | null;
+    string_value: string;
+    bytes_value: Uint8Array;
 
     constructor(
       message_value: any.Any | null = null,
@@ -180,8 +178,8 @@ export namespace value {
       sfixed32_value: i32 = 0,
       sfixed64_value: i64 = 0,
       bool_value: bool = false,
-      string_value: string | null = null,
-      bytes_value: Uint8Array | null = null
+      string_value: string = "",
+      bytes_value: Uint8Array = new Uint8Array(0)
     ) {
       this.message_value = message_value;
       this.int32_value = int32_value;
@@ -202,10 +200,9 @@ export namespace value {
 
   export class enum_type {
     static encode(message: enum_type, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
 
       if (message.number != 0) {
@@ -238,10 +235,10 @@ export namespace value {
       return message;
     }
 
-    name: string | null;
+    name: string;
     number: i32;
 
-    constructor(name: string | null = null, number: i32 = 0) {
+    constructor(name: string = "", number: i32 = 0) {
       this.name = name;
       this.number = number;
     }

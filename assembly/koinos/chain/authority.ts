@@ -3,10 +3,9 @@ import { Writer, Reader } from "as-proto";
 export namespace authority {
   export class call_data {
     static encode(message: call_data, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
       if (message.entry_point != 0) {
@@ -14,16 +13,14 @@ export namespace authority {
         writer.uint32(message.entry_point);
       }
 
-      const unique_name_caller = message.caller;
-      if (unique_name_caller !== null) {
+      if (message.caller.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_caller);
+        writer.bytes(message.caller);
       }
 
-      const unique_name_data = message.data;
-      if (unique_name_data !== null) {
+      if (message.data.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_data);
+        writer.bytes(message.data);
       }
     }
 
@@ -59,16 +56,16 @@ export namespace authority {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     entry_point: u32;
-    caller: Uint8Array | null;
-    data: Uint8Array | null;
+    caller: Uint8Array;
+    data: Uint8Array;
 
     constructor(
-      contract_id: Uint8Array | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
       entry_point: u32 = 0,
-      caller: Uint8Array | null = null,
-      data: Uint8Array | null = null
+      caller: Uint8Array = new Uint8Array(0),
+      data: Uint8Array = new Uint8Array(0)
     ) {
       this.contract_id = contract_id;
       this.entry_point = entry_point;

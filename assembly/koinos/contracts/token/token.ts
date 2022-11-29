@@ -26,10 +26,9 @@ export namespace token {
 
   export class name_result {
     static encode(message: name_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_value);
+        writer.string(message.value);
       }
     }
 
@@ -53,9 +52,9 @@ export namespace token {
       return message;
     }
 
-    value: string | null;
+    value: string;
 
-    constructor(value: string | null = null) {
+    constructor(value: string = "") {
       this.value = value;
     }
   }
@@ -85,10 +84,9 @@ export namespace token {
 
   export class symbol_result {
     static encode(message: symbol_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_value);
+        writer.string(message.value);
       }
     }
 
@@ -112,9 +110,9 @@ export namespace token {
       return message;
     }
 
-    value: string | null;
+    value: string;
 
-    constructor(value: string | null = null) {
+    constructor(value: string = "") {
       this.value = value;
     }
   }
@@ -239,10 +237,9 @@ export namespace token {
 
   export class balance_of_arguments {
     static encode(message: balance_of_arguments, writer: Writer): void {
-      const unique_name_owner = message.owner;
-      if (unique_name_owner !== null) {
+      if (message.owner.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_owner);
+        writer.bytes(message.owner);
       }
     }
 
@@ -266,9 +263,9 @@ export namespace token {
       return message;
     }
 
-    owner: Uint8Array | null;
+    owner: Uint8Array;
 
-    constructor(owner: Uint8Array | null = null) {
+    constructor(owner: Uint8Array = new Uint8Array(0)) {
       this.owner = owner;
     }
   }
@@ -311,16 +308,14 @@ export namespace token {
 
   export class transfer_arguments {
     static encode(message: transfer_arguments, writer: Writer): void {
-      const unique_name_from = message.from;
-      if (unique_name_from !== null) {
+      if (message.from.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_from);
+        writer.bytes(message.from);
       }
 
-      const unique_name_to = message.to;
-      if (unique_name_to !== null) {
+      if (message.to.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_to);
+        writer.bytes(message.to);
       }
 
       if (message.value != 0) {
@@ -357,13 +352,13 @@ export namespace token {
       return message;
     }
 
-    from: Uint8Array | null;
-    to: Uint8Array | null;
+    from: Uint8Array;
+    to: Uint8Array;
     value: u64;
 
     constructor(
-      from: Uint8Array | null = null,
-      to: Uint8Array | null = null,
+      from: Uint8Array = new Uint8Array(0),
+      to: Uint8Array = new Uint8Array(0),
       value: u64 = 0
     ) {
       this.from = from;
@@ -397,10 +392,9 @@ export namespace token {
 
   export class mint_arguments {
     static encode(message: mint_arguments, writer: Writer): void {
-      const unique_name_to = message.to;
-      if (unique_name_to !== null) {
+      if (message.to.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_to);
+        writer.bytes(message.to);
       }
 
       if (message.value != 0) {
@@ -433,10 +427,10 @@ export namespace token {
       return message;
     }
 
-    to: Uint8Array | null;
+    to: Uint8Array;
     value: u64;
 
-    constructor(to: Uint8Array | null = null, value: u64 = 0) {
+    constructor(to: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.to = to;
       this.value = value;
     }
@@ -467,10 +461,9 @@ export namespace token {
 
   export class burn_arguments {
     static encode(message: burn_arguments, writer: Writer): void {
-      const unique_name_from = message.from;
-      if (unique_name_from !== null) {
+      if (message.from.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_from);
+        writer.bytes(message.from);
       }
 
       if (message.value != 0) {
@@ -503,10 +496,10 @@ export namespace token {
       return message;
     }
 
-    from: Uint8Array | null;
+    from: Uint8Array;
     value: u64;
 
-    constructor(from: Uint8Array | null = null, value: u64 = 0) {
+    constructor(from: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.from = from;
       this.value = value;
     }
@@ -573,10 +566,9 @@ export namespace token {
 
   export class burn_event {
     static encode(message: burn_event, writer: Writer): void {
-      const unique_name_from = message.from;
-      if (unique_name_from !== null) {
+      if (message.from.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_from);
+        writer.bytes(message.from);
       }
 
       if (message.value != 0) {
@@ -609,10 +601,10 @@ export namespace token {
       return message;
     }
 
-    from: Uint8Array | null;
+    from: Uint8Array;
     value: u64;
 
-    constructor(from: Uint8Array | null = null, value: u64 = 0) {
+    constructor(from: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.from = from;
       this.value = value;
     }
@@ -620,10 +612,9 @@ export namespace token {
 
   export class mint_event {
     static encode(message: mint_event, writer: Writer): void {
-      const unique_name_to = message.to;
-      if (unique_name_to !== null) {
+      if (message.to.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_to);
+        writer.bytes(message.to);
       }
 
       if (message.value != 0) {
@@ -656,10 +647,10 @@ export namespace token {
       return message;
     }
 
-    to: Uint8Array | null;
+    to: Uint8Array;
     value: u64;
 
-    constructor(to: Uint8Array | null = null, value: u64 = 0) {
+    constructor(to: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.to = to;
       this.value = value;
     }
@@ -667,16 +658,14 @@ export namespace token {
 
   export class transfer_event {
     static encode(message: transfer_event, writer: Writer): void {
-      const unique_name_from = message.from;
-      if (unique_name_from !== null) {
+      if (message.from.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_from);
+        writer.bytes(message.from);
       }
 
-      const unique_name_to = message.to;
-      if (unique_name_to !== null) {
+      if (message.to.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_to);
+        writer.bytes(message.to);
       }
 
       if (message.value != 0) {
@@ -713,13 +702,13 @@ export namespace token {
       return message;
     }
 
-    from: Uint8Array | null;
-    to: Uint8Array | null;
+    from: Uint8Array;
+    to: Uint8Array;
     value: u64;
 
     constructor(
-      from: Uint8Array | null = null,
-      to: Uint8Array | null = null,
+      from: Uint8Array = new Uint8Array(0),
+      to: Uint8Array = new Uint8Array(0),
       value: u64 = 0
     ) {
       this.from = from;

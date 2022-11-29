@@ -5,10 +5,9 @@ import { rpc } from "../rpc";
 export namespace contract_meta_store_rpc {
   export class get_contract_meta_request {
     static encode(message: get_contract_meta_request, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
     }
 
@@ -32,9 +31,9 @@ export namespace contract_meta_store_rpc {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
 
-    constructor(contract_id: Uint8Array | null = null) {
+    constructor(contract_id: Uint8Array = new Uint8Array(0)) {
       this.contract_id = contract_id;
     }
   }

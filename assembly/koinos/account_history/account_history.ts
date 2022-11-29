@@ -40,10 +40,9 @@ export namespace account_history {
 
   export class history_index {
     static encode(message: history_index, writer: Writer): void {
-      const unique_name_address = message.address;
-      if (unique_name_address !== null) {
+      if (message.address.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_address);
+        writer.bytes(message.address);
       }
 
       if (message.seq_num != 0) {
@@ -76,10 +75,10 @@ export namespace account_history {
       return message;
     }
 
-    address: Uint8Array | null;
+    address: Uint8Array;
     seq_num: u64;
 
-    constructor(address: Uint8Array | null = null, seq_num: u64 = 0) {
+    constructor(address: Uint8Array = new Uint8Array(0), seq_num: u64 = 0) {
       this.address = address;
       this.seq_num = seq_num;
     }

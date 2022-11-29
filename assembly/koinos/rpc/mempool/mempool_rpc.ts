@@ -87,10 +87,9 @@ export namespace mempool_rpc {
       message: check_pending_account_resources_request,
       writer: Writer
     ): void {
-      const unique_name_payer = message.payer;
-      if (unique_name_payer !== null) {
+      if (message.payer.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_payer);
+        writer.bytes(message.payer);
       }
 
       if (message.max_payer_rc != 0) {
@@ -135,12 +134,12 @@ export namespace mempool_rpc {
       return message;
     }
 
-    payer: Uint8Array | null;
+    payer: Uint8Array;
     max_payer_rc: u64;
     rc_limit: u64;
 
     constructor(
-      payer: Uint8Array | null = null,
+      payer: Uint8Array = new Uint8Array(0),
       max_payer_rc: u64 = 0,
       rc_limit: u64 = 0
     ) {

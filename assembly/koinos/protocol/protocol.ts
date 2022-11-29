@@ -8,22 +8,19 @@ export namespace protocol {
         writer.uint32(message.sequence);
       }
 
-      const unique_name_source = message.source;
-      if (unique_name_source !== null) {
+      if (message.source.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_source);
+        writer.bytes(message.source);
       }
 
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(26);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
 
-      const unique_name_data = message.data;
-      if (unique_name_data !== null) {
+      if (message.data.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_data);
+        writer.bytes(message.data);
       }
 
       const unique_name_impacted = message.impacted;
@@ -72,16 +69,16 @@ export namespace protocol {
     }
 
     sequence: u32;
-    source: Uint8Array | null;
-    name: string | null;
-    data: Uint8Array | null;
+    source: Uint8Array;
+    name: string;
+    data: Uint8Array;
     impacted: Array<Uint8Array>;
 
     constructor(
       sequence: u32 = 0,
-      source: Uint8Array | null = null,
-      name: string | null = null,
-      data: Uint8Array | null = null,
+      source: Uint8Array = new Uint8Array(0),
+      name: string = "",
+      data: Uint8Array = new Uint8Array(0),
       impacted: Array<Uint8Array> = []
     ) {
       this.sequence = sequence;
@@ -94,10 +91,9 @@ export namespace protocol {
 
   export class contract_call_bundle {
     static encode(message: contract_call_bundle, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
       if (message.entry_point != 0) {
@@ -130,10 +126,13 @@ export namespace protocol {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     entry_point: u32;
 
-    constructor(contract_id: Uint8Array | null = null, entry_point: u32 = 0) {
+    constructor(
+      contract_id: Uint8Array = new Uint8Array(0),
+      entry_point: u32 = 0
+    ) {
       this.contract_id = contract_id;
       this.entry_point = entry_point;
     }
@@ -196,22 +195,19 @@ export namespace protocol {
 
   export class upload_contract_operation {
     static encode(message: upload_contract_operation, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
-      const unique_name_bytecode = message.bytecode;
-      if (unique_name_bytecode !== null) {
+      if (message.bytecode.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_bytecode);
+        writer.bytes(message.bytecode);
       }
 
-      const unique_name_abi = message.abi;
-      if (unique_name_abi !== null) {
+      if (message.abi.length != 0) {
         writer.uint32(26);
-        writer.string(unique_name_abi);
+        writer.string(message.abi);
       }
 
       if (message.authorizes_call_contract != false) {
@@ -270,17 +266,17 @@ export namespace protocol {
       return message;
     }
 
-    contract_id: Uint8Array | null;
-    bytecode: Uint8Array | null;
-    abi: string | null;
+    contract_id: Uint8Array;
+    bytecode: Uint8Array;
+    abi: string;
     authorizes_call_contract: bool;
     authorizes_transaction_application: bool;
     authorizes_upload_contract: bool;
 
     constructor(
-      contract_id: Uint8Array | null = null,
-      bytecode: Uint8Array | null = null,
-      abi: string | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
+      bytecode: Uint8Array = new Uint8Array(0),
+      abi: string = "",
       authorizes_call_contract: bool = false,
       authorizes_transaction_application: bool = false,
       authorizes_upload_contract: bool = false
@@ -297,10 +293,9 @@ export namespace protocol {
 
   export class call_contract_operation {
     static encode(message: call_contract_operation, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
       if (message.entry_point != 0) {
@@ -308,10 +303,9 @@ export namespace protocol {
         writer.uint32(message.entry_point);
       }
 
-      const unique_name_args = message.args;
-      if (unique_name_args !== null) {
+      if (message.args.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_args);
+        writer.bytes(message.args);
       }
     }
 
@@ -343,14 +337,14 @@ export namespace protocol {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     entry_point: u32;
-    args: Uint8Array | null;
+    args: Uint8Array;
 
     constructor(
-      contract_id: Uint8Array | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
       entry_point: u32 = 0,
-      args: Uint8Array | null = null
+      args: Uint8Array = new Uint8Array(0)
     ) {
       this.contract_id = contract_id;
       this.entry_point = entry_point;
@@ -412,10 +406,9 @@ export namespace protocol {
       message: set_system_contract_operation,
       writer: Writer
     ): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
       if (message.system_contract != false) {
@@ -448,11 +441,11 @@ export namespace protocol {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     system_contract: bool;
 
     constructor(
-      contract_id: Uint8Array | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
       system_contract: bool = false
     ) {
       this.contract_id = contract_id;
@@ -562,10 +555,9 @@ export namespace protocol {
 
   export class transaction_header {
     static encode(message: transaction_header, writer: Writer): void {
-      const unique_name_chain_id = message.chain_id;
-      if (unique_name_chain_id !== null) {
+      if (message.chain_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_chain_id);
+        writer.bytes(message.chain_id);
       }
 
       if (message.rc_limit != 0) {
@@ -573,28 +565,24 @@ export namespace protocol {
         writer.uint64(message.rc_limit);
       }
 
-      const unique_name_nonce = message.nonce;
-      if (unique_name_nonce !== null) {
+      if (message.nonce.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_nonce);
+        writer.bytes(message.nonce);
       }
 
-      const unique_name_operation_merkle_root = message.operation_merkle_root;
-      if (unique_name_operation_merkle_root !== null) {
+      if (message.operation_merkle_root.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_operation_merkle_root);
+        writer.bytes(message.operation_merkle_root);
       }
 
-      const unique_name_payer = message.payer;
-      if (unique_name_payer !== null) {
+      if (message.payer.length != 0) {
         writer.uint32(42);
-        writer.bytes(unique_name_payer);
+        writer.bytes(message.payer);
       }
 
-      const unique_name_payee = message.payee;
-      if (unique_name_payee !== null) {
+      if (message.payee.length != 0) {
         writer.uint32(50);
-        writer.bytes(unique_name_payee);
+        writer.bytes(message.payee);
       }
     }
 
@@ -638,20 +626,20 @@ export namespace protocol {
       return message;
     }
 
-    chain_id: Uint8Array | null;
+    chain_id: Uint8Array;
     rc_limit: u64;
-    nonce: Uint8Array | null;
-    operation_merkle_root: Uint8Array | null;
-    payer: Uint8Array | null;
-    payee: Uint8Array | null;
+    nonce: Uint8Array;
+    operation_merkle_root: Uint8Array;
+    payer: Uint8Array;
+    payee: Uint8Array;
 
     constructor(
-      chain_id: Uint8Array | null = null,
+      chain_id: Uint8Array = new Uint8Array(0),
       rc_limit: u64 = 0,
-      nonce: Uint8Array | null = null,
-      operation_merkle_root: Uint8Array | null = null,
-      payer: Uint8Array | null = null,
-      payee: Uint8Array | null = null
+      nonce: Uint8Array = new Uint8Array(0),
+      operation_merkle_root: Uint8Array = new Uint8Array(0),
+      payer: Uint8Array = new Uint8Array(0),
+      payee: Uint8Array = new Uint8Array(0)
     ) {
       this.chain_id = chain_id;
       this.rc_limit = rc_limit;
@@ -664,10 +652,9 @@ export namespace protocol {
 
   export class transaction {
     static encode(message: transaction, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
       const unique_name_header = message.header;
@@ -727,13 +714,13 @@ export namespace protocol {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
     header: transaction_header | null;
     operations: Array<operation>;
     signatures: Array<Uint8Array>;
 
     constructor(
-      id: Uint8Array | null = null,
+      id: Uint8Array = new Uint8Array(0),
       header: transaction_header | null = null,
       operations: Array<operation> = [],
       signatures: Array<Uint8Array> = []
@@ -747,16 +734,14 @@ export namespace protocol {
 
   export class transaction_receipt {
     static encode(message: transaction_receipt, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
-      const unique_name_payer = message.payer;
-      if (unique_name_payer !== null) {
+      if (message.payer.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_payer);
+        writer.bytes(message.payer);
       }
 
       if (message.max_payer_rc != 0) {
@@ -871,8 +856,8 @@ export namespace protocol {
       return message;
     }
 
-    id: Uint8Array | null;
-    payer: Uint8Array | null;
+    id: Uint8Array;
+    payer: Uint8Array;
     max_payer_rc: u64;
     rc_limit: u64;
     rc_used: u64;
@@ -884,8 +869,8 @@ export namespace protocol {
     logs: Array<string>;
 
     constructor(
-      id: Uint8Array | null = null,
-      payer: Uint8Array | null = null,
+      id: Uint8Array = new Uint8Array(0),
+      payer: Uint8Array = new Uint8Array(0),
       max_payer_rc: u64 = 0,
       rc_limit: u64 = 0,
       rc_used: u64 = 0,
@@ -912,10 +897,9 @@ export namespace protocol {
 
   export class block_header {
     static encode(message: block_header, writer: Writer): void {
-      const unique_name_previous = message.previous;
-      if (unique_name_previous !== null) {
+      if (message.previous.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_previous);
+        writer.bytes(message.previous);
       }
 
       if (message.height != 0) {
@@ -928,24 +912,19 @@ export namespace protocol {
         writer.uint64(message.timestamp);
       }
 
-      const unique_name_previous_state_merkle_root =
-        message.previous_state_merkle_root;
-      if (unique_name_previous_state_merkle_root !== null) {
+      if (message.previous_state_merkle_root.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_previous_state_merkle_root);
+        writer.bytes(message.previous_state_merkle_root);
       }
 
-      const unique_name_transaction_merkle_root =
-        message.transaction_merkle_root;
-      if (unique_name_transaction_merkle_root !== null) {
+      if (message.transaction_merkle_root.length != 0) {
         writer.uint32(42);
-        writer.bytes(unique_name_transaction_merkle_root);
+        writer.bytes(message.transaction_merkle_root);
       }
 
-      const unique_name_signer = message.signer;
-      if (unique_name_signer !== null) {
+      if (message.signer.length != 0) {
         writer.uint32(50);
-        writer.bytes(unique_name_signer);
+        writer.bytes(message.signer);
       }
 
       const unique_name_approved_proposals = message.approved_proposals;
@@ -1001,21 +980,21 @@ export namespace protocol {
       return message;
     }
 
-    previous: Uint8Array | null;
+    previous: Uint8Array;
     height: u64;
     timestamp: u64;
-    previous_state_merkle_root: Uint8Array | null;
-    transaction_merkle_root: Uint8Array | null;
-    signer: Uint8Array | null;
+    previous_state_merkle_root: Uint8Array;
+    transaction_merkle_root: Uint8Array;
+    signer: Uint8Array;
     approved_proposals: Array<Uint8Array>;
 
     constructor(
-      previous: Uint8Array | null = null,
+      previous: Uint8Array = new Uint8Array(0),
       height: u64 = 0,
       timestamp: u64 = 0,
-      previous_state_merkle_root: Uint8Array | null = null,
-      transaction_merkle_root: Uint8Array | null = null,
-      signer: Uint8Array | null = null,
+      previous_state_merkle_root: Uint8Array = new Uint8Array(0),
+      transaction_merkle_root: Uint8Array = new Uint8Array(0),
+      signer: Uint8Array = new Uint8Array(0),
       approved_proposals: Array<Uint8Array> = []
     ) {
       this.previous = previous;
@@ -1030,10 +1009,9 @@ export namespace protocol {
 
   export class block {
     static encode(message: block, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
       const unique_name_header = message.header;
@@ -1052,10 +1030,9 @@ export namespace protocol {
         writer.ldelim();
       }
 
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
+      if (message.signature.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_signature);
+        writer.bytes(message.signature);
       }
     }
 
@@ -1093,16 +1070,16 @@ export namespace protocol {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
     header: block_header | null;
     transactions: Array<transaction>;
-    signature: Uint8Array | null;
+    signature: Uint8Array;
 
     constructor(
-      id: Uint8Array | null = null,
+      id: Uint8Array = new Uint8Array(0),
       header: block_header | null = null,
       transactions: Array<transaction> = [],
-      signature: Uint8Array | null = null
+      signature: Uint8Array = new Uint8Array(0)
     ) {
       this.id = id;
       this.header = header;
@@ -1113,10 +1090,9 @@ export namespace protocol {
 
   export class block_receipt {
     static encode(message: block_receipt, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
       if (message.height != 0) {
@@ -1139,10 +1115,9 @@ export namespace protocol {
         writer.uint64(message.compute_bandwidth_used);
       }
 
-      const unique_name_state_merkle_root = message.state_merkle_root;
-      if (unique_name_state_merkle_root !== null) {
+      if (message.state_merkle_root.length != 0) {
         writer.uint32(50);
-        writer.bytes(unique_name_state_merkle_root);
+        writer.bytes(message.state_merkle_root);
       }
 
       const unique_name_events = message.events;
@@ -1251,12 +1226,12 @@ export namespace protocol {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
     height: u64;
     disk_storage_used: u64;
     network_bandwidth_used: u64;
     compute_bandwidth_used: u64;
-    state_merkle_root: Uint8Array | null;
+    state_merkle_root: Uint8Array;
     events: Array<event_data>;
     transaction_receipts: Array<transaction_receipt>;
     logs: Array<string>;
@@ -1265,12 +1240,12 @@ export namespace protocol {
     compute_bandwidth_charged: u64;
 
     constructor(
-      id: Uint8Array | null = null,
+      id: Uint8Array = new Uint8Array(0),
       height: u64 = 0,
       disk_storage_used: u64 = 0,
       network_bandwidth_used: u64 = 0,
       compute_bandwidth_used: u64 = 0,
-      state_merkle_root: Uint8Array | null = null,
+      state_merkle_root: Uint8Array = new Uint8Array(0),
       events: Array<event_data> = [],
       transaction_receipts: Array<transaction_receipt> = [],
       logs: Array<string> = [],

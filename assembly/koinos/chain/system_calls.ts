@@ -780,10 +780,9 @@ export namespace system_calls {
 
   export class get_chain_id_result {
     static encode(message: get_chain_id_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -807,9 +806,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
@@ -819,10 +818,9 @@ export namespace system_calls {
       message: process_block_signature_arguments,
       writer: Writer
     ): void {
-      const unique_name_digest = message.digest;
-      if (unique_name_digest !== null) {
+      if (message.digest.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_digest);
+        writer.bytes(message.digest);
       }
 
       const unique_name_header = message.header;
@@ -833,10 +831,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
+      if (message.signature.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_signature);
+        writer.bytes(message.signature);
       }
     }
 
@@ -874,14 +871,14 @@ export namespace system_calls {
       return message;
     }
 
-    digest: Uint8Array | null;
+    digest: Uint8Array;
     header: protocol.block_header | null;
-    signature: Uint8Array | null;
+    signature: Uint8Array;
 
     constructor(
-      digest: Uint8Array | null = null,
+      digest: Uint8Array = new Uint8Array(0),
       header: protocol.block_header | null = null,
-      signature: Uint8Array | null = null
+      signature: Uint8Array = new Uint8Array(0)
     ) {
       this.digest = digest;
       this.header = header;
@@ -997,10 +994,9 @@ export namespace system_calls {
       message: get_transaction_field_arguments,
       writer: Writer
     ): void {
-      const unique_name_field = message.field;
-      if (unique_name_field !== null) {
+      if (message.field.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_field);
+        writer.string(message.field);
       }
     }
 
@@ -1027,9 +1023,9 @@ export namespace system_calls {
       return message;
     }
 
-    field: string | null;
+    field: string;
 
-    constructor(field: string | null = null) {
+    constructor(field: string = "") {
       this.field = field;
     }
   }
@@ -1135,10 +1131,9 @@ export namespace system_calls {
 
   export class get_block_field_arguments {
     static encode(message: get_block_field_arguments, writer: Writer): void {
-      const unique_name_field = message.field;
-      if (unique_name_field !== null) {
+      if (message.field.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_field);
+        writer.string(message.field);
       }
     }
 
@@ -1162,9 +1157,9 @@ export namespace system_calls {
       return message;
     }
 
-    field: string | null;
+    field: string;
 
-    constructor(field: string | null = null) {
+    constructor(field: string = "") {
       this.field = field;
     }
   }
@@ -1280,10 +1275,9 @@ export namespace system_calls {
 
   export class get_account_nonce_arguments {
     static encode(message: get_account_nonce_arguments, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
     }
 
@@ -1307,19 +1301,18 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
+    account: Uint8Array;
 
-    constructor(account: Uint8Array | null = null) {
+    constructor(account: Uint8Array = new Uint8Array(0)) {
       this.account = account;
     }
   }
 
   export class get_account_nonce_result {
     static encode(message: get_account_nonce_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -1343,9 +1336,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
@@ -1355,16 +1348,14 @@ export namespace system_calls {
       message: verify_account_nonce_arguments,
       writer: Writer
     ): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
 
-      const unique_name_nonce = message.nonce;
-      if (unique_name_nonce !== null) {
+      if (message.nonce.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_nonce);
+        writer.bytes(message.nonce);
       }
     }
 
@@ -1392,12 +1383,12 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
-    nonce: Uint8Array | null;
+    account: Uint8Array;
+    nonce: Uint8Array;
 
     constructor(
-      account: Uint8Array | null = null,
-      nonce: Uint8Array | null = null
+      account: Uint8Array = new Uint8Array(0),
+      nonce: Uint8Array = new Uint8Array(0)
     ) {
       this.account = account;
       this.nonce = nonce;
@@ -1442,16 +1433,14 @@ export namespace system_calls {
 
   export class set_account_nonce_arguments {
     static encode(message: set_account_nonce_arguments, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
 
-      const unique_name_nonce = message.nonce;
-      if (unique_name_nonce !== null) {
+      if (message.nonce.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_nonce);
+        writer.bytes(message.nonce);
       }
     }
 
@@ -1479,12 +1468,12 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
-    nonce: Uint8Array | null;
+    account: Uint8Array;
+    nonce: Uint8Array;
 
     constructor(
-      account: Uint8Array | null = null,
-      nonce: Uint8Array | null = null
+      account: Uint8Array = new Uint8Array(0),
+      nonce: Uint8Array = new Uint8Array(0)
     ) {
       this.account = account;
       this.nonce = nonce;
@@ -1645,10 +1634,9 @@ export namespace system_calls {
 
   export class get_account_rc_arguments {
     static encode(message: get_account_rc_arguments, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
     }
 
@@ -1672,9 +1660,9 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
+    account: Uint8Array;
 
-    constructor(account: Uint8Array | null = null) {
+    constructor(account: Uint8Array = new Uint8Array(0)) {
       this.account = account;
     }
   }
@@ -1717,10 +1705,9 @@ export namespace system_calls {
 
   export class consume_account_rc_arguments {
     static encode(message: consume_account_rc_arguments, writer: Writer): void {
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
 
       if (message.value != 0) {
@@ -1753,10 +1740,10 @@ export namespace system_calls {
       return message;
     }
 
-    account: Uint8Array | null;
+    account: Uint8Array;
     value: u64;
 
-    constructor(account: Uint8Array | null = null, value: u64 = 0) {
+    constructor(account: Uint8Array = new Uint8Array(0), value: u64 = 0) {
       this.account = account;
       this.value = value;
     }
@@ -1983,16 +1970,14 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
 
-      const unique_name_obj = message.obj;
-      if (unique_name_obj !== null) {
+      if (message.obj.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_obj);
+        writer.bytes(message.obj);
       }
     }
 
@@ -2025,13 +2010,13 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
-    obj: Uint8Array | null;
+    key: Uint8Array;
+    obj: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null,
-      obj: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0),
+      obj: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
@@ -2072,10 +2057,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2104,11 +2088,11 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
@@ -2148,10 +2132,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2180,11 +2163,11 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
@@ -2198,16 +2181,14 @@ export namespace system_calls {
         writer.bool(message.exists);
       }
 
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2240,13 +2221,13 @@ export namespace system_calls {
     }
 
     exists: bool;
-    value: Uint8Array | null;
-    key: Uint8Array | null;
+    value: Uint8Array;
+    key: Uint8Array;
 
     constructor(
       exists: bool = false,
-      value: Uint8Array | null = null,
-      key: Uint8Array | null = null
+      value: Uint8Array = new Uint8Array(0),
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.exists = exists;
       this.value = value;
@@ -2302,10 +2283,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2334,11 +2314,11 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
@@ -2393,10 +2373,9 @@ export namespace system_calls {
         writer.ldelim();
       }
 
-      const unique_name_key = message.key;
-      if (unique_name_key !== null) {
+      if (message.key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_key);
+        writer.bytes(message.key);
       }
     }
 
@@ -2425,11 +2404,11 @@ export namespace system_calls {
     }
 
     space: chain.object_space | null;
-    key: Uint8Array | null;
+    key: Uint8Array;
 
     constructor(
       space: chain.object_space | null = null,
-      key: Uint8Array | null = null
+      key: Uint8Array = new Uint8Array(0)
     ) {
       this.space = space;
       this.key = key;
@@ -2476,10 +2455,9 @@ export namespace system_calls {
 
   export class log_arguments {
     static encode(message: log_arguments, writer: Writer): void {
-      const unique_name_message_2 = message.message;
-      if (unique_name_message_2 !== null) {
+      if (message.message.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_message_2);
+        writer.string(message.message);
       }
     }
 
@@ -2503,9 +2481,9 @@ export namespace system_calls {
       return message;
     }
 
-    message: string | null;
+    message: string;
 
-    constructor(message: string | null = null) {
+    constructor(message: string = "") {
       this.message = message;
     }
   }
@@ -2535,16 +2513,14 @@ export namespace system_calls {
 
   export class event_arguments {
     static encode(message: event_arguments, writer: Writer): void {
-      const unique_name_name = message.name;
-      if (unique_name_name !== null) {
+      if (message.name.length != 0) {
         writer.uint32(10);
-        writer.string(unique_name_name);
+        writer.string(message.name);
       }
 
-      const unique_name_data = message.data;
-      if (unique_name_data !== null) {
+      if (message.data.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_data);
+        writer.bytes(message.data);
       }
 
       const unique_name_impacted = message.impacted;
@@ -2584,13 +2560,13 @@ export namespace system_calls {
       return message;
     }
 
-    name: string | null;
-    data: Uint8Array | null;
+    name: string;
+    data: Uint8Array;
     impacted: Array<Uint8Array>;
 
     constructor(
-      name: string | null = null,
-      data: Uint8Array | null = null,
+      name: string = "",
+      data: Uint8Array = new Uint8Array(0),
       impacted: Array<Uint8Array> = []
     ) {
       this.name = name;
@@ -2629,10 +2605,9 @@ export namespace system_calls {
         writer.uint64(message.code);
       }
 
-      const unique_name_obj = message.obj;
-      if (unique_name_obj !== null) {
+      if (message.obj.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_obj);
+        writer.bytes(message.obj);
       }
 
       if (message.size != 0) {
@@ -2670,10 +2645,14 @@ export namespace system_calls {
     }
 
     code: u64;
-    obj: Uint8Array | null;
+    obj: Uint8Array;
     size: u64;
 
-    constructor(code: u64 = 0, obj: Uint8Array | null = null, size: u64 = 0) {
+    constructor(
+      code: u64 = 0,
+      obj: Uint8Array = new Uint8Array(0),
+      size: u64 = 0
+    ) {
       this.code = code;
       this.obj = obj;
       this.size = size;
@@ -2682,10 +2661,9 @@ export namespace system_calls {
 
   export class hash_result {
     static encode(message: hash_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -2709,9 +2687,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
@@ -2723,16 +2701,14 @@ export namespace system_calls {
         writer.int32(message.type);
       }
 
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
+      if (message.signature.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_signature);
+        writer.bytes(message.signature);
       }
 
-      const unique_name_digest = message.digest;
-      if (unique_name_digest !== null) {
+      if (message.digest.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_digest);
+        writer.bytes(message.digest);
       }
 
       if (message.compressed != false) {
@@ -2774,14 +2750,14 @@ export namespace system_calls {
     }
 
     type: chain.dsa;
-    signature: Uint8Array | null;
-    digest: Uint8Array | null;
+    signature: Uint8Array;
+    digest: Uint8Array;
     compressed: bool;
 
     constructor(
       type: chain.dsa = 0,
-      signature: Uint8Array | null = null,
-      digest: Uint8Array | null = null,
+      signature: Uint8Array = new Uint8Array(0),
+      digest: Uint8Array = new Uint8Array(0),
       compressed: bool = false
     ) {
       this.type = type;
@@ -2793,10 +2769,9 @@ export namespace system_calls {
 
   export class recover_public_key_result {
     static encode(message: recover_public_key_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -2820,19 +2795,18 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
 
   export class verify_merkle_root_arguments {
     static encode(message: verify_merkle_root_arguments, writer: Writer): void {
-      const unique_name_root = message.root;
-      if (unique_name_root !== null) {
+      if (message.root.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_root);
+        writer.bytes(message.root);
       }
 
       const unique_name_hashes = message.hashes;
@@ -2868,11 +2842,11 @@ export namespace system_calls {
       return message;
     }
 
-    root: Uint8Array | null;
+    root: Uint8Array;
     hashes: Array<Uint8Array>;
 
     constructor(
-      root: Uint8Array | null = null,
+      root: Uint8Array = new Uint8Array(0),
       hashes: Array<Uint8Array> = []
     ) {
       this.root = root;
@@ -2923,22 +2897,19 @@ export namespace system_calls {
         writer.int32(message.type);
       }
 
-      const unique_name_public_key = message.public_key;
-      if (unique_name_public_key !== null) {
+      if (message.public_key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_public_key);
+        writer.bytes(message.public_key);
       }
 
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
+      if (message.signature.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_signature);
+        writer.bytes(message.signature);
       }
 
-      const unique_name_digest = message.digest;
-      if (unique_name_digest !== null) {
+      if (message.digest.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_digest);
+        writer.bytes(message.digest);
       }
 
       if (message.compressed != false) {
@@ -2984,16 +2955,16 @@ export namespace system_calls {
     }
 
     type: chain.dsa;
-    public_key: Uint8Array | null;
-    signature: Uint8Array | null;
-    digest: Uint8Array | null;
+    public_key: Uint8Array;
+    signature: Uint8Array;
+    digest: Uint8Array;
     compressed: bool;
 
     constructor(
       type: chain.dsa = 0,
-      public_key: Uint8Array | null = null,
-      signature: Uint8Array | null = null,
-      digest: Uint8Array | null = null,
+      public_key: Uint8Array = new Uint8Array(0),
+      signature: Uint8Array = new Uint8Array(0),
+      digest: Uint8Array = new Uint8Array(0),
       compressed: bool = false
     ) {
       this.type = type;
@@ -3047,28 +3018,24 @@ export namespace system_calls {
         writer.int32(message.type);
       }
 
-      const unique_name_public_key = message.public_key;
-      if (unique_name_public_key !== null) {
+      if (message.public_key.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_public_key);
+        writer.bytes(message.public_key);
       }
 
-      const unique_name_proof = message.proof;
-      if (unique_name_proof !== null) {
+      if (message.proof.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_proof);
+        writer.bytes(message.proof);
       }
 
-      const unique_name_hash = message.hash;
-      if (unique_name_hash !== null) {
+      if (message.hash.length != 0) {
         writer.uint32(34);
-        writer.bytes(unique_name_hash);
+        writer.bytes(message.hash);
       }
 
-      const unique_name_message_2 = message.message;
-      if (unique_name_message_2 !== null) {
+      if (message.message.length != 0) {
         writer.uint32(42);
-        writer.bytes(unique_name_message_2);
+        writer.bytes(message.message);
       }
     }
 
@@ -3109,17 +3076,17 @@ export namespace system_calls {
     }
 
     type: chain.dsa;
-    public_key: Uint8Array | null;
-    proof: Uint8Array | null;
-    hash: Uint8Array | null;
-    message: Uint8Array | null;
+    public_key: Uint8Array;
+    proof: Uint8Array;
+    hash: Uint8Array;
+    message: Uint8Array;
 
     constructor(
       type: chain.dsa = 0,
-      public_key: Uint8Array | null = null,
-      proof: Uint8Array | null = null,
-      hash: Uint8Array | null = null,
-      message: Uint8Array | null = null
+      public_key: Uint8Array = new Uint8Array(0),
+      proof: Uint8Array = new Uint8Array(0),
+      hash: Uint8Array = new Uint8Array(0),
+      message: Uint8Array = new Uint8Array(0)
     ) {
       this.type = type;
       this.public_key = public_key;
@@ -3167,10 +3134,9 @@ export namespace system_calls {
 
   export class call_arguments {
     static encode(message: call_arguments, writer: Writer): void {
-      const unique_name_contract_id = message.contract_id;
-      if (unique_name_contract_id !== null) {
+      if (message.contract_id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_contract_id);
+        writer.bytes(message.contract_id);
       }
 
       if (message.entry_point != 0) {
@@ -3178,10 +3144,9 @@ export namespace system_calls {
         writer.uint32(message.entry_point);
       }
 
-      const unique_name_args = message.args;
-      if (unique_name_args !== null) {
+      if (message.args.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_args);
+        writer.bytes(message.args);
       }
     }
 
@@ -3213,14 +3178,14 @@ export namespace system_calls {
       return message;
     }
 
-    contract_id: Uint8Array | null;
+    contract_id: Uint8Array;
     entry_point: u32;
-    args: Uint8Array | null;
+    args: Uint8Array;
 
     constructor(
-      contract_id: Uint8Array | null = null,
+      contract_id: Uint8Array = new Uint8Array(0),
       entry_point: u32 = 0,
-      args: Uint8Array | null = null
+      args: Uint8Array = new Uint8Array(0)
     ) {
       this.contract_id = contract_id;
       this.entry_point = entry_point;
@@ -3230,10 +3195,9 @@ export namespace system_calls {
 
   export class call_result {
     static encode(message: call_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -3257,9 +3221,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
@@ -3422,10 +3386,9 @@ export namespace system_calls {
 
   export class get_contract_id_result {
     static encode(message: get_contract_id_result, writer: Writer): void {
-      const unique_name_value = message.value;
-      if (unique_name_value !== null) {
+      if (message.value.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_value);
+        writer.bytes(message.value);
       }
     }
 
@@ -3449,9 +3412,9 @@ export namespace system_calls {
       return message;
     }
 
-    value: Uint8Array | null;
+    value: Uint8Array;
 
-    constructor(value: Uint8Array | null = null) {
+    constructor(value: Uint8Array = new Uint8Array(0)) {
       this.value = value;
     }
   }
@@ -3524,16 +3487,14 @@ export namespace system_calls {
         writer.int32(message.type);
       }
 
-      const unique_name_account = message.account;
-      if (unique_name_account !== null) {
+      if (message.account.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_account);
+        writer.bytes(message.account);
       }
 
-      const unique_name_data = message.data;
-      if (unique_name_data !== null) {
+      if (message.data.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_data);
+        writer.bytes(message.data);
       }
     }
 
@@ -3566,13 +3527,13 @@ export namespace system_calls {
     }
 
     type: authority.authorization_type;
-    account: Uint8Array | null;
-    data: Uint8Array | null;
+    account: Uint8Array;
+    data: Uint8Array;
 
     constructor(
       type: authority.authorization_type = 0,
-      account: Uint8Array | null = null,
-      data: Uint8Array | null = null
+      account: Uint8Array = new Uint8Array(0),
+      data: Uint8Array = new Uint8Array(0)
     ) {
       this.type = type;
       this.account = account;

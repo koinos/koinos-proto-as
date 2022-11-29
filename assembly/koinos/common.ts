@@ -3,10 +3,9 @@ import { Writer, Reader } from "as-proto";
 export namespace common {
   export class block_topology {
     static encode(message: block_topology, writer: Writer): void {
-      const unique_name_id = message.id;
-      if (unique_name_id !== null) {
+      if (message.id.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_id);
+        writer.bytes(message.id);
       }
 
       if (message.height != 0) {
@@ -14,10 +13,9 @@ export namespace common {
         writer.uint64(message.height);
       }
 
-      const unique_name_previous = message.previous;
-      if (unique_name_previous !== null) {
+      if (message.previous.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_previous);
+        writer.bytes(message.previous);
       }
     }
 
@@ -49,14 +47,14 @@ export namespace common {
       return message;
     }
 
-    id: Uint8Array | null;
+    id: Uint8Array;
     height: u64;
-    previous: Uint8Array | null;
+    previous: Uint8Array;
 
     constructor(
-      id: Uint8Array | null = null,
+      id: Uint8Array = new Uint8Array(0),
       height: u64 = 0,
-      previous: Uint8Array | null = null
+      previous: Uint8Array = new Uint8Array(0)
     ) {
       this.id = id;
       this.height = height;

@@ -124,22 +124,19 @@ export namespace claim {
 
   export class claim_arguments {
     static encode(message: claim_arguments, writer: Writer): void {
-      const unique_name_eth_address = message.eth_address;
-      if (unique_name_eth_address !== null) {
+      if (message.eth_address.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_eth_address);
+        writer.bytes(message.eth_address);
       }
 
-      const unique_name_koin_address = message.koin_address;
-      if (unique_name_koin_address !== null) {
+      if (message.koin_address.length != 0) {
         writer.uint32(18);
-        writer.bytes(unique_name_koin_address);
+        writer.bytes(message.koin_address);
       }
 
-      const unique_name_signature = message.signature;
-      if (unique_name_signature !== null) {
+      if (message.signature.length != 0) {
         writer.uint32(26);
-        writer.bytes(unique_name_signature);
+        writer.bytes(message.signature);
       }
     }
 
@@ -171,14 +168,14 @@ export namespace claim {
       return message;
     }
 
-    eth_address: Uint8Array | null;
-    koin_address: Uint8Array | null;
-    signature: Uint8Array | null;
+    eth_address: Uint8Array;
+    koin_address: Uint8Array;
+    signature: Uint8Array;
 
     constructor(
-      eth_address: Uint8Array | null = null,
-      koin_address: Uint8Array | null = null,
-      signature: Uint8Array | null = null
+      eth_address: Uint8Array = new Uint8Array(0),
+      koin_address: Uint8Array = new Uint8Array(0),
+      signature: Uint8Array = new Uint8Array(0)
     ) {
       this.eth_address = eth_address;
       this.koin_address = koin_address;
@@ -273,10 +270,9 @@ export namespace claim {
 
   export class check_claim_arguments {
     static encode(message: check_claim_arguments, writer: Writer): void {
-      const unique_name_eth_address = message.eth_address;
-      if (unique_name_eth_address !== null) {
+      if (message.eth_address.length != 0) {
         writer.uint32(10);
-        writer.bytes(unique_name_eth_address);
+        writer.bytes(message.eth_address);
       }
     }
 
@@ -300,9 +296,9 @@ export namespace claim {
       return message;
     }
 
-    eth_address: Uint8Array | null;
+    eth_address: Uint8Array;
 
-    constructor(eth_address: Uint8Array | null = null) {
+    constructor(eth_address: Uint8Array = new Uint8Array(0)) {
       this.eth_address = eth_address;
     }
   }
