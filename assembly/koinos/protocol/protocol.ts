@@ -140,7 +140,7 @@ export namespace protocol {
 
   export class system_call_target {
     static encode(message: system_call_target, writer: Writer): void {
-      if (message.thunk_id != 0) {
+      if (message.thunk_id !== null) {
         writer.uint32(8);
         writer.uint32(message.thunk_id);
       }
@@ -163,6 +163,9 @@ export namespace protocol {
         switch (tag >>> 3) {
           case 1:
             message.thunk_id = reader.uint32();
+
+            message.system_call_bundle = null;
+
             break;
 
           case 2:
@@ -170,6 +173,9 @@ export namespace protocol {
               reader,
               reader.uint32()
             );
+
+            message.thunk_id = null;
+
             break;
 
           default:
@@ -181,11 +187,11 @@ export namespace protocol {
       return message;
     }
 
-    thunk_id: u32;
+    thunk_id: u32 | null;
     system_call_bundle: contract_call_bundle | null;
 
     constructor(
-      thunk_id: u32 = 0,
+      thunk_id: u32 | null = null,
       system_call_bundle: contract_call_bundle | null = null
     ) {
       this.thunk_id = thunk_id;
@@ -503,6 +509,11 @@ export namespace protocol {
               reader,
               reader.uint32()
             );
+
+            message.call_contract = null;
+            message.set_system_call = null;
+            message.set_system_contract = null;
+
             break;
 
           case 2:
@@ -510,6 +521,11 @@ export namespace protocol {
               reader,
               reader.uint32()
             );
+
+            message.upload_contract = null;
+            message.set_system_call = null;
+            message.set_system_contract = null;
+
             break;
 
           case 3:
@@ -517,6 +533,11 @@ export namespace protocol {
               reader,
               reader.uint32()
             );
+
+            message.upload_contract = null;
+            message.call_contract = null;
+            message.set_system_contract = null;
+
             break;
 
           case 4:
@@ -524,6 +545,11 @@ export namespace protocol {
               reader,
               reader.uint32()
             );
+
+            message.upload_contract = null;
+            message.call_contract = null;
+            message.set_system_call = null;
+
             break;
 
           default:

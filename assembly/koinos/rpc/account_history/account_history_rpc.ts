@@ -43,6 +43,9 @@ export namespace account_history_rpc {
               reader,
               reader.uint32()
             );
+
+            message.block = null;
+
             break;
 
           case 3:
@@ -50,6 +53,9 @@ export namespace account_history_rpc {
               reader,
               reader.uint32()
             );
+
+            message.trx = null;
+
             break;
 
           default:
@@ -83,7 +89,7 @@ export namespace account_history_rpc {
         writer.bytes(message.address);
       }
 
-      if (message.seq_num != 0) {
+      if (message.seq_num !== null) {
         writer.uint32(16);
         writer.uint64(message.seq_num);
       }
@@ -117,6 +123,7 @@ export namespace account_history_rpc {
 
           case 2:
             message.seq_num = reader.uint64();
+
             break;
 
           case 3:
@@ -141,14 +148,14 @@ export namespace account_history_rpc {
     }
 
     address: Uint8Array;
-    seq_num: u64;
+    seq_num: u64 | null;
     limit: u64;
     ascending: bool;
     irreversible: bool;
 
     constructor(
       address: Uint8Array = new Uint8Array(0),
-      seq_num: u64 = 0,
+      seq_num: u64 | null = null,
       limit: u64 = 0,
       ascending: bool = false,
       irreversible: bool = false
@@ -232,6 +239,9 @@ export namespace account_history_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
+
+            message.get_account_history = null;
+
             break;
 
           case 2:
@@ -239,6 +249,9 @@ export namespace account_history_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+
             break;
 
           default:
@@ -301,10 +314,18 @@ export namespace account_history_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
+
+            message.error = null;
+            message.get_account_history = null;
+
             break;
 
           case 2:
             message.error = rpc.error_response.decode(reader, reader.uint32());
+
+            message.reserved = null;
+            message.get_account_history = null;
+
             break;
 
           case 3:
@@ -312,6 +333,10 @@ export namespace account_history_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.error = null;
+
             break;
 
           default:

@@ -440,6 +440,12 @@ export namespace block_store_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
+
+            message.get_blocks_by_id = null;
+            message.get_blocks_by_height = null;
+            message.add_block = null;
+            message.get_highest_block = null;
+
             break;
 
           case 2:
@@ -447,6 +453,12 @@ export namespace block_store_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.get_blocks_by_height = null;
+            message.add_block = null;
+            message.get_highest_block = null;
+
             break;
 
           case 3:
@@ -454,6 +466,12 @@ export namespace block_store_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.get_blocks_by_id = null;
+            message.add_block = null;
+            message.get_highest_block = null;
+
             break;
 
           case 4:
@@ -461,6 +479,12 @@ export namespace block_store_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.get_blocks_by_id = null;
+            message.get_blocks_by_height = null;
+            message.get_highest_block = null;
+
             break;
 
           case 5:
@@ -468,6 +492,12 @@ export namespace block_store_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.get_blocks_by_id = null;
+            message.get_blocks_by_height = null;
+            message.add_block = null;
+
             break;
 
           default:
@@ -566,10 +596,24 @@ export namespace block_store_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
+
+            message.error = null;
+            message.get_blocks_by_id = null;
+            message.get_blocks_by_height = null;
+            message.add_block = null;
+            message.get_highest_block = null;
+
             break;
 
           case 2:
             message.error = rpc.error_response.decode(reader, reader.uint32());
+
+            message.reserved = null;
+            message.get_blocks_by_id = null;
+            message.get_blocks_by_height = null;
+            message.add_block = null;
+            message.get_highest_block = null;
+
             break;
 
           case 3:
@@ -577,6 +621,13 @@ export namespace block_store_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.error = null;
+            message.get_blocks_by_height = null;
+            message.add_block = null;
+            message.get_highest_block = null;
+
             break;
 
           case 4:
@@ -584,6 +635,13 @@ export namespace block_store_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.error = null;
+            message.get_blocks_by_id = null;
+            message.add_block = null;
+            message.get_highest_block = null;
+
             break;
 
           case 5:
@@ -591,6 +649,13 @@ export namespace block_store_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.error = null;
+            message.get_blocks_by_id = null;
+            message.get_blocks_by_height = null;
+            message.get_highest_block = null;
+
             break;
 
           case 6:
@@ -598,6 +663,13 @@ export namespace block_store_rpc {
               reader,
               reader.uint32()
             );
+
+            message.reserved = null;
+            message.error = null;
+            message.get_blocks_by_id = null;
+            message.get_blocks_by_height = null;
+            message.add_block = null;
+
             break;
 
           default:

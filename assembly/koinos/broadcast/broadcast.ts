@@ -431,7 +431,7 @@ export namespace broadcast {
         writer.uint64(message.height);
       }
 
-      if (message.transaction_id.length != 0) {
+      if (message.transaction_id !== null) {
         writer.uint32(26);
         writer.bytes(message.transaction_id);
       }
@@ -462,6 +462,7 @@ export namespace broadcast {
 
           case 3:
             message.transaction_id = reader.bytes();
+
             break;
 
           case 4:
@@ -479,13 +480,13 @@ export namespace broadcast {
 
     block_id: Uint8Array;
     height: u64;
-    transaction_id: Uint8Array;
+    transaction_id: Uint8Array | null;
     event: protocol.event_data | null;
 
     constructor(
       block_id: Uint8Array = new Uint8Array(0),
       height: u64 = 0,
-      transaction_id: Uint8Array = new Uint8Array(0),
+      transaction_id: Uint8Array | null = null,
       event: protocol.event_data | null = null
     ) {
       this.block_id = block_id;

@@ -124,11 +124,17 @@ export namespace transaction_store_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
+
+            message.get_transactions_by_id = null;
+
             break;
 
           case 2:
             message.get_transactions_by_id =
               get_transactions_by_id_request.decode(reader, reader.uint32());
+
+            message.reserved = null;
+
             break;
 
           default:
@@ -191,15 +197,27 @@ export namespace transaction_store_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
+
+            message.error = null;
+            message.get_transactions_by_id = null;
+
             break;
 
           case 2:
             message.error = rpc.error_response.decode(reader, reader.uint32());
+
+            message.reserved = null;
+            message.get_transactions_by_id = null;
+
             break;
 
           case 3:
             message.get_transactions_by_id =
               get_transactions_by_id_response.decode(reader, reader.uint32());
+
+            message.reserved = null;
+            message.error = null;
+
             break;
 
           default:
