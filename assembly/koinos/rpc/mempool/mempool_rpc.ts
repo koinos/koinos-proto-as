@@ -323,10 +323,6 @@ export namespace mempool_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
-
-            message.check_pending_account_resources = null;
-            message.get_pending_transactions = null;
-
             break;
 
           case 2:
@@ -335,19 +331,11 @@ export namespace mempool_rpc {
                 reader,
                 reader.uint32()
               );
-
-            message.reserved = null;
-            message.get_pending_transactions = null;
-
             break;
 
           case 3:
             message.get_pending_transactions =
               get_pending_transactions_request.decode(reader, reader.uint32());
-
-            message.reserved = null;
-            message.check_pending_account_resources = null;
-
             break;
 
           default:
@@ -426,20 +414,10 @@ export namespace mempool_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
-
-            message.error = null;
-            message.check_pending_account_resources = null;
-            message.get_pending_transactions = null;
-
             break;
 
           case 2:
             message.error = rpc.error_response.decode(reader, reader.uint32());
-
-            message.reserved = null;
-            message.check_pending_account_resources = null;
-            message.get_pending_transactions = null;
-
             break;
 
           case 3:
@@ -448,21 +426,11 @@ export namespace mempool_rpc {
                 reader,
                 reader.uint32()
               );
-
-            message.reserved = null;
-            message.error = null;
-            message.get_pending_transactions = null;
-
             break;
 
           case 4:
             message.get_pending_transactions =
               get_pending_transactions_response.decode(reader, reader.uint32());
-
-            message.reserved = null;
-            message.error = null;
-            message.check_pending_account_resources = null;
-
             break;
 
           default:

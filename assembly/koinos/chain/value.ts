@@ -12,67 +12,67 @@ export namespace value {
         writer.ldelim();
       }
 
-      if (message.int32_value !== null) {
+      if (message.int32_value != 0) {
         writer.uint32(16);
         writer.int32(message.int32_value);
       }
 
-      if (message.int64_value !== null) {
+      if (message.int64_value != 0) {
         writer.uint32(24);
         writer.int64(message.int64_value);
       }
 
-      if (message.uint32_value !== null) {
+      if (message.uint32_value != 0) {
         writer.uint32(32);
         writer.uint32(message.uint32_value);
       }
 
-      if (message.uint64_value !== null) {
+      if (message.uint64_value != 0) {
         writer.uint32(40);
         writer.uint64(message.uint64_value);
       }
 
-      if (message.sint32_value !== null) {
+      if (message.sint32_value != 0) {
         writer.uint32(48);
         writer.sint32(message.sint32_value);
       }
 
-      if (message.sint64_value !== null) {
+      if (message.sint64_value != 0) {
         writer.uint32(56);
         writer.sint64(message.sint64_value);
       }
 
-      if (message.fixed32_value !== null) {
+      if (message.fixed32_value != 0) {
         writer.uint32(69);
         writer.fixed32(message.fixed32_value);
       }
 
-      if (message.fixed64_value !== null) {
+      if (message.fixed64_value != 0) {
         writer.uint32(73);
         writer.fixed64(message.fixed64_value);
       }
 
-      if (message.sfixed32_value !== null) {
+      if (message.sfixed32_value != 0) {
         writer.uint32(85);
         writer.sfixed32(message.sfixed32_value);
       }
 
-      if (message.sfixed64_value !== null) {
+      if (message.sfixed64_value != 0) {
         writer.uint32(89);
         writer.sfixed64(message.sfixed64_value);
       }
 
-      if (message.bool_value !== null) {
+      if (message.bool_value != false) {
         writer.uint32(96);
         writer.bool(message.bool_value);
       }
 
-      if (message.string_value !== null) {
+      if (message.string_value.length != 0) {
         writer.uint32(106);
         writer.string(message.string_value);
       }
 
-      if (message.bytes_value !== null) {
+      if (message.bytes_value.length != 0) {
         writer.uint32(114);
         writer.bytes(message.bytes_value);
       }
@@ -87,268 +87,58 @@ export namespace value {
         switch (tag >>> 3) {
           case 1:
             message.message_value = any.Any.decode(reader, reader.uint32());
-
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 2:
             message.int32_value = reader.int32();
-
-            message.message_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 3:
             message.int64_value = reader.int64();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 4:
             message.uint32_value = reader.uint32();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 5:
             message.uint64_value = reader.uint64();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 6:
             message.sint32_value = reader.sint32();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 7:
             message.sint64_value = reader.sint64();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 8:
             message.fixed32_value = reader.fixed32();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 9:
             message.fixed64_value = reader.fixed64();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 10:
             message.sfixed32_value = reader.sfixed32();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 11:
             message.sfixed64_value = reader.sfixed64();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 12:
             message.bool_value = reader.bool();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.string_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 13:
             message.string_value = reader.string();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.bytes_value = null;
-
             break;
 
           case 14:
             message.bytes_value = reader.bytes();
-
-            message.message_value = null;
-            message.int32_value = null;
-            message.int64_value = null;
-            message.uint32_value = null;
-            message.uint64_value = null;
-            message.sint32_value = null;
-            message.sint64_value = null;
-            message.fixed32_value = null;
-            message.fixed64_value = null;
-            message.sfixed32_value = null;
-            message.sfixed64_value = null;
-            message.bool_value = null;
-            message.string_value = null;
-
             break;
 
           default:
@@ -361,35 +151,35 @@ export namespace value {
     }
 
     message_value: any.Any | null;
-    int32_value: i32 | null;
-    int64_value: i64 | null;
-    uint32_value: u32 | null;
-    uint64_value: u64 | null;
-    sint32_value: i32 | null;
-    sint64_value: i64 | null;
-    fixed32_value: i32 | null;
-    fixed64_value: i64 | null;
-    sfixed32_value: i32 | null;
-    sfixed64_value: i64 | null;
-    bool_value: bool | null;
-    string_value: string | null;
-    bytes_value: Uint8Array | null;
+    int32_value: i32;
+    int64_value: i64;
+    uint32_value: u32;
+    uint64_value: u64;
+    sint32_value: i32;
+    sint64_value: i64;
+    fixed32_value: i32;
+    fixed64_value: i64;
+    sfixed32_value: i32;
+    sfixed64_value: i64;
+    bool_value: bool;
+    string_value: string;
+    bytes_value: Uint8Array;
 
     constructor(
       message_value: any.Any | null = null,
-      int32_value: i32 | null = null,
-      int64_value: i64 | null = null,
-      uint32_value: u32 | null = null,
-      uint64_value: u64 | null = null,
-      sint32_value: i32 | null = null,
-      sint64_value: i64 | null = null,
-      fixed32_value: i32 | null = null,
-      fixed64_value: i64 | null = null,
-      sfixed32_value: i32 | null = null,
-      sfixed64_value: i64 | null = null,
-      bool_value: bool | null = null,
-      string_value: string | null = null,
-      bytes_value: Uint8Array | null = null
+      int32_value: i32 = 0,
+      int64_value: i64 = 0,
+      uint32_value: u32 = 0,
+      uint64_value: u64 = 0,
+      sint32_value: i32 = 0,
+      sint64_value: i64 = 0,
+      fixed32_value: i32 = 0,
+      fixed64_value: i64 = 0,
+      sfixed32_value: i32 = 0,
+      sfixed64_value: i64 = 0,
+      bool_value: bool = false,
+      string_value: string = "",
+      bytes_value: Uint8Array = new Uint8Array(0)
     ) {
       this.message_value = message_value;
       this.int32_value = int32_value;

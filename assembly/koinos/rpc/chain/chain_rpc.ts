@@ -847,17 +847,6 @@ export namespace chain_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
-
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 2:
@@ -865,17 +854,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 3:
@@ -883,17 +861,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 4:
@@ -901,17 +868,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 5:
@@ -919,17 +875,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 6:
@@ -937,17 +882,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 7:
@@ -955,17 +889,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 8:
@@ -973,17 +896,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 9:
@@ -991,17 +903,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 10:
@@ -1009,17 +910,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-
             break;
 
           default:
@@ -1176,34 +1066,10 @@ export namespace chain_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
-
-            message.error = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 2:
             message.error = rpc.error_response.decode(reader, reader.uint32());
-
-            message.reserved = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 3:
@@ -1211,18 +1077,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 4:
@@ -1230,18 +1084,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_block = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 5:
@@ -1249,18 +1091,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 6:
@@ -1268,18 +1098,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 7:
@@ -1287,18 +1105,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 8:
@@ -1306,18 +1112,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 9:
@@ -1325,18 +1119,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_rc = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 10:
@@ -1344,18 +1126,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_resource_limits = null;
-
             break;
 
           case 11:
@@ -1363,18 +1133,6 @@ export namespace chain_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-            message.submit_block = null;
-            message.submit_transaction = null;
-            message.get_head_info = null;
-            message.get_chain_id = null;
-            message.get_fork_heads = null;
-            message.read_contract = null;
-            message.get_account_nonce = null;
-            message.get_account_rc = null;
-
             break;
 
           default:

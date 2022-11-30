@@ -103,7 +103,6 @@ export namespace authority {
 
           case 2:
             message.call = call_data.decode(reader, reader.uint32());
-
             break;
 
           default:

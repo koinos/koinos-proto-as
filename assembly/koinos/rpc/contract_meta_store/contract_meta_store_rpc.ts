@@ -107,9 +107,6 @@ export namespace contract_meta_store_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
-
-            message.get_contract_meta = null;
-
             break;
 
           case 2:
@@ -117,9 +114,6 @@ export namespace contract_meta_store_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-
             break;
 
           default:
@@ -182,18 +176,10 @@ export namespace contract_meta_store_rpc {
         switch (tag >>> 3) {
           case 1:
             message.reserved = rpc.reserved_rpc.decode(reader, reader.uint32());
-
-            message.error = null;
-            message.get_contract_meta = null;
-
             break;
 
           case 2:
             message.error = rpc.error_response.decode(reader, reader.uint32());
-
-            message.reserved = null;
-            message.get_contract_meta = null;
-
             break;
 
           case 3:
@@ -201,10 +187,6 @@ export namespace contract_meta_store_rpc {
               reader,
               reader.uint32()
             );
-
-            message.reserved = null;
-            message.error = null;
-
             break;
 
           default:

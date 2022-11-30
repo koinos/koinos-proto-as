@@ -234,16 +234,10 @@ export namespace account_history {
         switch (tag >>> 3) {
           case 1:
             message.trx = transaction_record.decode(reader, reader.uint32());
-
-            message.block = null;
-
             break;
 
           case 2:
             message.block = block_record.decode(reader, reader.uint32());
-
-            message.trx = null;
-
             break;
 
           default:

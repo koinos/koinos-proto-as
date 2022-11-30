@@ -39,7 +39,7 @@ export namespace chain {
 
   export class result {
     static encode(message: result, writer: Writer): void {
-      if (message.object !== null) {
+      if (message.object.length != 0) {
         writer.uint32(10);
         writer.bytes(message.object);
       }
@@ -62,16 +62,10 @@ export namespace chain {
         switch (tag >>> 3) {
           case 1:
             message.object = reader.bytes();
-
-            message.error = null;
-
             break;
 
           case 2:
             message.error = error_data.decode(reader, reader.uint32());
-
-            message.object = null;
-
             break;
 
           default:
@@ -83,11 +77,11 @@ export namespace chain {
       return message;
     }
 
-    object: Uint8Array | null;
+    object: Uint8Array;
     error: error_data | null;
 
     constructor(
-      object: Uint8Array | null = null,
+      object: Uint8Array = new Uint8Array(0),
       error: error_data | null = null
     ) {
       this.object = object;
