@@ -591,14 +591,14 @@ export namespace pob {
 
   export class register_public_key_event {
     static encode(message: register_public_key_event, writer: Writer): void {
-      if (message.public_key.length != 0) {
+      if (message.address.length != 0) {
         writer.uint32(10);
-        writer.bytes(message.public_key);
+        writer.bytes(message.address);
       }
 
-      if (message.address.length != 0) {
+      if (message.public_key.length != 0) {
         writer.uint32(18);
-        writer.bytes(message.address);
+        writer.bytes(message.public_key);
       }
     }
 
@@ -610,11 +610,11 @@ export namespace pob {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.public_key = reader.bytes();
+            message.address = reader.bytes();
             break;
 
           case 2:
-            message.address = reader.bytes();
+            message.public_key = reader.bytes();
             break;
 
           default:
@@ -626,15 +626,15 @@ export namespace pob {
       return message;
     }
 
-    public_key: Uint8Array;
     address: Uint8Array;
+    public_key: Uint8Array;
 
     constructor(
-      public_key: Uint8Array = new Uint8Array(0),
-      address: Uint8Array = new Uint8Array(0)
+      address: Uint8Array = new Uint8Array(0),
+      public_key: Uint8Array = new Uint8Array(0)
     ) {
-      this.public_key = public_key;
       this.address = address;
+      this.public_key = public_key;
     }
   }
 
