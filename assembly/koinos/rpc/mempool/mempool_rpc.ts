@@ -191,7 +191,6 @@ export namespace mempool_rpc {
     }
   }
 
-  @unmanaged
   export class get_pending_transactions_request {
     static encode(
       message: get_pending_transactions_request,
@@ -200,6 +199,11 @@ export namespace mempool_rpc {
       if (message.limit != 0) {
         writer.uint32(8);
         writer.uint64(message.limit);
+      }
+
+      if (message.block_id.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.block_id);
       }
     }
 
@@ -217,6 +221,10 @@ export namespace mempool_rpc {
             message.limit = reader.uint64();
             break;
 
+          case 2:
+            message.block_id = reader.bytes();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -227,9 +235,11 @@ export namespace mempool_rpc {
     }
 
     limit: u64;
+    block_id: Uint8Array;
 
-    constructor(limit: u64 = 0) {
+    constructor(limit: u64 = 0, block_id: Uint8Array = new Uint8Array(0)) {
       this.limit = limit;
+      this.block_id = block_id;
     }
   }
 

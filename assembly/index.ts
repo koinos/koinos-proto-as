@@ -15,6 +15,7 @@ export { pow } from './koinos/contracts/pow/pow';
 export { pob } from './koinos/contracts/pob/pob';
 export { vhp } from './koinos/contracts/vhp/vhp';
 export { governance } from './koinos/contracts/governance/governance';
+export { mempool } from './koinos/mempool/mempool';
 export { protocol } from './koinos/protocol/protocol';
 export { block_store } from './koinos/block_store/block_store';
 export { authority } from './koinos/chain/authority';
