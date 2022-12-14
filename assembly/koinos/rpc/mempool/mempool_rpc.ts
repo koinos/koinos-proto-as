@@ -101,6 +101,11 @@ export namespace mempool_rpc {
         writer.uint32(24);
         writer.uint64(message.rc_limit);
       }
+
+      if (message.block_id.length != 0) {
+        writer.uint32(34);
+        writer.bytes(message.block_id);
+      }
     }
 
     static decode(
@@ -125,6 +130,10 @@ export namespace mempool_rpc {
             message.rc_limit = reader.uint64();
             break;
 
+          case 4:
+            message.block_id = reader.bytes();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -137,15 +146,18 @@ export namespace mempool_rpc {
     payer: Uint8Array;
     max_payer_rc: u64;
     rc_limit: u64;
+    block_id: Uint8Array;
 
     constructor(
       payer: Uint8Array = new Uint8Array(0),
       max_payer_rc: u64 = 0,
-      rc_limit: u64 = 0
+      rc_limit: u64 = 0,
+      block_id: Uint8Array = new Uint8Array(0)
     ) {
       this.payer = payer;
       this.max_payer_rc = max_payer_rc;
       this.rc_limit = rc_limit;
+      this.block_id = block_id;
     }
   }
 
