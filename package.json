@@ -1,7 +1,7 @@
 {
   "name": "@koinos/proto-as",
-  "version": "1.0.3",
-  "main": "assembly/index.ts",
+  "version": "1.0.4",
+  "main": "index.ts",
   "repository": "https://github.com/koinos/koinos-proto-as",
   "author": "Koinos Group <contact@koinos.group>",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "@koinos/as-proto-gen": "^0.4.3",
-    "@roaminroe/protoc": "^2.4.0"
+    "@roamin/protoc": "^2.4.0"
   },
   "dependencies": {
     "as-proto": "npm:@koinos/as-proto"

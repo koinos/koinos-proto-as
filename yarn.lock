@@ -14,20 +14,20 @@
     ts-poet "^4.9.0"
     typescript "^4.6.4"
 
-"@roaminroe/protoc@^2.4.0":
+"@roamin/protoc@^2.4.0":
   version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@roaminroe/protoc/-/protoc-2.4.0.tgz#9f50b727af5bdf7a06e20ae38a2f9c80ef24a2d0"
-  integrity sha512-M2H/EaGYyNd4Zcskyf8PrtpMi7q7ewT+A7fPu3kIB3pN0y/8mXIuGRvqp8pO7LsKSCkGA+coCGTYeFLx7dC2lg==
+  resolved "https://registry.yarnpkg.com/@roamin/protoc/-/protoc-2.4.0.tgz#7d2d84f23aaac365024b3a14705f5605826e859a"
+  integrity sha512-vMVLvZ42wyQ3sd+vHzNAMGE2OSsURZ/CeuW3rnc8ueeNWhS1dVf9Nk6tQNd4GIINAMkjsBrl1eqdsmiaxV1epA==
 
 "@types/node@^17.0.34":
   version "17.0.45"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.45.tgz#2c0fafd78705e7a18b7906b5201a522719dc5190"
   integrity sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==
 
-"as-proto@npm:@koinos/as-proto":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@koinos/as-proto/-/as-proto-0.2.4.tgz#3ed5977578c35608e95f3459fed73b4bc416f513"
-  integrity sha512-vJnN9qQ+zbBOmPj5BREtaKwH2vS2aPFiuV4j4xPbUaaPWRU0mpPWyhYeTAsC5oh1Lf4oTNQ+y5LeUrzT/Y5aZQ==
+"as-proto@npm:@roamin/as-proto":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@roamin/as-proto/-/as-proto-1.0.1.tgz#9d0d38b4e5ae172ad218b9bc421fa87336e596b2"
+  integrity sha512-VFQ1jVB1HIFj1Vj9khbUp7ggi0LfeQYNckmwGnjrtzIUyloJylN0CIOFY8wlAoOvOmJFbw+VcL6Te3sacubYkw==
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -65,9 +65,9 @@ glob@^7.1.3:
     path-is-absolute "^1.0.0"
 
 google-protobuf@^3.19.2:
-  version "3.20.1"
-  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.20.1.tgz#1b255c2b59bcda7c399df46c65206aa3c7a0ce8b"
-  integrity sha512-XMf1+O32FjYIV3CYu6Tuh5PNbfNEU5Xu22X+Xkdb/DUexFlCzhvv7d5Iirm4AOwn8lv4al1YvIhzGrg2j9Zfzw==
+  version "3.21.2"
+  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.21.2.tgz#4580a2bea8bbb291ee579d1fefb14d6fa3070ea4"
+  integrity sha512-3MSOYFO5U9mPGikIYCzK0SaThypfGgS6bHqrUGXG3DPHCrb+txNqeEcns1W0lkGfk0rCyNXm7xB9rMxnCiZOoA==
 
 inflight@^1.0.4:
   version "1.0.6"
@@ -107,9 +107,9 @@ path-is-absolute@^1.0.0:
   integrity sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==
 
 prettier@^2.5.0, prettier@^2.5.1:
-  version "2.7.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.7.1.tgz#e235806850d057f97bb08368a4f7d899f7760c64"
-  integrity sha512-ujppO+MkdPqoVINuDFDRLClm7D78qbDt0/NR+wp5FqEZOoTNAjPHWj17QRhu7geIHJfcNhRk1XVQmF8Bp3ye+g==
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.1.tgz#4e1fd11c34e2421bc1da9aea9bd8127cd0a35efc"
+  integrity sha512-lqGoSJBQNJidqCHE80vqZJHWHRFoNYsSpP9AjFhlhi9ODCJA541svILes/+/1GM3VaL/abZi7cpFzOpdR9UPKg==
 
 rimraf@^3.0.2:
   version "3.0.2"
@@ -127,9 +127,9 @@ ts-poet@^4.9.0:
     prettier "^2.5.1"
 
 typescript@^4.6.4:
-  version "4.7.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.7.4.tgz#1a88596d1cf47d59507a1bcdfb5b9dfe4d488235"
-  integrity sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==
+  version "4.9.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.4.tgz#a2a3d2756c079abda241d75f149df9d561091e78"
+  integrity sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==
 
 wrappy@1:
   version "1.0.2"
