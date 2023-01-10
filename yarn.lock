@@ -24,10 +24,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.45.tgz#2c0fafd78705e7a18b7906b5201a522719dc5190"
   integrity sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==
 
-"as-proto@npm:@roamin/as-proto":
+"as-proto@npm:@koinos/as-proto":
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@roamin/as-proto/-/as-proto-1.0.1.tgz#9d0d38b4e5ae172ad218b9bc421fa87336e596b2"
-  integrity sha512-VFQ1jVB1HIFj1Vj9khbUp7ggi0LfeQYNckmwGnjrtzIUyloJylN0CIOFY8wlAoOvOmJFbw+VcL6Te3sacubYkw==
+  resolved "https://registry.yarnpkg.com/@koinos/as-proto/-/as-proto-1.0.1.tgz#ab0f1267ac389f988e0cc9823616332d0c5b8a0b"
+  integrity sha512-2igTvIO36eALA70xGTSPobLsaxGcGuXS/DfmnjskPVGwXkWKKa01QdWf7L45IRLmgZRuqFxLD7Doo0o/44vCDA==
 
 balanced-match@^1.0.0:
   version "1.0.2"
@@ -107,9 +107,9 @@ path-is-absolute@^1.0.0:
   integrity sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==
 
 prettier@^2.5.0, prettier@^2.5.1:
-  version "2.8.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.1.tgz#4e1fd11c34e2421bc1da9aea9bd8127cd0a35efc"
-  integrity sha512-lqGoSJBQNJidqCHE80vqZJHWHRFoNYsSpP9AjFhlhi9ODCJA541svILes/+/1GM3VaL/abZi7cpFzOpdR9UPKg==
+  version "2.8.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.2.tgz#c4ea1b5b454d7c4b59966db2e06ed7eec5dfd160"
+  integrity sha512-BtRV9BcncDyI2tsuS19zzhzoxD8Dh8LiCx7j7tHzrkz8GFXAexeWFdi22mjE1d16dftH2qNaytVxqiRTGlMfpw==
 
 rimraf@^3.0.2:
   version "3.0.2"
