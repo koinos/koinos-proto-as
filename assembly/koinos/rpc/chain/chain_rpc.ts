@@ -749,6 +749,102 @@ export namespace chain_rpc {
     }
   }
 
+  export class invoke_system_call_request {
+    static encode(message: invoke_system_call_request, writer: Writer): void {
+      if (message.id != 0) {
+        writer.uint32(8);
+        writer.int64(message.id);
+      }
+
+      if (message.name.length != 0) {
+        writer.uint32(18);
+        writer.string(message.name);
+      }
+
+      if (message.args.length != 0) {
+        writer.uint32(26);
+        writer.bytes(message.args);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): invoke_system_call_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new invoke_system_call_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.id = reader.int64();
+            break;
+
+          case 2:
+            message.name = reader.string();
+            break;
+
+          case 3:
+            message.args = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    id: i64;
+    name: string;
+    args: Uint8Array;
+
+    constructor(
+      id: i64 = 0,
+      name: string = "",
+      args: Uint8Array = new Uint8Array(0)
+    ) {
+      this.id = id;
+      this.name = name;
+      this.args = args;
+    }
+  }
+
+  export class invoke_system_call_response {
+    static encode(message: invoke_system_call_response, writer: Writer): void {
+      if (message.value.length != 0) {
+        writer.uint32(10);
+        writer.bytes(message.value);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): invoke_system_call_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new invoke_system_call_response();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.value = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    value: Uint8Array;
+
+    constructor(value: Uint8Array = new Uint8Array(0)) {
+      this.value = value;
+    }
+  }
+
   export class chain_request {
     static encode(message: chain_request, writer: Writer): void {
       const unique_name_reserved = message.reserved;
@@ -836,6 +932,17 @@ export namespace chain_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_invoke_system_call = message.invoke_system_call;
+      if (unique_name_invoke_system_call !== null) {
+        writer.uint32(90);
+        writer.fork();
+        invoke_system_call_request.encode(
+          unique_name_invoke_system_call,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): chain_request {
@@ -912,6 +1019,13 @@ export namespace chain_rpc {
             );
             break;
 
+          case 11:
+            message.invoke_system_call = invoke_system_call_request.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -931,6 +1045,7 @@ export namespace chain_rpc {
     get_account_nonce: get_account_nonce_request | null;
     get_account_rc: get_account_rc_request | null;
     get_resource_limits: get_resource_limits_request | null;
+    invoke_system_call: invoke_system_call_request | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
@@ -942,7 +1057,8 @@ export namespace chain_rpc {
       read_contract: read_contract_request | null = null,
       get_account_nonce: get_account_nonce_request | null = null,
       get_account_rc: get_account_rc_request | null = null,
-      get_resource_limits: get_resource_limits_request | null = null
+      get_resource_limits: get_resource_limits_request | null = null,
+      invoke_system_call: invoke_system_call_request | null = null
     ) {
       this.reserved = reserved;
       this.submit_block = submit_block;
@@ -954,6 +1070,7 @@ export namespace chain_rpc {
       this.get_account_nonce = get_account_nonce;
       this.get_account_rc = get_account_rc;
       this.get_resource_limits = get_resource_limits;
+      this.invoke_system_call = invoke_system_call;
     }
   }
 
@@ -1055,6 +1172,17 @@ export namespace chain_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_invoke_system_call = message.invoke_system_call;
+      if (unique_name_invoke_system_call !== null) {
+        writer.uint32(98);
+        writer.fork();
+        invoke_system_call_response.encode(
+          unique_name_invoke_system_call,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): chain_response {
@@ -1135,6 +1263,13 @@ export namespace chain_rpc {
             );
             break;
 
+          case 12:
+            message.invoke_system_call = invoke_system_call_response.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1155,6 +1290,7 @@ export namespace chain_rpc {
     get_account_nonce: get_account_nonce_response | null;
     get_account_rc: get_account_rc_response | null;
     get_resource_limits: get_resource_limits_response | null;
+    invoke_system_call: invoke_system_call_response | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
@@ -1167,7 +1303,8 @@ export namespace chain_rpc {
       read_contract: read_contract_response | null = null,
       get_account_nonce: get_account_nonce_response | null = null,
       get_account_rc: get_account_rc_response | null = null,
-      get_resource_limits: get_resource_limits_response | null = null
+      get_resource_limits: get_resource_limits_response | null = null,
+      invoke_system_call: invoke_system_call_response | null = null
     ) {
       this.reserved = reserved;
       this.error = error;
@@ -1180,6 +1317,7 @@ export namespace chain_rpc {
       this.get_account_nonce = get_account_nonce;
       this.get_account_rc = get_account_rc;
       this.get_resource_limits = get_resource_limits;
+      this.invoke_system_call = invoke_system_call;
     }
   }
 }
