@@ -1,6 +1,67 @@
 import { Writer, Reader } from "as-proto";
 
 export namespace protocol {
+  export class object_space {
+    static encode(message: object_space, writer: Writer): void {
+      if (message.system != false) {
+        writer.uint32(8);
+        writer.bool(message.system);
+      }
+
+      if (message.zone.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.zone);
+      }
+
+      if (message.id != 0) {
+        writer.uint32(24);
+        writer.uint32(message.id);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): object_space {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new object_space();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.system = reader.bool();
+            break;
+
+          case 2:
+            message.zone = reader.bytes();
+            break;
+
+          case 3:
+            message.id = reader.uint32();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    system: bool;
+    zone: Uint8Array;
+    id: u32;
+
+    constructor(
+      system: bool = false,
+      zone: Uint8Array = new Uint8Array(0),
+      id: u32 = 0
+    ) {
+      this.system = system;
+      this.zone = zone;
+      this.id = id;
+    }
+  }
+
   export class event_data {
     static encode(message: event_data, writer: Writer): void {
       if (message.sequence != 0) {
@@ -794,6 +855,14 @@ export namespace protocol {
           writer.string(unique_name_logs[i]);
         }
       }
+
+      const unique_name_state_delta_entries = message.state_delta_entries;
+      for (let i = 0; i < unique_name_state_delta_entries.length; ++i) {
+        writer.uint32(98);
+        writer.fork();
+        state_delta_entry.encode(unique_name_state_delta_entries[i], writer);
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): transaction_receipt {
@@ -847,6 +916,12 @@ export namespace protocol {
             message.logs.push(reader.string());
             break;
 
+          case 12:
+            message.state_delta_entries.push(
+              state_delta_entry.decode(reader, reader.uint32())
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -867,6 +942,7 @@ export namespace protocol {
     reverted: bool;
     events: Array<event_data>;
     logs: Array<string>;
+    state_delta_entries: Array<state_delta_entry>;
 
     constructor(
       id: Uint8Array = new Uint8Array(0),
@@ -879,7 +955,8 @@ export namespace protocol {
       compute_bandwidth_used: u64 = 0,
       reverted: bool = false,
       events: Array<event_data> = [],
-      logs: Array<string> = []
+      logs: Array<string> = [],
+      state_delta_entries: Array<state_delta_entry> = []
     ) {
       this.id = id;
       this.payer = payer;
@@ -892,6 +969,7 @@ export namespace protocol {
       this.reverted = reverted;
       this.events = events;
       this.logs = logs;
+      this.state_delta_entries = state_delta_entries;
     }
   }
 
@@ -1158,6 +1236,14 @@ export namespace protocol {
         writer.uint32(96);
         writer.uint64(message.compute_bandwidth_charged);
       }
+
+      const unique_name_state_delta_entries = message.state_delta_entries;
+      for (let i = 0; i < unique_name_state_delta_entries.length; ++i) {
+        writer.uint32(106);
+        writer.fork();
+        state_delta_entry.encode(unique_name_state_delta_entries[i], writer);
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): block_receipt {
@@ -1217,6 +1303,12 @@ export namespace protocol {
             message.compute_bandwidth_charged = reader.uint64();
             break;
 
+          case 13:
+            message.state_delta_entries.push(
+              state_delta_entry.decode(reader, reader.uint32())
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1238,6 +1330,7 @@ export namespace protocol {
     disk_storage_charged: u64;
     network_bandwidth_charged: u64;
     compute_bandwidth_charged: u64;
+    state_delta_entries: Array<state_delta_entry>;
 
     constructor(
       id: Uint8Array = new Uint8Array(0),
@@ -1251,7 +1344,8 @@ export namespace protocol {
       logs: Array<string> = [],
       disk_storage_charged: u64 = 0,
       network_bandwidth_charged: u64 = 0,
-      compute_bandwidth_charged: u64 = 0
+      compute_bandwidth_charged: u64 = 0,
+      state_delta_entries: Array<state_delta_entry> = []
     ) {
       this.id = id;
       this.height = height;
@@ -1265,6 +1359,71 @@ export namespace protocol {
       this.disk_storage_charged = disk_storage_charged;
       this.network_bandwidth_charged = network_bandwidth_charged;
       this.compute_bandwidth_charged = compute_bandwidth_charged;
+      this.state_delta_entries = state_delta_entries;
+    }
+  }
+
+  export class state_delta_entry {
+    static encode(message: state_delta_entry, writer: Writer): void {
+      const unique_name_object_space = message.object_space;
+      if (unique_name_object_space !== null) {
+        writer.uint32(10);
+        writer.fork();
+        object_space.encode(unique_name_object_space, writer);
+        writer.ldelim();
+      }
+
+      if (message.key.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.key);
+      }
+
+      if (message.value.length != 0) {
+        writer.uint32(26);
+        writer.bytes(message.value);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): state_delta_entry {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new state_delta_entry();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.object_space = object_space.decode(reader, reader.uint32());
+            break;
+
+          case 2:
+            message.key = reader.bytes();
+            break;
+
+          case 3:
+            message.value = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    object_space: object_space | null;
+    key: Uint8Array;
+    value: Uint8Array;
+
+    constructor(
+      object_space: object_space | null = null,
+      key: Uint8Array = new Uint8Array(0),
+      value: Uint8Array = new Uint8Array(0)
+    ) {
+      this.object_space = object_space;
+      this.key = key;
+      this.value = value;
     }
   }
 }
