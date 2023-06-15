@@ -1675,14 +1675,11 @@ export namespace system_calls {
 
   export class get_contract_metadata_result {
     static encode(message: get_contract_metadata_result, writer: Writer): void {
-      const unique_name_contract_metadata = message.contract_metadata;
-      if (unique_name_contract_metadata !== null) {
+      const unique_name_value = message.value;
+      if (unique_name_value !== null) {
         writer.uint32(10);
         writer.fork();
-        chain.contract_metadata_object.encode(
-          unique_name_contract_metadata,
-          writer
-        );
+        chain.contract_metadata_object.encode(unique_name_value, writer);
         writer.ldelim();
       }
     }
@@ -1695,7 +1692,7 @@ export namespace system_calls {
         const tag = reader.uint32();
         switch (tag >>> 3) {
           case 1:
-            message.contract_metadata = chain.contract_metadata_object.decode(
+            message.value = chain.contract_metadata_object.decode(
               reader,
               reader.uint32()
             );
@@ -1710,12 +1707,10 @@ export namespace system_calls {
       return message;
     }
 
-    contract_metadata: chain.contract_metadata_object | null;
+    value: chain.contract_metadata_object | null;
 
-    constructor(
-      contract_metadata: chain.contract_metadata_object | null = null
-    ) {
-      this.contract_metadata = contract_metadata;
+    constructor(value: chain.contract_metadata_object | null = null) {
+      this.value = value;
     }
   }
 
