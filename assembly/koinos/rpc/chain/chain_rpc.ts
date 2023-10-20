@@ -765,6 +765,14 @@ export namespace chain_rpc {
         writer.uint32(26);
         writer.bytes(message.args);
       }
+
+      const unique_name_caller_data = message.caller_data;
+      if (unique_name_caller_data !== null) {
+        writer.uint32(34);
+        writer.fork();
+        chain.caller_data.encode(unique_name_caller_data, writer);
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): invoke_system_call_request {
@@ -786,6 +794,13 @@ export namespace chain_rpc {
             message.args = reader.bytes();
             break;
 
+          case 4:
+            message.caller_data = chain.caller_data.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -798,15 +813,18 @@ export namespace chain_rpc {
     id: i64;
     name: string;
     args: Uint8Array;
+    caller_data: chain.caller_data | null;
 
     constructor(
       id: i64 = 0,
       name: string = "",
-      args: Uint8Array = new Uint8Array(0)
+      args: Uint8Array = new Uint8Array(0),
+      caller_data: chain.caller_data | null = null
     ) {
       this.id = id;
       this.name = name;
       this.args = args;
+      this.caller_data = caller_data;
     }
   }
 
