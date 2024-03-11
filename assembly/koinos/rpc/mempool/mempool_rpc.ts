@@ -301,6 +301,103 @@ export namespace mempool_rpc {
     }
   }
 
+  export class check_account_nonce_request {
+    static encode(message: check_account_nonce_request, writer: Writer): void {
+      if (message.payee.length != 0) {
+        writer.uint32(10);
+        writer.bytes(message.payee);
+      }
+
+      if (message.nonce.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.nonce);
+      }
+
+      if (message.block_id.length != 0) {
+        writer.uint32(26);
+        writer.bytes(message.block_id);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): check_account_nonce_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new check_account_nonce_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.payee = reader.bytes();
+            break;
+
+          case 2:
+            message.nonce = reader.bytes();
+            break;
+
+          case 3:
+            message.block_id = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    payee: Uint8Array;
+    nonce: Uint8Array;
+    block_id: Uint8Array;
+
+    constructor(
+      payee: Uint8Array = new Uint8Array(0),
+      nonce: Uint8Array = new Uint8Array(0),
+      block_id: Uint8Array = new Uint8Array(0)
+    ) {
+      this.payee = payee;
+      this.nonce = nonce;
+      this.block_id = block_id;
+    }
+  }
+
+  @unmanaged
+  export class check_account_nonce_response {
+    static encode(message: check_account_nonce_response, writer: Writer): void {
+      if (message.success != false) {
+        writer.uint32(8);
+        writer.bool(message.success);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): check_account_nonce_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new check_account_nonce_response();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.success = reader.bool();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    success: bool;
+
+    constructor(success: bool = false) {
+      this.success = success;
+    }
+  }
+
   export class mempool_request {
     static encode(message: mempool_request, writer: Writer): void {
       const unique_name_reserved = message.reserved;
@@ -334,6 +431,17 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_check_account_nonce = message.check_account_nonce;
+      if (unique_name_check_account_nonce !== null) {
+        writer.uint32(34);
+        writer.fork();
+        check_account_nonce_request.encode(
+          unique_name_check_account_nonce,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_request {
@@ -360,6 +468,13 @@ export namespace mempool_rpc {
               get_pending_transactions_request.decode(reader, reader.uint32());
             break;
 
+          case 4:
+            message.check_account_nonce = check_account_nonce_request.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -372,15 +487,18 @@ export namespace mempool_rpc {
     reserved: rpc.reserved_rpc | null;
     check_pending_account_resources: check_pending_account_resources_request | null;
     get_pending_transactions: get_pending_transactions_request | null;
+    check_account_nonce: check_account_nonce_request | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
       check_pending_account_resources: check_pending_account_resources_request | null = null,
-      get_pending_transactions: get_pending_transactions_request | null = null
+      get_pending_transactions: get_pending_transactions_request | null = null,
+      check_account_nonce: check_account_nonce_request | null = null
     ) {
       this.reserved = reserved;
       this.check_pending_account_resources = check_pending_account_resources;
       this.get_pending_transactions = get_pending_transactions;
+      this.check_account_nonce = check_account_nonce;
     }
   }
 
@@ -425,6 +543,17 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_check_account_nonce = message.check_account_nonce;
+      if (unique_name_check_account_nonce !== null) {
+        writer.uint32(42);
+        writer.fork();
+        check_account_nonce_response.encode(
+          unique_name_check_account_nonce,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_response {
@@ -455,6 +584,13 @@ export namespace mempool_rpc {
               get_pending_transactions_response.decode(reader, reader.uint32());
             break;
 
+          case 5:
+            message.check_account_nonce = check_account_nonce_response.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -468,17 +604,20 @@ export namespace mempool_rpc {
     error: rpc.error_response | null;
     check_pending_account_resources: check_pending_account_resources_response | null;
     get_pending_transactions: get_pending_transactions_response | null;
+    check_account_nonce: check_account_nonce_response | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
       error: rpc.error_response | null = null,
       check_pending_account_resources: check_pending_account_resources_response | null = null,
-      get_pending_transactions: get_pending_transactions_response | null = null
+      get_pending_transactions: get_pending_transactions_response | null = null,
+      check_account_nonce: check_account_nonce_response | null = null
     ) {
       this.reserved = reserved;
       this.error = error;
       this.check_pending_account_resources = check_pending_account_resources;
       this.get_pending_transactions = get_pending_transactions;
+      this.check_account_nonce = check_account_nonce;
     }
   }
 }
