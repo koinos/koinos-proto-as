@@ -1,6 +1,6 @@
 {
   "name": "@koinos/proto-as",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "main": "assembly/index.ts",
   "repository": "https://github.com/koinos/koinos-proto-as",
   "author": "Koinos Group <contact@koinos.group>",
