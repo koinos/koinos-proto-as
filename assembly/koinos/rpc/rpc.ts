@@ -37,11 +37,6 @@ export namespace rpc {
         writer.string(message.data);
       }
 
-      if (message.code != 0) {
-        writer.uint32(24);
-        writer.int32(message.code);
-      }
-
       const unique_name_details = message.details;
       for (let i = 0; i < unique_name_details.length; ++i) {
         writer.uint32(82);
@@ -66,10 +61,6 @@ export namespace rpc {
             message.data = reader.string();
             break;
 
-          case 3:
-            message.code = reader.int32();
-            break;
-
           case 10:
             message.details.push(any.Any.decode(reader, reader.uint32()));
             break;
@@ -85,18 +76,15 @@ export namespace rpc {
 
     message: string;
     data: string;
-    code: i32;
     details: Array<any.Any>;
 
     constructor(
       message: string = "",
       data: string = "",
-      code: i32 = 0,
       details: Array<any.Any> = []
     ) {
       this.message = message;
       this.data = data;
-      this.code = code;
       this.details = details;
     }
   }

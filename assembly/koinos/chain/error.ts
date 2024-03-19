@@ -1,4 +1,42 @@
+import { Writer, Reader } from "as-proto";
+
 export namespace error {
+  @unmanaged
+  export class chain_error_details {
+    static encode(message: chain_error_details, writer: Writer): void {
+      if (message.code != 0) {
+        writer.uint32(8);
+        writer.int32(message.code);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): chain_error_details {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new chain_error_details();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.code = reader.int32();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    code: i32;
+
+    constructor(code: i32 = 0) {
+      this.code = code;
+    }
+  }
+
   export enum error_code {
     success = 0,
     reversion = 1,
