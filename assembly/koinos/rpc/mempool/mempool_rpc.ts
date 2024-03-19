@@ -398,151 +398,6 @@ export namespace mempool_rpc {
     }
   }
 
-  export class check_transaction_eligibility_request {
-    static encode(
-      message: check_transaction_eligibility_request,
-      writer: Writer
-    ): void {
-      if (message.payer.length != 0) {
-        writer.uint32(10);
-        writer.bytes(message.payer);
-      }
-
-      if (message.payee.length != 0) {
-        writer.uint32(18);
-        writer.bytes(message.payee);
-      }
-
-      if (message.nonce.length != 0) {
-        writer.uint32(26);
-        writer.bytes(message.nonce);
-      }
-
-      if (message.max_payer_rc != 0) {
-        writer.uint32(32);
-        writer.uint64(message.max_payer_rc);
-      }
-
-      if (message.rc_limit != 0) {
-        writer.uint32(40);
-        writer.uint64(message.rc_limit);
-      }
-
-      if (message.block_id.length != 0) {
-        writer.uint32(8002);
-        writer.bytes(message.block_id);
-      }
-    }
-
-    static decode(
-      reader: Reader,
-      length: i32
-    ): check_transaction_eligibility_request {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new check_transaction_eligibility_request();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1:
-            message.payer = reader.bytes();
-            break;
-
-          case 2:
-            message.payee = reader.bytes();
-            break;
-
-          case 3:
-            message.nonce = reader.bytes();
-            break;
-
-          case 4:
-            message.max_payer_rc = reader.uint64();
-            break;
-
-          case 5:
-            message.rc_limit = reader.uint64();
-            break;
-
-          case 1000:
-            message.block_id = reader.bytes();
-            break;
-
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    payer: Uint8Array;
-    payee: Uint8Array;
-    nonce: Uint8Array;
-    max_payer_rc: u64;
-    rc_limit: u64;
-    block_id: Uint8Array;
-
-    constructor(
-      payer: Uint8Array = new Uint8Array(0),
-      payee: Uint8Array = new Uint8Array(0),
-      nonce: Uint8Array = new Uint8Array(0),
-      max_payer_rc: u64 = 0,
-      rc_limit: u64 = 0,
-      block_id: Uint8Array = new Uint8Array(0)
-    ) {
-      this.payer = payer;
-      this.payee = payee;
-      this.nonce = nonce;
-      this.max_payer_rc = max_payer_rc;
-      this.rc_limit = rc_limit;
-      this.block_id = block_id;
-    }
-  }
-
-  @unmanaged
-  export class check_transaction_eligibility_response {
-    static encode(
-      message: check_transaction_eligibility_response,
-      writer: Writer
-    ): void {
-      if (message.success != false) {
-        writer.uint32(8);
-        writer.bool(message.success);
-      }
-    }
-
-    static decode(
-      reader: Reader,
-      length: i32
-    ): check_transaction_eligibility_response {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new check_transaction_eligibility_response();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1:
-            message.success = reader.bool();
-            break;
-
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    success: bool;
-
-    constructor(success: bool = false) {
-      this.success = success;
-    }
-  }
-
   export class mempool_request {
     static encode(message: mempool_request, writer: Writer): void {
       const unique_name_reserved = message.reserved;
@@ -587,18 +442,6 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
-
-      const unique_name_check_transaction_eligibility =
-        message.check_transaction_eligibility;
-      if (unique_name_check_transaction_eligibility !== null) {
-        writer.uint32(42);
-        writer.fork();
-        check_transaction_eligibility_request.encode(
-          unique_name_check_transaction_eligibility,
-          writer
-        );
-        writer.ldelim();
-      }
     }
 
     static decode(reader: Reader, length: i32): mempool_request {
@@ -632,14 +475,6 @@ export namespace mempool_rpc {
             );
             break;
 
-          case 5:
-            message.check_transaction_eligibility =
-              check_transaction_eligibility_request.decode(
-                reader,
-                reader.uint32()
-              );
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -653,20 +488,17 @@ export namespace mempool_rpc {
     check_pending_account_resources: check_pending_account_resources_request | null;
     get_pending_transactions: get_pending_transactions_request | null;
     check_account_nonce: check_account_nonce_request | null;
-    check_transaction_eligibility: check_transaction_eligibility_request | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
       check_pending_account_resources: check_pending_account_resources_request | null = null,
       get_pending_transactions: get_pending_transactions_request | null = null,
-      check_account_nonce: check_account_nonce_request | null = null,
-      check_transaction_eligibility: check_transaction_eligibility_request | null = null
+      check_account_nonce: check_account_nonce_request | null = null
     ) {
       this.reserved = reserved;
       this.check_pending_account_resources = check_pending_account_resources;
       this.get_pending_transactions = get_pending_transactions;
       this.check_account_nonce = check_account_nonce;
-      this.check_transaction_eligibility = check_transaction_eligibility;
     }
   }
 
@@ -722,18 +554,6 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
-
-      const unique_name_check_transaction_eligibility =
-        message.check_transaction_eligibility;
-      if (unique_name_check_transaction_eligibility !== null) {
-        writer.uint32(50);
-        writer.fork();
-        check_transaction_eligibility_response.encode(
-          unique_name_check_transaction_eligibility,
-          writer
-        );
-        writer.ldelim();
-      }
     }
 
     static decode(reader: Reader, length: i32): mempool_response {
@@ -771,14 +591,6 @@ export namespace mempool_rpc {
             );
             break;
 
-          case 6:
-            message.check_transaction_eligibility =
-              check_transaction_eligibility_response.decode(
-                reader,
-                reader.uint32()
-              );
-            break;
-
           default:
             reader.skipType(tag & 7);
             break;
@@ -793,22 +605,19 @@ export namespace mempool_rpc {
     check_pending_account_resources: check_pending_account_resources_response | null;
     get_pending_transactions: get_pending_transactions_response | null;
     check_account_nonce: check_account_nonce_response | null;
-    check_transaction_eligibility: check_transaction_eligibility_response | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
       error: rpc.error_status | null = null,
       check_pending_account_resources: check_pending_account_resources_response | null = null,
       get_pending_transactions: get_pending_transactions_response | null = null,
-      check_account_nonce: check_account_nonce_response | null = null,
-      check_transaction_eligibility: check_transaction_eligibility_response | null = null
+      check_account_nonce: check_account_nonce_response | null = null
     ) {
       this.reserved = reserved;
       this.error = error;
       this.check_pending_account_resources = check_pending_account_resources;
       this.get_pending_transactions = get_pending_transactions;
       this.check_account_nonce = check_account_nonce;
-      this.check_transaction_eligibility = check_transaction_eligibility;
     }
   }
 }
