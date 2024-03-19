@@ -151,7 +151,7 @@ export namespace contract_meta_store_rpc {
       if (unique_name_error !== null) {
         writer.uint32(18);
         writer.fork();
-        rpc.error_response.encode(unique_name_error, writer);
+        rpc.error_status.encode(unique_name_error, writer);
         writer.ldelim();
       }
 
@@ -179,7 +179,7 @@ export namespace contract_meta_store_rpc {
             break;
 
           case 2:
-            message.error = rpc.error_response.decode(reader, reader.uint32());
+            message.error = rpc.error_status.decode(reader, reader.uint32());
             break;
 
           case 3:
@@ -199,12 +199,12 @@ export namespace contract_meta_store_rpc {
     }
 
     reserved: rpc.reserved_rpc | null;
-    error: rpc.error_response | null;
+    error: rpc.error_status | null;
     get_contract_meta: get_contract_meta_response | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
-      error: rpc.error_response | null = null,
+      error: rpc.error_status | null = null,
       get_contract_meta: get_contract_meta_response | null = null
     ) {
       this.reserved = reserved;

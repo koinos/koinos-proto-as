@@ -1106,7 +1106,7 @@ export namespace chain_rpc {
       if (unique_name_error !== null) {
         writer.uint32(18);
         writer.fork();
-        rpc.error_response.encode(unique_name_error, writer);
+        rpc.error_status.encode(unique_name_error, writer);
         writer.ldelim();
       }
 
@@ -1215,7 +1215,7 @@ export namespace chain_rpc {
             break;
 
           case 2:
-            message.error = rpc.error_response.decode(reader, reader.uint32());
+            message.error = rpc.error_status.decode(reader, reader.uint32());
             break;
 
           case 3:
@@ -1298,7 +1298,7 @@ export namespace chain_rpc {
     }
 
     reserved: rpc.reserved_rpc | null;
-    error: rpc.error_response | null;
+    error: rpc.error_status | null;
     submit_block: submit_block_response | null;
     submit_transaction: submit_transaction_response | null;
     get_head_info: get_head_info_response | null;
@@ -1312,7 +1312,7 @@ export namespace chain_rpc {
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
-      error: rpc.error_response | null = null,
+      error: rpc.error_status | null = null,
       submit_block: submit_block_response | null = null,
       submit_transaction: submit_transaction_response | null = null,
       get_head_info: get_head_info_response | null = null,
