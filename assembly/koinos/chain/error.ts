@@ -2,17 +2,17 @@ import { Writer, Reader } from "as-proto";
 
 export namespace error {
   @unmanaged
-  export class chain_error_details {
-    static encode(message: chain_error_details, writer: Writer): void {
+  export class error_details {
+    static encode(message: error_details, writer: Writer): void {
       if (message.code != 0) {
         writer.uint32(8);
         writer.int32(message.code);
       }
     }
 
-    static decode(reader: Reader, length: i32): chain_error_details {
+    static decode(reader: Reader, length: i32): error_details {
       const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new chain_error_details();
+      const message = new error_details();
 
       while (reader.ptr < end) {
         const tag = reader.uint32();
