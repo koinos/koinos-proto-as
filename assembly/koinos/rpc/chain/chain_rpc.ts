@@ -863,6 +863,107 @@ export namespace chain_rpc {
     }
   }
 
+  export class propose_block_request {
+    static encode(message: propose_block_request, writer: Writer): void {
+      const unique_name_block = message.block;
+      if (unique_name_block !== null) {
+        writer.uint32(10);
+        writer.fork();
+        protocol.block.encode(unique_name_block, writer);
+        writer.ldelim();
+      }
+    }
+
+    static decode(reader: Reader, length: i32): propose_block_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new propose_block_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.block = protocol.block.decode(reader, reader.uint32());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    block: protocol.block | null;
+
+    constructor(block: protocol.block | null = null) {
+      this.block = block;
+    }
+  }
+
+  export class propose_block_response {
+    static encode(message: propose_block_response, writer: Writer): void {
+      const unique_name_receipt = message.receipt;
+      if (unique_name_receipt !== null) {
+        writer.uint32(10);
+        writer.fork();
+        protocol.block_receipt.encode(unique_name_receipt, writer);
+        writer.ldelim();
+      }
+
+      const unique_name_failed_transaction_indices =
+        message.failed_transaction_indices;
+      if (unique_name_failed_transaction_indices.length !== 0) {
+        for (
+          let i = 0;
+          i < unique_name_failed_transaction_indices.length;
+          ++i
+        ) {
+          writer.uint32(16);
+          writer.uint32(unique_name_failed_transaction_indices[i]);
+        }
+      }
+    }
+
+    static decode(reader: Reader, length: i32): propose_block_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new propose_block_response();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.receipt = protocol.block_receipt.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
+          case 2:
+            message.failed_transaction_indices.push(reader.uint32());
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    receipt: protocol.block_receipt | null;
+    failed_transaction_indices: Array<u32>;
+
+    constructor(
+      receipt: protocol.block_receipt | null = null,
+      failed_transaction_indices: Array<u32> = []
+    ) {
+      this.receipt = receipt;
+      this.failed_transaction_indices = failed_transaction_indices;
+    }
+  }
+
   export class chain_request {
     static encode(message: chain_request, writer: Writer): void {
       const unique_name_reserved = message.reserved;
@@ -961,6 +1062,14 @@ export namespace chain_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_propose_block = message.propose_block;
+      if (unique_name_propose_block !== null) {
+        writer.uint32(98);
+        writer.fork();
+        propose_block_request.encode(unique_name_propose_block, writer);
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): chain_request {
@@ -1044,6 +1153,13 @@ export namespace chain_rpc {
             );
             break;
 
+          case 12:
+            message.propose_block = propose_block_request.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1064,6 +1180,7 @@ export namespace chain_rpc {
     get_account_rc: get_account_rc_request | null;
     get_resource_limits: get_resource_limits_request | null;
     invoke_system_call: invoke_system_call_request | null;
+    propose_block: propose_block_request | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
@@ -1076,7 +1193,8 @@ export namespace chain_rpc {
       get_account_nonce: get_account_nonce_request | null = null,
       get_account_rc: get_account_rc_request | null = null,
       get_resource_limits: get_resource_limits_request | null = null,
-      invoke_system_call: invoke_system_call_request | null = null
+      invoke_system_call: invoke_system_call_request | null = null,
+      propose_block: propose_block_request | null = null
     ) {
       this.reserved = reserved;
       this.submit_block = submit_block;
@@ -1089,6 +1207,7 @@ export namespace chain_rpc {
       this.get_account_rc = get_account_rc;
       this.get_resource_limits = get_resource_limits;
       this.invoke_system_call = invoke_system_call;
+      this.propose_block = propose_block;
     }
   }
 
@@ -1201,6 +1320,14 @@ export namespace chain_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_propose_block = message.propose_block;
+      if (unique_name_propose_block !== null) {
+        writer.uint32(106);
+        writer.fork();
+        propose_block_response.encode(unique_name_propose_block, writer);
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): chain_response {
@@ -1288,6 +1415,13 @@ export namespace chain_rpc {
             );
             break;
 
+          case 13:
+            message.propose_block = propose_block_response.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1309,6 +1443,7 @@ export namespace chain_rpc {
     get_account_rc: get_account_rc_response | null;
     get_resource_limits: get_resource_limits_response | null;
     invoke_system_call: invoke_system_call_response | null;
+    propose_block: propose_block_response | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
@@ -1322,7 +1457,8 @@ export namespace chain_rpc {
       get_account_nonce: get_account_nonce_response | null = null,
       get_account_rc: get_account_rc_response | null = null,
       get_resource_limits: get_resource_limits_response | null = null,
-      invoke_system_call: invoke_system_call_response | null = null
+      invoke_system_call: invoke_system_call_response | null = null,
+      propose_block: propose_block_response | null = null
     ) {
       this.reserved = reserved;
       this.error = error;
@@ -1336,6 +1472,7 @@ export namespace chain_rpc {
       this.get_account_rc = get_account_rc;
       this.get_resource_limits = get_resource_limits;
       this.invoke_system_call = invoke_system_call;
+      this.propose_block = propose_block;
     }
   }
 }
