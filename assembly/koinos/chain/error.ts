@@ -1,12 +1,19 @@
 import { Writer, Reader } from "as-proto";
 
 export namespace error {
-  @unmanaged
   export class error_details {
     static encode(message: error_details, writer: Writer): void {
       if (message.code != 0) {
         writer.uint32(8);
         writer.int32(message.code);
+      }
+
+      const unique_name_logs = message.logs;
+      if (unique_name_logs.length !== 0) {
+        for (let i = 0; i < unique_name_logs.length; ++i) {
+          writer.uint32(18);
+          writer.string(unique_name_logs[i]);
+        }
       }
     }
 
@@ -21,6 +28,10 @@ export namespace error {
             message.code = reader.int32();
             break;
 
+          case 2:
+            message.logs.push(reader.string());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -31,9 +42,11 @@ export namespace error {
     }
 
     code: i32;
+    logs: Array<string>;
 
-    constructor(code: i32 = 0) {
+    constructor(code: i32 = 0, logs: Array<string> = []) {
       this.code = code;
+      this.logs = logs;
     }
   }
 
