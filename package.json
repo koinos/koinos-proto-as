@@ -1,10 +1,12 @@
 {
   "name": "@koinos/proto-as",
-  "version": "1.3.0",
+  "version": "2.0.1",
   "main": "assembly/index.ts",
   "repository": "https://github.com/koinos/koinos-proto-as",
   "author": "Koinos Group <contact@koinos.group>",
-  "contributors": ["Roamin Ro"],
+  "contributors": [
+    "Roamin Ro"
+  ],
   "license": "MIT",
   "scripts": {
     "generateGoogleProtoFiles": "yarn protoc --plugin=protoc-gen-as=./node_modules/.bin/as-proto-gen --as_out=. ./google/protobuf/any.proto"
