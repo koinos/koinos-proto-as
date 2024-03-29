@@ -8,6 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: JS-DevTools/npm-publish@v3
-        strategy: upgrade
         with:
+          strategy: upgrade
           token: ${{ secrets.NPM_TOKEN }}
