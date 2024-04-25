@@ -398,6 +398,89 @@ export namespace mempool_rpc {
     }
   }
 
+  export class get_reserved_account_rc_request {
+    static encode(
+      message: get_reserved_account_rc_request,
+      writer: Writer
+    ): void {
+      if (message.account.length != 0) {
+        writer.uint32(10);
+        writer.bytes(message.account);
+      }
+    }
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): get_reserved_account_rc_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_reserved_account_rc_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.account = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    account: Uint8Array;
+
+    constructor(account: Uint8Array = new Uint8Array(0)) {
+      this.account = account;
+    }
+  }
+
+  @unmanaged
+  export class get_reserved_account_rc_response {
+    static encode(
+      message: get_reserved_account_rc_response,
+      writer: Writer
+    ): void {
+      if (message.rc != 0) {
+        writer.uint32(8);
+        writer.uint64(message.rc);
+      }
+    }
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): get_reserved_account_rc_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_reserved_account_rc_response();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.rc = reader.uint64();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    rc: u64;
+
+    constructor(rc: u64 = 0) {
+      this.rc = rc;
+    }
+  }
+
   export class mempool_request {
     static encode(message: mempool_request, writer: Writer): void {
       const unique_name_reserved = message.reserved;
@@ -442,6 +525,18 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_get_reserved_account_rc =
+        message.get_reserved_account_rc;
+      if (unique_name_get_reserved_account_rc !== null) {
+        writer.uint32(42);
+        writer.fork();
+        get_reserved_account_rc_request.encode(
+          unique_name_get_reserved_account_rc,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_request {
@@ -475,6 +570,11 @@ export namespace mempool_rpc {
             );
             break;
 
+          case 5:
+            message.get_reserved_account_rc =
+              get_reserved_account_rc_request.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -488,17 +588,20 @@ export namespace mempool_rpc {
     check_pending_account_resources: check_pending_account_resources_request | null;
     get_pending_transactions: get_pending_transactions_request | null;
     check_account_nonce: check_account_nonce_request | null;
+    get_reserved_account_rc: get_reserved_account_rc_request | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
       check_pending_account_resources: check_pending_account_resources_request | null = null,
       get_pending_transactions: get_pending_transactions_request | null = null,
-      check_account_nonce: check_account_nonce_request | null = null
+      check_account_nonce: check_account_nonce_request | null = null,
+      get_reserved_account_rc: get_reserved_account_rc_request | null = null
     ) {
       this.reserved = reserved;
       this.check_pending_account_resources = check_pending_account_resources;
       this.get_pending_transactions = get_pending_transactions;
       this.check_account_nonce = check_account_nonce;
+      this.get_reserved_account_rc = get_reserved_account_rc;
     }
   }
 
@@ -554,6 +657,18 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_get_reserved_account_rc =
+        message.get_reserved_account_rc;
+      if (unique_name_get_reserved_account_rc !== null) {
+        writer.uint32(50);
+        writer.fork();
+        get_reserved_account_rc_response.encode(
+          unique_name_get_reserved_account_rc,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_response {
@@ -591,6 +706,11 @@ export namespace mempool_rpc {
             );
             break;
 
+          case 6:
+            message.get_reserved_account_rc =
+              get_reserved_account_rc_response.decode(reader, reader.uint32());
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -605,19 +725,22 @@ export namespace mempool_rpc {
     check_pending_account_resources: check_pending_account_resources_response | null;
     get_pending_transactions: get_pending_transactions_response | null;
     check_account_nonce: check_account_nonce_response | null;
+    get_reserved_account_rc: get_reserved_account_rc_response | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
       error: rpc.error_status | null = null,
       check_pending_account_resources: check_pending_account_resources_response | null = null,
       get_pending_transactions: get_pending_transactions_response | null = null,
-      check_account_nonce: check_account_nonce_response | null = null
+      check_account_nonce: check_account_nonce_response | null = null,
+      get_reserved_account_rc: get_reserved_account_rc_response | null = null
     ) {
       this.reserved = reserved;
       this.error = error;
       this.check_pending_account_resources = check_pending_account_resources;
       this.get_pending_transactions = get_pending_transactions;
       this.check_account_nonce = check_account_nonce;
+      this.get_reserved_account_rc = get_reserved_account_rc;
     }
   }
 }
