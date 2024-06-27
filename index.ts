@@ -33,6 +33,7 @@ export { koin } from './assembly/koinos/contracts/koin/koin';
 export { resources } from './assembly/koinos/contracts/resources/resources';
 export { vhp } from './assembly/koinos/contracts/vhp/vhp';
 export { token } from './assembly/koinos/contracts/token/token';
+export { kcs3 } from './assembly/koinos/standards/kcs3';
 export { kcs1 } from './assembly/koinos/standards/kcs1';
 export { options } from './assembly/koinos/options';
 export { broadcast } from './assembly/koinos/broadcast/broadcast';
