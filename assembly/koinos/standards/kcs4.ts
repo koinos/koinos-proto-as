@@ -1,6 +1,6 @@
 import { Writer, Reader } from "as-proto";
 
-export namespace kcs3 {
+export namespace kcs4 {
   @unmanaged
   export class name_arguments {
     static encode(message: name_arguments, writer: Writer): void {}
@@ -660,6 +660,11 @@ export namespace kcs3 {
         writer.uint32(24);
         writer.uint64(message.value);
       }
+
+      if (message.memo.length != 0) {
+        writer.uint32(34);
+        writer.string(message.memo);
+      }
     }
 
     static decode(reader: Reader, length: i32): transfer_arguments {
@@ -681,6 +686,10 @@ export namespace kcs3 {
             message.value = reader.uint64();
             break;
 
+          case 4:
+            message.memo = reader.string();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -693,15 +702,18 @@ export namespace kcs3 {
     from: Uint8Array;
     to: Uint8Array;
     value: u64;
+    memo: string;
 
     constructor(
       from: Uint8Array = new Uint8Array(0),
       to: Uint8Array = new Uint8Array(0),
-      value: u64 = 0
+      value: u64 = 0,
+      memo: string = ""
     ) {
       this.from = from;
       this.to = to;
       this.value = value;
+      this.memo = memo;
     }
   }
 
@@ -1058,6 +1070,11 @@ export namespace kcs3 {
         writer.uint32(24);
         writer.uint64(message.value);
       }
+
+      if (message.memo.length != 0) {
+        writer.uint32(34);
+        writer.string(message.memo);
+      }
     }
 
     static decode(reader: Reader, length: i32): transfer_event {
@@ -1079,6 +1096,10 @@ export namespace kcs3 {
             message.value = reader.uint64();
             break;
 
+          case 4:
+            message.memo = reader.string();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1091,15 +1112,18 @@ export namespace kcs3 {
     from: Uint8Array;
     to: Uint8Array;
     value: u64;
+    memo: string;
 
     constructor(
       from: Uint8Array = new Uint8Array(0),
       to: Uint8Array = new Uint8Array(0),
-      value: u64 = 0
+      value: u64 = 0,
+      memo: string = ""
     ) {
       this.from = from;
       this.to = to;
       this.value = value;
+      this.memo = memo;
     }
   }
 
