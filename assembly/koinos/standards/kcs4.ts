@@ -534,9 +534,9 @@ export namespace kcs4 {
         writer.int32(message.limit);
       }
 
-      if (message.direction != 0) {
+      if (message.descending != false) {
         writer.uint32(32);
-        writer.int32(message.direction);
+        writer.bool(message.descending);
       }
     }
 
@@ -560,7 +560,7 @@ export namespace kcs4 {
             break;
 
           case 4:
-            message.direction = reader.int32();
+            message.descending = reader.bool();
             break;
 
           default:
@@ -575,18 +575,18 @@ export namespace kcs4 {
     owner: Uint8Array;
     start: Uint8Array;
     limit: i32;
-    direction: direction;
+    descending: bool;
 
     constructor(
       owner: Uint8Array = new Uint8Array(0),
       start: Uint8Array = new Uint8Array(0),
       limit: i32 = 0,
-      direction: direction = 0
+      descending: bool = false
     ) {
       this.owner = owner;
       this.start = start;
       this.limit = limit;
-      this.direction = direction;
+      this.descending = descending;
     }
   }
 
@@ -1222,10 +1222,5 @@ export namespace kcs4 {
     constructor(value: u64 = 0) {
       this.value = value;
     }
-  }
-
-  export enum direction {
-    ascending = 0,
-    descending = 1,
   }
 }
