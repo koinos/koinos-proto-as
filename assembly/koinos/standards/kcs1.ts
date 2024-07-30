@@ -528,42 +528,6 @@ export namespace kcs1 {
     constructor() {}
   }
 
-  @unmanaged
-  export class balance_object {
-    static encode(message: balance_object, writer: Writer): void {
-      if (message.value != 0) {
-        writer.uint32(8);
-        writer.uint64(message.value);
-      }
-    }
-
-    static decode(reader: Reader, length: i32): balance_object {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new balance_object();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1:
-            message.value = reader.uint64();
-            break;
-
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    value: u64;
-
-    constructor(value: u64 = 0) {
-      this.value = value;
-    }
-  }
-
   export class burn_event {
     static encode(message: burn_event, writer: Writer): void {
       if (message.from.length != 0) {
