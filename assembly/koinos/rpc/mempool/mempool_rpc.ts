@@ -481,6 +481,90 @@ export namespace mempool_rpc {
     }
   }
 
+  export class get_pending_nonce_request {
+    static encode(message: get_pending_nonce_request, writer: Writer): void {
+      if (message.payee.length != 0) {
+        writer.uint32(10);
+        writer.bytes(message.payee);
+      }
+
+      if (message.block_id.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.block_id);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): get_pending_nonce_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_pending_nonce_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.payee = reader.bytes();
+            break;
+
+          case 2:
+            message.block_id = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    payee: Uint8Array;
+    block_id: Uint8Array;
+
+    constructor(
+      payee: Uint8Array = new Uint8Array(0),
+      block_id: Uint8Array = new Uint8Array(0)
+    ) {
+      this.payee = payee;
+      this.block_id = block_id;
+    }
+  }
+
+  export class get_pending_nonce_response {
+    static encode(message: get_pending_nonce_response, writer: Writer): void {
+      if (message.nonce.length != 0) {
+        writer.uint32(10);
+        writer.bytes(message.nonce);
+      }
+    }
+
+    static decode(reader: Reader, length: i32): get_pending_nonce_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_pending_nonce_response();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.nonce = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    nonce: Uint8Array;
+
+    constructor(nonce: Uint8Array = new Uint8Array(0)) {
+      this.nonce = nonce;
+    }
+  }
+
   export class mempool_request {
     static encode(message: mempool_request, writer: Writer): void {
       const unique_name_reserved = message.reserved;
@@ -537,6 +621,14 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_get_pending_nonce = message.get_pending_nonce;
+      if (unique_name_get_pending_nonce !== null) {
+        writer.uint32(50);
+        writer.fork();
+        get_pending_nonce_request.encode(unique_name_get_pending_nonce, writer);
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_request {
@@ -575,6 +667,13 @@ export namespace mempool_rpc {
               get_reserved_account_rc_request.decode(reader, reader.uint32());
             break;
 
+          case 6:
+            message.get_pending_nonce = get_pending_nonce_request.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -589,19 +688,22 @@ export namespace mempool_rpc {
     get_pending_transactions: get_pending_transactions_request | null;
     check_account_nonce: check_account_nonce_request | null;
     get_reserved_account_rc: get_reserved_account_rc_request | null;
+    get_pending_nonce: get_pending_nonce_request | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
       check_pending_account_resources: check_pending_account_resources_request | null = null,
       get_pending_transactions: get_pending_transactions_request | null = null,
       check_account_nonce: check_account_nonce_request | null = null,
-      get_reserved_account_rc: get_reserved_account_rc_request | null = null
+      get_reserved_account_rc: get_reserved_account_rc_request | null = null,
+      get_pending_nonce: get_pending_nonce_request | null = null
     ) {
       this.reserved = reserved;
       this.check_pending_account_resources = check_pending_account_resources;
       this.get_pending_transactions = get_pending_transactions;
       this.check_account_nonce = check_account_nonce;
       this.get_reserved_account_rc = get_reserved_account_rc;
+      this.get_pending_nonce = get_pending_nonce;
     }
   }
 
@@ -669,6 +771,17 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_get_pending_nonce = message.get_pending_nonce;
+      if (unique_name_get_pending_nonce !== null) {
+        writer.uint32(58);
+        writer.fork();
+        get_pending_nonce_response.encode(
+          unique_name_get_pending_nonce,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_response {
@@ -711,6 +824,13 @@ export namespace mempool_rpc {
               get_reserved_account_rc_response.decode(reader, reader.uint32());
             break;
 
+          case 7:
+            message.get_pending_nonce = get_pending_nonce_response.decode(
+              reader,
+              reader.uint32()
+            );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -726,6 +846,7 @@ export namespace mempool_rpc {
     get_pending_transactions: get_pending_transactions_response | null;
     check_account_nonce: check_account_nonce_response | null;
     get_reserved_account_rc: get_reserved_account_rc_response | null;
+    get_pending_nonce: get_pending_nonce_response | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
@@ -733,7 +854,8 @@ export namespace mempool_rpc {
       check_pending_account_resources: check_pending_account_resources_response | null = null,
       get_pending_transactions: get_pending_transactions_response | null = null,
       check_account_nonce: check_account_nonce_response | null = null,
-      get_reserved_account_rc: get_reserved_account_rc_response | null = null
+      get_reserved_account_rc: get_reserved_account_rc_response | null = null,
+      get_pending_nonce: get_pending_nonce_response | null = null
     ) {
       this.reserved = reserved;
       this.error = error;
@@ -741,6 +863,7 @@ export namespace mempool_rpc {
       this.get_pending_transactions = get_pending_transactions;
       this.check_account_nonce = check_account_nonce;
       this.get_reserved_account_rc = get_reserved_account_rc;
+      this.get_pending_nonce = get_pending_nonce;
     }
   }
 }
