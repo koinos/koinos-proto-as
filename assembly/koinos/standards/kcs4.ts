@@ -751,6 +751,11 @@ export namespace kcs4 {
         writer.uint32(16);
         writer.uint64(message.value);
       }
+
+      if (message.memo.length != 0) {
+        writer.uint32(26);
+        writer.string(message.memo);
+      }
     }
 
     static decode(reader: Reader, length: i32): mint_arguments {
@@ -768,6 +773,10 @@ export namespace kcs4 {
             message.value = reader.uint64();
             break;
 
+          case 3:
+            message.memo = reader.string();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -779,10 +788,16 @@ export namespace kcs4 {
 
     to: Uint8Array;
     value: u64;
+    memo: string;
 
-    constructor(to: Uint8Array = new Uint8Array(0), value: u64 = 0) {
+    constructor(
+      to: Uint8Array = new Uint8Array(0),
+      value: u64 = 0,
+      memo: string = ""
+    ) {
       this.to = to;
       this.value = value;
+      this.memo = memo;
     }
   }
 
@@ -820,6 +835,11 @@ export namespace kcs4 {
         writer.uint32(16);
         writer.uint64(message.value);
       }
+
+      if (message.memo.length != 0) {
+        writer.uint32(26);
+        writer.string(message.memo);
+      }
     }
 
     static decode(reader: Reader, length: i32): burn_arguments {
@@ -837,6 +857,10 @@ export namespace kcs4 {
             message.value = reader.uint64();
             break;
 
+          case 3:
+            message.memo = reader.string();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -848,10 +872,16 @@ export namespace kcs4 {
 
     from: Uint8Array;
     value: u64;
+    memo: string;
 
-    constructor(from: Uint8Array = new Uint8Array(0), value: u64 = 0) {
+    constructor(
+      from: Uint8Array = new Uint8Array(0),
+      value: u64 = 0,
+      memo: string = ""
+    ) {
       this.from = from;
       this.value = value;
+      this.memo = memo;
     }
   }
 
@@ -894,6 +924,11 @@ export namespace kcs4 {
         writer.uint32(24);
         writer.uint64(message.value);
       }
+
+      if (message.memo.length != 0) {
+        writer.uint32(34);
+        writer.string(message.memo);
+      }
     }
 
     static decode(reader: Reader, length: i32): approve_arguments {
@@ -915,6 +950,10 @@ export namespace kcs4 {
             message.value = reader.uint64();
             break;
 
+          case 4:
+            message.memo = reader.string();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -927,15 +966,18 @@ export namespace kcs4 {
     owner: Uint8Array;
     spender: Uint8Array;
     value: u64;
+    memo: string;
 
     constructor(
       owner: Uint8Array = new Uint8Array(0),
       spender: Uint8Array = new Uint8Array(0),
-      value: u64 = 0
+      value: u64 = 0,
+      memo: string = ""
     ) {
       this.owner = owner;
       this.spender = spender;
       this.value = value;
+      this.memo = memo;
     }
   }
 
@@ -973,6 +1015,11 @@ export namespace kcs4 {
         writer.uint32(16);
         writer.uint64(message.value);
       }
+
+      if (message.memo.length != 0) {
+        writer.uint32(26);
+        writer.string(message.memo);
+      }
     }
 
     static decode(reader: Reader, length: i32): burn_event {
@@ -990,6 +1037,10 @@ export namespace kcs4 {
             message.value = reader.uint64();
             break;
 
+          case 3:
+            message.memo = reader.string();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1001,10 +1052,16 @@ export namespace kcs4 {
 
     from: Uint8Array;
     value: u64;
+    memo: string;
 
-    constructor(from: Uint8Array = new Uint8Array(0), value: u64 = 0) {
+    constructor(
+      from: Uint8Array = new Uint8Array(0),
+      value: u64 = 0,
+      memo: string = ""
+    ) {
       this.from = from;
       this.value = value;
+      this.memo = memo;
     }
   }
 
@@ -1018,6 +1075,11 @@ export namespace kcs4 {
       if (message.value != 0) {
         writer.uint32(16);
         writer.uint64(message.value);
+      }
+
+      if (message.memo.length != 0) {
+        writer.uint32(26);
+        writer.string(message.memo);
       }
     }
 
@@ -1036,6 +1098,10 @@ export namespace kcs4 {
             message.value = reader.uint64();
             break;
 
+          case 3:
+            message.memo = reader.string();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1047,10 +1113,16 @@ export namespace kcs4 {
 
     to: Uint8Array;
     value: u64;
+    memo: string;
 
-    constructor(to: Uint8Array = new Uint8Array(0), value: u64 = 0) {
+    constructor(
+      to: Uint8Array = new Uint8Array(0),
+      value: u64 = 0,
+      memo: string = ""
+    ) {
       this.to = to;
       this.value = value;
+      this.memo = memo;
     }
   }
 
@@ -1143,6 +1215,11 @@ export namespace kcs4 {
         writer.uint32(24);
         writer.uint64(message.value);
       }
+
+      if (message.memo.length != 0) {
+        writer.uint32(34);
+        writer.string(message.memo);
+      }
     }
 
     static decode(reader: Reader, length: i32): approve_event {
@@ -1164,6 +1241,10 @@ export namespace kcs4 {
             message.value = reader.uint64();
             break;
 
+          case 4:
+            message.memo = reader.string();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -1176,15 +1257,18 @@ export namespace kcs4 {
     owner: Uint8Array;
     spender: Uint8Array;
     value: u64;
+    memo: string;
 
     constructor(
       owner: Uint8Array = new Uint8Array(0),
       spender: Uint8Array = new Uint8Array(0),
-      value: u64 = 0
+      value: u64 = 0,
+      memo: string = ""
     ) {
       this.owner = owner;
       this.spender = spender;
       this.value = value;
+      this.memo = memo;
     }
   }
 }
