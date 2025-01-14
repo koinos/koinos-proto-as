@@ -74,6 +74,7 @@ export namespace error {
     malformed_block = -203,
     malformed_transaction = -204,
     block_resource_failure = -205,
+    pending_transaction_limit_exceeded = -206,
     unknown_backend = -1000,
     unexpected_state = -1001,
     missing_required_arguments = -1002,
