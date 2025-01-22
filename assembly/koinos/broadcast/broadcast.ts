@@ -25,6 +25,21 @@ export namespace broadcast {
         writer.uint32(24);
         writer.uint64(message.height);
       }
+
+      if (message.system_disk_storage_used != 0) {
+        writer.uint32(32);
+        writer.uint64(message.system_disk_storage_used);
+      }
+
+      if (message.system_network_bandwidth_used != 0) {
+        writer.uint32(40);
+        writer.uint64(message.system_network_bandwidth_used);
+      }
+
+      if (message.system_compute_bandwidth_used != 0) {
+        writer.uint32(48);
+        writer.uint64(message.system_compute_bandwidth_used);
+      }
     }
 
     static decode(reader: Reader, length: i32): transaction_accepted {
@@ -52,6 +67,18 @@ export namespace broadcast {
             message.height = reader.uint64();
             break;
 
+          case 4:
+            message.system_disk_storage_used = reader.uint64();
+            break;
+
+          case 5:
+            message.system_network_bandwidth_used = reader.uint64();
+            break;
+
+          case 6:
+            message.system_compute_bandwidth_used = reader.uint64();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -64,15 +91,24 @@ export namespace broadcast {
     transaction: protocol.transaction | null;
     receipt: protocol.transaction_receipt | null;
     height: u64;
+    system_disk_storage_used: u64;
+    system_network_bandwidth_used: u64;
+    system_compute_bandwidth_used: u64;
 
     constructor(
       transaction: protocol.transaction | null = null,
       receipt: protocol.transaction_receipt | null = null,
-      height: u64 = 0
+      height: u64 = 0,
+      system_disk_storage_used: u64 = 0,
+      system_network_bandwidth_used: u64 = 0,
+      system_compute_bandwidth_used: u64 = 0
     ) {
       this.transaction = transaction;
       this.receipt = receipt;
       this.height = height;
+      this.system_disk_storage_used = system_disk_storage_used;
+      this.system_network_bandwidth_used = system_network_bandwidth_used;
+      this.system_compute_bandwidth_used = system_compute_bandwidth_used;
     }
   }
 

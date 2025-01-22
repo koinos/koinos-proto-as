@@ -1,87 +1,8 @@
 import { Writer, Reader } from "as-proto";
-import { protocol } from "../../protocol/protocol";
+import { mempool } from "../../mempool/mempool";
 import { rpc } from "../rpc";
 
 export namespace mempool_rpc {
-  export class pending_transaction {
-    static encode(message: pending_transaction, writer: Writer): void {
-      const unique_name_transaction = message.transaction;
-      if (unique_name_transaction !== null) {
-        writer.uint32(10);
-        writer.fork();
-        protocol.transaction.encode(unique_name_transaction, writer);
-        writer.ldelim();
-      }
-
-      if (message.disk_storage_used != 0) {
-        writer.uint32(16);
-        writer.uint64(message.disk_storage_used);
-      }
-
-      if (message.network_bandwidth_used != 0) {
-        writer.uint32(24);
-        writer.uint64(message.network_bandwidth_used);
-      }
-
-      if (message.compute_bandwidth_used != 0) {
-        writer.uint32(32);
-        writer.uint64(message.compute_bandwidth_used);
-      }
-    }
-
-    static decode(reader: Reader, length: i32): pending_transaction {
-      const end: usize = length < 0 ? reader.end : reader.ptr + length;
-      const message = new pending_transaction();
-
-      while (reader.ptr < end) {
-        const tag = reader.uint32();
-        switch (tag >>> 3) {
-          case 1:
-            message.transaction = protocol.transaction.decode(
-              reader,
-              reader.uint32()
-            );
-            break;
-
-          case 2:
-            message.disk_storage_used = reader.uint64();
-            break;
-
-          case 3:
-            message.network_bandwidth_used = reader.uint64();
-            break;
-
-          case 4:
-            message.compute_bandwidth_used = reader.uint64();
-            break;
-
-          default:
-            reader.skipType(tag & 7);
-            break;
-        }
-      }
-
-      return message;
-    }
-
-    transaction: protocol.transaction | null;
-    disk_storage_used: u64;
-    network_bandwidth_used: u64;
-    compute_bandwidth_used: u64;
-
-    constructor(
-      transaction: protocol.transaction | null = null,
-      disk_storage_used: u64 = 0,
-      network_bandwidth_used: u64 = 0,
-      compute_bandwidth_used: u64 = 0
-    ) {
-      this.transaction = transaction;
-      this.disk_storage_used = disk_storage_used;
-      this.network_bandwidth_used = network_bandwidth_used;
-      this.compute_bandwidth_used = compute_bandwidth_used;
-    }
-  }
-
   export class check_pending_account_resources_request {
     static encode(
       message: check_pending_account_resources_request,
@@ -264,7 +185,10 @@ export namespace mempool_rpc {
       for (let i = 0; i < unique_name_pending_transactions.length; ++i) {
         writer.uint32(10);
         writer.fork();
-        pending_transaction.encode(unique_name_pending_transactions[i], writer);
+        mempool.pending_transaction.encode(
+          unique_name_pending_transactions[i],
+          writer
+        );
         writer.ldelim();
       }
     }
@@ -281,7 +205,7 @@ export namespace mempool_rpc {
         switch (tag >>> 3) {
           case 1:
             message.pending_transactions.push(
-              pending_transaction.decode(reader, reader.uint32())
+              mempool.pending_transaction.decode(reader, reader.uint32())
             );
             break;
 
@@ -294,9 +218,9 @@ export namespace mempool_rpc {
       return message;
     }
 
-    pending_transactions: Array<pending_transaction>;
+    pending_transactions: Array<mempool.pending_transaction>;
 
-    constructor(pending_transactions: Array<pending_transaction> = []) {
+    constructor(pending_transactions: Array<mempool.pending_transaction> = []) {
       this.pending_transactions = pending_transactions;
     }
   }
