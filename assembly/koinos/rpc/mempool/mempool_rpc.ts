@@ -586,6 +586,113 @@ export namespace mempool_rpc {
     }
   }
 
+  export class get_pending_transactions_by_id_request {
+    static encode(
+      message: get_pending_transactions_by_id_request,
+      writer: Writer
+    ): void {
+      const unique_name_transaction_ids = message.transaction_ids;
+      if (unique_name_transaction_ids.length !== 0) {
+        for (let i = 0; i < unique_name_transaction_ids.length; ++i) {
+          writer.uint32(10);
+          writer.bytes(unique_name_transaction_ids[i]);
+        }
+      }
+
+      if (message.block_id.length != 0) {
+        writer.uint32(18);
+        writer.bytes(message.block_id);
+      }
+    }
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): get_pending_transactions_by_id_request {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_pending_transactions_by_id_request();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.transaction_ids.push(reader.bytes());
+            break;
+
+          case 2:
+            message.block_id = reader.bytes();
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    transaction_ids: Array<Uint8Array>;
+    block_id: Uint8Array;
+
+    constructor(
+      transaction_ids: Array<Uint8Array> = [],
+      block_id: Uint8Array = new Uint8Array(0)
+    ) {
+      this.transaction_ids = transaction_ids;
+      this.block_id = block_id;
+    }
+  }
+
+  export class get_pending_transactions_by_id_response {
+    static encode(
+      message: get_pending_transactions_by_id_response,
+      writer: Writer
+    ): void {
+      const unique_name_pending_transactions = message.pending_transactions;
+      for (let i = 0; i < unique_name_pending_transactions.length; ++i) {
+        writer.uint32(10);
+        writer.fork();
+        mempool.pending_transaction.encode(
+          unique_name_pending_transactions[i],
+          writer
+        );
+        writer.ldelim();
+      }
+    }
+
+    static decode(
+      reader: Reader,
+      length: i32
+    ): get_pending_transactions_by_id_response {
+      const end: usize = length < 0 ? reader.end : reader.ptr + length;
+      const message = new get_pending_transactions_by_id_response();
+
+      while (reader.ptr < end) {
+        const tag = reader.uint32();
+        switch (tag >>> 3) {
+          case 1:
+            message.pending_transactions.push(
+              mempool.pending_transaction.decode(reader, reader.uint32())
+            );
+            break;
+
+          default:
+            reader.skipType(tag & 7);
+            break;
+        }
+      }
+
+      return message;
+    }
+
+    pending_transactions: Array<mempool.pending_transaction>;
+
+    constructor(pending_transactions: Array<mempool.pending_transaction> = []) {
+      this.pending_transactions = pending_transactions;
+    }
+  }
+
   export class mempool_request {
     static encode(message: mempool_request, writer: Writer): void {
       const unique_name_reserved = message.reserved;
@@ -662,6 +769,18 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_get_pending_transactions_by_id =
+        message.get_pending_transactions_by_id;
+      if (unique_name_get_pending_transactions_by_id !== null) {
+        writer.uint32(66);
+        writer.fork();
+        get_pending_transactions_by_id_request.encode(
+          unique_name_get_pending_transactions_by_id,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_request {
@@ -715,6 +834,14 @@ export namespace mempool_rpc {
               );
             break;
 
+          case 8:
+            message.get_pending_transactions_by_id =
+              get_pending_transactions_by_id_request.decode(
+                reader,
+                reader.uint32()
+              );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -731,6 +858,7 @@ export namespace mempool_rpc {
     get_reserved_account_rc: get_reserved_account_rc_request | null;
     get_pending_nonce: get_pending_nonce_request | null;
     get_pending_transaction_count: get_pending_transaction_count_request | null;
+    get_pending_transactions_by_id: get_pending_transactions_by_id_request | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
@@ -739,7 +867,8 @@ export namespace mempool_rpc {
       check_account_nonce: check_account_nonce_request | null = null,
       get_reserved_account_rc: get_reserved_account_rc_request | null = null,
       get_pending_nonce: get_pending_nonce_request | null = null,
-      get_pending_transaction_count: get_pending_transaction_count_request | null = null
+      get_pending_transaction_count: get_pending_transaction_count_request | null = null,
+      get_pending_transactions_by_id: get_pending_transactions_by_id_request | null = null
     ) {
       this.reserved = reserved;
       this.check_pending_account_resources = check_pending_account_resources;
@@ -748,6 +877,7 @@ export namespace mempool_rpc {
       this.get_reserved_account_rc = get_reserved_account_rc;
       this.get_pending_nonce = get_pending_nonce;
       this.get_pending_transaction_count = get_pending_transaction_count;
+      this.get_pending_transactions_by_id = get_pending_transactions_by_id;
     }
   }
 
@@ -838,6 +968,18 @@ export namespace mempool_rpc {
         );
         writer.ldelim();
       }
+
+      const unique_name_get_pending_transactions_by_id =
+        message.get_pending_transactions_by_id;
+      if (unique_name_get_pending_transactions_by_id !== null) {
+        writer.uint32(74);
+        writer.fork();
+        get_pending_transactions_by_id_response.encode(
+          unique_name_get_pending_transactions_by_id,
+          writer
+        );
+        writer.ldelim();
+      }
     }
 
     static decode(reader: Reader, length: i32): mempool_response {
@@ -895,6 +1037,14 @@ export namespace mempool_rpc {
               );
             break;
 
+          case 9:
+            message.get_pending_transactions_by_id =
+              get_pending_transactions_by_id_response.decode(
+                reader,
+                reader.uint32()
+              );
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -912,6 +1062,7 @@ export namespace mempool_rpc {
     get_reserved_account_rc: get_reserved_account_rc_response | null;
     get_pending_nonce: get_pending_nonce_response | null;
     get_pending_transaction_count: get_pending_transaction_count_response | null;
+    get_pending_transactions_by_id: get_pending_transactions_by_id_response | null;
 
     constructor(
       reserved: rpc.reserved_rpc | null = null,
@@ -921,7 +1072,8 @@ export namespace mempool_rpc {
       check_account_nonce: check_account_nonce_response | null = null,
       get_reserved_account_rc: get_reserved_account_rc_response | null = null,
       get_pending_nonce: get_pending_nonce_response | null = null,
-      get_pending_transaction_count: get_pending_transaction_count_response | null = null
+      get_pending_transaction_count: get_pending_transaction_count_response | null = null,
+      get_pending_transactions_by_id: get_pending_transactions_by_id_response | null = null
     ) {
       this.reserved = reserved;
       this.error = error;
@@ -931,6 +1083,7 @@ export namespace mempool_rpc {
       this.get_reserved_account_rc = get_reserved_account_rc;
       this.get_pending_nonce = get_pending_nonce;
       this.get_pending_transaction_count = get_pending_transaction_count;
+      this.get_pending_transactions_by_id = get_pending_transactions_by_id;
     }
   }
 }
