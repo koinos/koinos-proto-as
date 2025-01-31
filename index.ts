@@ -11,6 +11,7 @@ export { events } from './assembly/koinos/chain/events';
 export { chain } from './assembly/koinos/chain/chain';
 export { object_spaces } from './assembly/koinos/chain/object_spaces';
 export { authority } from './assembly/koinos/chain/authority';
+export { kcs5 } from './assembly/koinos/standards/kcs5';
 export { kcs3 } from './assembly/koinos/standards/kcs3';
 export { kcs1 } from './assembly/koinos/standards/kcs1';
 export { kcs4 } from './assembly/koinos/standards/kcs4';
