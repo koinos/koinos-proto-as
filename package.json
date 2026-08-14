@@ -12,7 +12,7 @@
     "generateGoogleProtoFiles": "yarn protoc --plugin=protoc-gen-as=./node_modules/.bin/as-proto-gen --as_out=. ./google/protobuf/any.proto"
   },
   "devDependencies": {
-    "@koinos/as-proto-gen": "^0.4.3",
+    "@koinos/as-proto-gen": "^1.0.3",
     "@roamin/protoc": "^2.4.0"
   },
   "dependencies": {

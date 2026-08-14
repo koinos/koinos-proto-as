@@ -140,6 +140,11 @@ export namespace pob {
         writer.uint32(24);
         writer.uint64(message.last_block_time);
       }
+
+      if (message.next_koinos_fund_payment_time != 0) {
+        writer.uint32(32);
+        writer.uint64(message.next_koinos_fund_payment_time);
+      }
     }
 
     static decode(reader: Reader, length: i32): metadata {
@@ -161,6 +166,10 @@ export namespace pob {
             message.last_block_time = reader.uint64();
             break;
 
+          case 4:
+            message.next_koinos_fund_payment_time = reader.uint64();
+            break;
+
           default:
             reader.skipType(tag & 7);
             break;
@@ -173,15 +182,18 @@ export namespace pob {
     seed: Uint8Array;
     difficulty: Uint8Array;
     last_block_time: u64;
+    next_koinos_fund_payment_time: u64;
 
     constructor(
       seed: Uint8Array = new Uint8Array(0),
       difficulty: Uint8Array = new Uint8Array(0),
-      last_block_time: u64 = 0
+      last_block_time: u64 = 0,
+      next_koinos_fund_payment_time: u64 = 0
     ) {
       this.seed = seed;
       this.difficulty = difficulty;
       this.last_block_time = last_block_time;
+      this.next_koinos_fund_payment_time = next_koinos_fund_payment_time;
     }
   }
 

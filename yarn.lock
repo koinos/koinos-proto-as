@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@koinos/as-proto-gen@^0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@koinos/as-proto-gen/-/as-proto-gen-0.4.3.tgz#bea81e7692fd34c8d6ac2f3ff89d87a3b3114ab6"
-  integrity sha512-4Pu3NfBHZTP3mk0CENlbC0mg8NpTTQKbqHetiJBFNvUUKZBzn9YCnVv/qs1uKEAImUBjPjc+hKOdHtsIyZj15Q==
+"@koinos/as-proto-gen@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@koinos/as-proto-gen/-/as-proto-gen-1.0.3.tgz#1a59d66c0d515b6024a9a068f8fed1df68353bb2"
+  integrity sha512-nQjl4RtdawOqbmSbUcynAquCFBFrn3Vi/0LoS8oxCOyW/gk3MWfF2bDE9Zh6zEDXT+x40FwjpUiadh2G6Mkkgg==
   dependencies:
     "@types/node" "^17.0.34"
     google-protobuf "^3.19.2"
